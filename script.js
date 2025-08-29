@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         { 
             name: "Mouse Gaming Inalámbrico", 
-            price: "$50.00", 
+            price: "$40.00", 
             image: "imagenes/Mouse Gaming Inalámbrico.jpg" 
         },
         { name: "Auriculares con Micrófono", price: "$65.00", image: "imagenes/Auriculares con Micrófono.jpg" },
