@@ -3,8 +3,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const products = [
         { 
             name: "Teclado Mecánico RGB", 
-            price: "$85.00", 
-            image: "imagenes/teclado-colores.jpg" // <-- ¡Aquí está la URL!
+            price: "$100", 
+            image: "imagenes/teclado-colores.jpg" 
         },
         { 
             name: "Mouse Gaming Inalámbrico", 
