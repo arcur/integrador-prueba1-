@@ -1,0 +1,16 @@
+
+header {
+    background-color: #4885e8;
+    padding: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* 🚨 CLAVE: Posición Fija para que siempre esté arriba 🚨 */
+    position: fixed; 
+    top: 0;
+    left: 0;
+    z-index: 1000; /* Asegura que esté por encima de otros elementos */
+}
+/* ... (El resto de estilos de logo, search-bar, y botones del header se mantienen) ... */

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Registro</title>
+    <link rel="stylesheet" href="../css/registro.css">
+     <link rel="stylesheet" href="../css/header.css"> 
+   
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Bootstrap desde CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <div id="header-placeholder"></div>
+    
+    <div class="main-content-form">
+        <div class="login-card">
+            
+            <div class="text-center mb-4">
+                <img src="../imagenes/logo(techstore1).ico" alt="Logo TechStore" class="logo-img">
+            </div>
+            <h1 class="form-title text-center mb-4">Registro de Usuario</h1>
+
+            <form id="registroForm" action="#" method="post">
+
+                <div class="mb-3">
+                    <label for="nombre" class="form-label">Nombre</label>
+                    <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Ingrese su nombre" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="apellido_paterno" class="form-label">Apellido Paterno</label>
+                    <input type="text" class="form-control" id="apellido_paterno" name="apellido_paterno" placeholder="Ingrese su apellido paterno" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="apellido_materno" class="form-label">Apellido Materno</label>
+                    <input type="text" class="form-control" id="apellido_materno" name="apellido_materno" placeholder="Ingrese su apellido materno" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="dni" class="form-label">DNI</label>
+                    <input type="text" class="form-control" id="dni" name="dni" oninput="soloNumeros(event)" placeholder="Ingrese su DNI" required maxlength="8">
+                </div>
+
+                <div class="mb-3">
+                    <label for="telefono" class="form-label">Teléfono</label>
+                    <input type="tel" class="form-control" id="telefono" name="telefono" oninput="soloNumeros(event)" placeholder="Ingrese su número de teléfono" required maxlength="9">
+                </div>
+
+                <div class="mb-3">
+                    <label for="correo" class="form-label">Correo Electrónico</label>
+                    <input type="email" class="form-control" id="correo" name="correo" oninput="sinEspacios(event)" placeholder="Ingrese su correo electrónico" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="usuario" class="form-label">Usuario</label>
+                    <input type="text" class="form-control" id="usuario" name="usuario" oninput="sinEspacios(event)" placeholder="Cree un nombre de usuario" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="password" class="form-label">Contraseña</label>
+                    <input type="password" class="form-control" id="password" name="password" oninput="sinEspacios(event)" placeholder="Cree una contraseña" required>
+                    <div class="form-check mt-2">
+                        <input type="checkbox" class="form-check-input" id="mostrarPass" onclick="togglePassword()">
+                        <label class="form-check-label" for="mostrarPass">Mostrar contraseña</label>
+                    </div>
+                </div>
+
+                <div class="button-group mt-4">
+                    <a href="login.html" class="btn btn-login btn-back w-48 me-2">Atrás</a>
+                    <button type="submit" class="btn btn-login w-48">Registrarse</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <script src="../js/header.js"></script> 
+    
+    <script>
+        // Llama a la función para cargar el header
+        // Asegúrate de que utils.js exista y contenga loadHTML
+        loadHTML('../header/header.html', 'header-placeholder'); 
+    </script>
+    <script src="../js/registro.js"></script>
+
+</body>
+    
+
+</html>

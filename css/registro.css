@@ -1,0 +1,102 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #2a5298; /* Un color de fondo oscuro como en tu captura */
+    margin: 0;
+    padding-top: 60px; /* 🚨 CLAVE: Espacio superior igual a la altura del header 🚨 */
+    min-height: 100vh;
+}
+
+/* 🚨 NUEVO CONTENEDOR PRINCIPAL DEL FORMULARIO 🚨 */
+.main-content-form {
+    /* Centra la tarjeta en el espacio disponible después del header */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 60px); /* Ajusta la altura si tu header es más alto */
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.login-card {
+    /* Mantén tus estilos de tarjeta compacta */
+    max-width: 620px; 
+    width: 90%; 
+    background: #ffffff;
+    padding: 2.5rem; 
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    /* Remueve cualquier margen superior que pueda interferir */
+    margin-top: 0; 
+}
+
+/* --- Título y Logo --- */
+.logo-img {
+    width: 70px; /* Un poco más grande para presencia */
+    height: auto; 
+    display: block;
+    margin: 0 auto 1rem; /* Espacio debajo del logo */
+}
+
+.form-title {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-weight: 700;
+    color: #1e3c72; /* Azul fuerte para el título */
+}
+
+/* --- Etiquetas de los Campos --- */
+.form-label {
+    font-weight: 600; 
+    color: #333; 
+    margin-bottom: 0.3rem; 
+    font-size: 0.95rem; 
+}
+
+/* --- Campos de Entrada --- */
+.form-control {
+    border-radius: 8px; /* Ligeramente menos redondeado */
+    border: 1px solid #ccc;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    padding: 0.75rem 1rem; /* Campos más altos */
+    transition: all 0.3s;
+}
+
+.form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25);
+    outline: 0;
+}
+
+/* --- Estilos de Botones (ya están bien, solo confirmando) --- */
+.button-group {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2rem; /* Más espacio superior para separar de los campos */
+}
+
+.w-48 {
+    width: 48% !important;
+}
+
+.btn-login {
+    background-color: #007bff !important; 
+    color: #fff;
+    border-radius: 8px; 
+    border: 1px solid #007bff;
+    transition: all 0.3s ease;
+    padding: 0.5rem 1rem; /* Asegurar un buen tamaño de botón */
+}
+
+.btn-login:hover {
+    background-color: #0056b3 !important; 
+    border-color: #0056b3;
+    box-shadow: 0 5px 10px rgba(0, 86, 179, 0.3); /* Sombra más notoria al hover */
+    transform: translateY(-2px); /* Un poco más de elevación */
+}
+
+.btn-back {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+}
