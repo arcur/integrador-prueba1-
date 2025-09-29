@@ -1,0 +1,48 @@
+/* File: ../css/product.css */
+
+/* 1. Maquetación principal (Body) - ¡COMBINADA! */
+/* File: ../css/product.css */
+
+body {
+    /* 🚨 CLAVE: Empuja el contenido hacia abajo, compensando la altura del header fijo (ej: 55px) 🚨 */
+     /* 🚨 CLAVE: Reduce la compensación (padding-top) para que el contenido suba 🚨 */
+     /* Mantiene el header en el top y empuja el contenido hacia abajo */
+    padding-top: 55px; /* Ajusta este valor si tu header sigue cubriendo contenido */
+    
+    /* ... resto de propiedades ... */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+}
+/* ... */
+
+/* 2. CLAVE: El contenido principal toma todo el espacio vertical restante */
+.content {
+    flex-grow: 1; 
+    /* Añade padding a los lados y abajo para evitar que el contenido toque los bordes */
+    padding: 20px 20px 40px 20px; 
+}
+
+/* 3. Estilo para el título de la página */
+.header-main {
+    background-color: #f8f9fa; 
+    padding: 15px 20px;
+    text-align: center;
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-bottom: 25px; 
+    border-bottom: 1px solid #dee2e6;
+    border-top: 1px solid #dee2e6;
+}
+
+/* 4. Ajuste para la tabla dentro del contenedor Bootstrap */
+.container {
+    padding: 0; 
+    max-width: 1200px; 
+}
+
+/* 5. Estilo para botones de acción en la tabla */
+#tablaProductos .btn-sm {
+    margin: 0 2px;
+}

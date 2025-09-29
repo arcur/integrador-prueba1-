@@ -7,6 +7,7 @@
     <title>Formulario de Registro</title>
     <link rel="stylesheet" href="../css/registro.css">
      <link rel="stylesheet" href="../css/header.css"> 
+     <link rel="stylesheet" href="../css/footer.css"> 
    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <!-- Bootstrap desde CDN -->
@@ -17,6 +18,8 @@
 <body>
 
     <div id="header-placeholder"></div>
+
+    
     
     <div class="main-content-form">
         <div class="login-card">
@@ -80,13 +83,19 @@
         </div>
     </div>
     
+   
+       <div id="footer-placeholder"></div>
+
+    <!-- Scripts -->
+
     <script src="../js/header.js"></script> 
     
     <script>
-        // Llama a la función para cargar el header
-        // Asegúrate de que utils.js exista y contenga loadHTML
+        // Llama a la función loadHTML (definida en ../js/header.js)
         loadHTML('../header/header.html', 'header-placeholder'); 
+        loadHTML('../footer/footer.html', 'footer-placeholder'); 
     </script>
+    
     <script src="../js/registro.js"></script>
 
 </body>

@@ -1,16 +1,43 @@
 
+/* Y ajustamos el header insertado para que tome el 100% de su contenedor fijo */
 header {
-    background-color: #4885e8;
-    padding: 10px;
+    /* Quitamos el position: fixed; de aquí para que no interfiera */
+    position: static; /* O simplemente elimínalo, pero 'static' es seguro. */
+    
+    /* Asegura que el header ocupe el 100% del ancho del placeholder */
     width: 100%;
+    
+    /* Mantenemos tus estilos de tamaño compacto */
+    padding: 5px 10px; 
+    background-color: blue; /* El color ya lo tiene el placeholder */
     box-sizing: border-box;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    /* 🚨 CLAVE: Posición Fija para que siempre esté arriba 🚨 */
-    position: fixed; 
+    z-index: 1000;
+}
+#header-placeholder {
+    /* Asegura que el placeholder mismo se comporte como fixed, 
+       si es que el elemento 'header' dentro no lo hace correctamente */
+    position: fixed;
     top: 0;
     left: 0;
-    z-index: 1000; /* Asegura que esté por encima de otros elementos */
+    width: 100%;
+    z-index: 1001; /* Un z-index más alto por si acaso */
+        /* 🚨 CORRECCIÓN/ADICIÓN: Añade el color de fondo aquí 🚨 */
+    background-color: #4885e8; 
 }
-/* ... (El resto de estilos de logo, search-bar, y botones del header se mantienen) ... */
+/* 🚨 REVISIÓN OBLIGATORIA: Si tu logo es grande, esta regla es esencial 🚨 */
+/* Asumiendo que tu logo está dentro de una clase .logo-container o similar */
+.logo-container img { 
+    max-height: 40px; /* Reducido de 100px a 40px */
+    width: auto;
+}
+
+/* Si tienes una barra de búsqueda que es alta, también deberías limitarla */
+.search-bar .form-control {
+    height: 35px; /* Altura más compacta para inputs */
+}
+
+
+
