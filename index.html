@@ -1,21 +1,74 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TechStore - Tienda Online</title>
-    <link rel="stylesheet" href="css/styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TechStore - Catálogo de Periféricos</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+  <!-- HEADER -->
+  <header class="header">
+    <div class="logo">TechStore</div>
+    <nav class="navbar">
+      <ul>
+        <li><a href="#">Inicio</a></li>
+        <li><a href="#">Catálogo</a></li>
+        <li><a href="#">Ofertas</a></li>
+        <li><a href="#">Contacto</a></li>
+      </ul>
+    </nav>
+    <div class="cart">
+      <button id="cartBtn">🛒 Carrito (0)</button>
+    </div>
+  </header>
 
-    <header class="header">
-        <h1>TechStore</h1>
-        <p>Tu tienda de periféricos de alta calidad</p>
-    </header>
+  <!-- SEARCH & SORT -->
+  <section class="search-bar">
+    <input type="text" id="searchInput" placeholder="🔍 Buscar productos...">
+    <select id="sortSelect">
+      <option value="default">Ordenar por</option>
+      <option value="priceLowHigh">Precio: Menor a Mayor</option>
+      <option value="priceHighLow">Precio: Mayor a Menor</option>
+      <option value="newest">Novedades</option>
+    </select>
+  </section>
 
-    <main class="product-container">
-        </main>
+  <div class="layout">
+    <!-- SIDEBAR FILTERS -->
+    <aside class="filters">
+      <h3>Categorías</h3>
+      <ul>
+        <li><button class="filter-btn" data-category="todos">Todos</button></li>
+        <li><button class="filter-btn" data-category="mouse">Mouse</button></li>
+        <li><button class="filter-btn" data-category="teclado">Teclados</button></li>
+        <li><button class="filter-btn" data-category="auriculares">Auriculares</button></li>
+        <li><button class="filter-btn" data-category="monitores">Monitores</button></li>
+      </ul>
+    </aside>
 
-    <script src="js/script.js"></script>
+    <!-- PRODUCT GRID -->
+    <main class="product-container" id="productContainer">
+      <!-- Productos dinámicos desde JS -->
+    </main>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-info">
+      <p>&copy; 2025 TechStore. Todos los derechos reservados.</p>
+      <p>Email: contacto@techstore.com | Tel: +51 999 999 999</p>
+      <div class="socials">
+        <a href="#">Facebook</a> | 
+        <a href="#">Instagram</a> | 
+        <a href="#">Twitter</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/script.js"></script>
 </body>
 </html>
