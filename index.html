@@ -8,23 +8,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/header.css"> 
 </head>
 <body>
   <!-- HEADER -->
-  <header class="header">
-    <div class="logo">TechStore</div>
-    <nav class="navbar">
-      <ul>
-        <li><a href="#">Inicio</a></li>
-        <li><a href="#">Catálogo</a></li>
-        <li><a href="#">Ofertas</a></li>
-        <li><a href="#">Contacto</a></li>
-      </ul>
-    </nav>
-    <div class="cart">
-      <button id="cartBtn">🛒 Carrito (0)</button>
-    </div>
-  </header>
+  <div id="header-placeholder"></div>
 
   <!-- SEARCH & SORT -->
   <section class="search-bar">
@@ -68,6 +56,14 @@
       </div>
     </div>
   </footer>
+
+  <script src="../js/header.js"></script> 
+    
+    <script>
+        // Llama a la función loadHTML (definida en ../js/header.js)
+        loadHTML('../header/header.html', 'header-placeholder'); 
+        loadHTML('../footer/footer.html', 'footer-placeholder'); 
+    </script>
 
   <script src="js/script.js"></script>
 </body>
