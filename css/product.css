@@ -8,7 +8,7 @@ body {
      /* 🚨 CLAVE: Reduce la compensación (padding-top) para que el contenido suba 🚨 */
      /* Mantiene el header en el top y empuja el contenido hacia abajo */
     padding-top: 55px; /* Ajusta este valor si tu header sigue cubriendo contenido */
-    
+    padding-bottom: 150px; 
     /* ... resto de propiedades ... */
     min-height: 100vh;
     display: flex;
@@ -19,9 +19,10 @@ body {
 
 /* 2. CLAVE: El contenido principal toma todo el espacio vertical restante */
 .content {
-    flex-grow: 1; 
-    /* Añade padding a los lados y abajo para evitar que el contenido toque los bordes */
-    padding: 20px 20px 40px 20px; 
+    /* Mueve el contenido hacia abajo para que el header fijo no lo oculte */
+    margin-top: 80px; 
+    /* Añade espacio inferior para que el footer fijo (de aprox. 90-100px de alto) no tape el contenido */
+    padding-bottom: 110px; 
 }
 
 /* 3. Estilo para el título de la página */
@@ -45,4 +46,35 @@ body {
 /* 5. Estilo para botones de acción en la tabla */
 #tablaProductos .btn-sm {
     margin: 0 2px;
+}
+
+/* Título de la sección */
+/* Las propiedades de .header-main anteriores ya cubren el estilo del título,
+   pero mantendré las propiedades de la versión anterior para referencia si fueran necesarias */
+.header-main {
+    font-weight: 700;
+    color: #1a1a2e;
+    margin-bottom: 2rem;
+}
+
+/* Asegurando que las tablas de Bootstrap se vean bien */
+#tablaProductos thead tr th {
+    font-weight: 700;
+    color: #1a1a2e;
+    border-bottom: 3px solid #e94560; /* Color de acento */
+}
+
+/* Estilos de botones de estado para coherencia */
+.btn-outline-danger {
+    --bs-btn-border-color: #e94560;
+    --bs-btn-color: #e94560;
+}
+.btn-outline-success {
+    --bs-btn-border-color: #1abc9c;
+    --bs-btn-color: #1abc9c;
+}
+
+/* Ajuste en el tamaño de los inputs de filtro */
+.form-select, .form-control {
+    font-size: 0.9rem;
 }
