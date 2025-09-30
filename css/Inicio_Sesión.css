@@ -1,174 +1,166 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: #e9e9e9;
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
+/* ======================================================= */
+/* ========== GLOBAL STYLES (RESET & BODY) ========== */
+/* ======================================================= */
+* {
     margin: 0;
-}
-
-header {
-    background-color: #4885e8;
-    padding: 10px;
-    width: 100%;
+    padding: 0;
     box-sizing: border-box;
-    display: flex;
-    /* justify-content: space-between; asegura que los elementos se distribuyan */
-    justify-content: space-between;
-    align-items: center;
-    position: absolute;
-    top: 0;
-    left: 0;
 }
 
-.logo img {
-    width: 200px;
-    height: auto;
-}
-
-.search-bar {
-    display: flex;
-    align-items: center;
-    /* flex-grow: 1 hace que este elemento ocupe todo el espacio disponible */
-    flex-grow: 1;
-    margin: 0 20px; /* Le da espacio a los lados del buscador */
-}
-
-.search-bar input {
-    width: 100%; /* El input ocupa todo el ancho de su contenedor */
-    height: 40px;
-    padding: 10px 15px;
-    border: 2px solid #ccc;
-    border-radius: 20px 0 0 20px;
-    font-size: 16px;
-    border: none;
-    outline: none;
-}
-
-.search-button {
-    background-color: #280be1;
-    color: #fff;
-    border: none;
-    height: 40px;
-    width: 50px;
-    border-radius: 0 20px 20px 0;
-    cursor: pointer;
-    font-size: 18px;
+body {
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.login-header-button {
-    background-color: transparent;
-    color: #fff;
-    border: 1px solid #fff;
-    padding: 10px 15px;
-    border-radius: 20px;
-    font-size: 16px;
-    cursor: pointer;
-}
-
-.login-header-button i {
-    margin-right: 5px;
-}
-
-/* El resto del CSS se mantiene igual */
-.login-container {
-    text-align: center;
+/* ======================================================= */
+/* ========== AUTH CONTAINER & BOX ========== */
+/* ======================================================= */
+.auth-container {
     display: flex;
-    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    /* Ajusta el margen superior para que no se superponga con el header */
-    margin-top: 100px; 
+    width: 100%;
+    padding: 1rem;
 }
 
-h2 {
-    color: #444;
-    margin-bottom: 20px;
+.auth-box {
+    background: #fff;
+    /* AJUSTE FINAL: Padding vertical reducido para compactar el contenido total */
+    padding: 1rem 2.5rem; 
+    border-radius: 12px;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    text-align: center;
 }
 
-.login-box {
-    background-color: #fff;
-    padding: 40px;
-    border-radius: 8px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-    width: 400px;
-    max-width: 90%; /* Hace que sea más responsivo en pantallas pequeñas */
-    margin-bottom: 20px;
+.auth-box h2 {
+    /* AJUSTE: Margen inferior reducido para acercar el título al formulario */
+    margin-bottom: 0.8rem; 
+    color: #1a1a2e;
+    font-size: 1.6rem;
 }
 
-.input-group {
-    margin-bottom: 20px;
+/* ======================================================= */
+/* ========== FORM ELEMENTS (COMPACTACIÓN) ========== */
+/* ======================================================= */
+.form-group {
+    /* AJUSTE CLAVE: Espacio vertical mínimo entre los grupos de campo */
+    margin-bottom: 0.2rem; /* Se mantiene la regla general */
     text-align: left;
 }
 
-.input-group label {
-    display: block;
-    margin-bottom: 8px;
-    color: #666;
+/* 🚨 NUEVA REGLA: Reducir el margen inferior del primer campo para acercarlo al segundo */
+.form-group:first-of-type {
+    margin-bottom: 0.1rem; /* Reducido a 0.1rem (o incluso 0) */
 }
 
-.input-group input {
+/* 🚨 NUEVO: Clase para hacer el contenedor de la contraseña el punto de referencia (HTML tiene 'relative-parent') */
+.form-group.relative-parent {
+    position: relative;
+}
+
+label {
+    font-weight: 600;
+    font-size: 0.9rem;
+    /* Espacio mínimo entre la etiqueta y el input */
+    margin-bottom: 0.1rem;
+    display: block;
+}
+
+input {
     width: 100%;
-    padding: 10px;
-    box-sizing: border-box;
+    /* AJUSTE CLAVE: Padding reducido para hacer los inputs menos altos */
+    padding: 0.5rem; 
+    /* El padding-right se moverá a la regla específica de contraseña para evitar afectar a 'Usuario o Correo' */
     border: 1px solid #ccc;
-    border-radius: 4px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border 0.3s;
 }
 
-.password-wrapper {
-    display: flex;
-    align-items: center;
+/* 🚨 AJUSTE FINAL DEL INPUT: Solo el input de contraseña necesita padding a la derecha */
+.form-group.relative-parent input {
+    padding-right: 2.5rem; /* Espacio extra para el icono */
 }
 
-.password-wrapper input {
-    flex-grow: 1;
+input:focus {
+    border-color: #281f8b;
 }
 
+/* ======================================================= */
+/* ========== ICONO: POSICIONAMIENTO ABSOLUTO ========== */
+/* ======================================================= */
+
+/* 🚨 ESTAS SON LAS ÚNICAS REGLAS NECESARIAS PARA EL ICONO */
 .toggle-password {
-    background-color: #ddd;
-    border: none;
-    padding: 10px 15px;
+    position: absolute;
+    right: 10px; /* Distancia desde el borde derecho */
+    
+    /* 🚨 CORRECCIÓN CLAVE: Posición ajustada. Necesita este valor fijo más el transform. */
+    top: 70%; /* Usamos 70% para abarcar la etiqueta y caer en el centro del input. */
+    transform: translateY(-50%); /* Ajuste fino para centrar verticalmente */
+    
     cursor: pointer;
-    font-size: 14px;
-    font-weight: bold;
-    color: #666;
-    border-radius: 0 4px 4px 0;
-    margin-left: -1px;
+    color: #888;
 }
 
-.login-button {
-    background-color: #1909cd;
+/* ======================================================= */
+/* ========== BUTTON & LINKS ========== */
+/* ======================================================= */
+.btn {
+    width: 100%;
+    background: #1a1a2e;
     color: #fff;
     border: none;
-    padding: 15px 30px;
-    font-size: 16px;
+    padding: 0.8rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
     cursor: pointer;
-    border-radius: 4px;
-    margin-top: 10px;
+    transition: background 0.3s;
+    /* AJUSTE: Espacio balanceado. Controla la separación entre Contraseña y el botón. */
+    margin-top: 1.2rem; 
 }
 
-.forgot-password {
-    display: block;
-    margin-top: 15px;
-    color: #e53935;
-    font-size: 14px;
+.btn:hover {
+    background: #6345e9;
+}
+
+.switch {
+    /* Espacio para separar los enlaces del botón */
+    margin-top: 0.8rem;
+    font-size: 0.9rem;
+}
+
+.switch a {
+    color: #e94560;
     text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s;
 }
 
-.forgot-password i {
-    margin-right: 5px;
+.switch a:hover {
+    color: #ff2e63;
 }
 
-.create-account-button {
-    background-color: #1109ee;
-    color: #fff;
-    border: none;
-    padding: 15px 30px;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 4px;
+/* ======================================================= */
+/* ========== REGISTRO: TWO-COLUMN LAYOUT (Opcional) ========== */
+/* ======================================================= */
+.form-registro-grid {
+    display: grid;
+    /* Distribuye los campos en dos columnas iguales */
+    grid-template-columns: 1fr 1fr; 
+    /* Espacio entre las columnas */
+    gap: 10px 20px; 
+}
+
+.form-registro-grid .form-group {
+    /* El margen es manejado por el 'gap' del grid */
+    margin-bottom: 0; 
 }
