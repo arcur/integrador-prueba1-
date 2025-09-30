@@ -39,7 +39,6 @@ header {
     height: 35px; /* Altura más compacta para inputs */
 }
 
-
 /* Contenedor para los botones del header */
 .cart-buttons {
   display: flex;
@@ -68,5 +67,3 @@ header {
 .header-btn:hover {
   background-color: #c63c4d;
 }
-
-
