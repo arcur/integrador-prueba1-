@@ -29,18 +29,18 @@ body {
 
 .auth-box {
     background: #fff;
-    /* AJUSTE FINAL: Padding vertical reducido para compactar el contenido total */
-    padding: 1rem 2.5rem; 
+    /* 🚨 CAMBIO CLAVE: Aumentar el padding vertical de 1rem a 2rem para dar más altura */
+    padding: 2rem 2.5rem;
     border-radius: 12px;
     width: 100%;
-    max-width: 400px;
+    max-width: 500px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     text-align: center;
 }
 
 .auth-box h2 {
     /* AJUSTE: Margen inferior reducido para acercar el título al formulario */
-    margin-bottom: 0.8rem; 
+    margin-bottom: 0.8rem;
     color: #1a1a2e;
     font-size: 1.6rem;
 }
@@ -50,13 +50,15 @@ body {
 /* ======================================================= */
 .form-group {
     /* AJUSTE CLAVE: Espacio vertical mínimo entre los grupos de campo */
-    margin-bottom: 0.2rem; /* Se mantiene la regla general */
+    margin-bottom: 0.2rem;
+    /* Se mantiene la regla general */
     text-align: left;
 }
 
 /* 🚨 NUEVA REGLA: Reducir el margen inferior del primer campo para acercarlo al segundo */
 .form-group:first-of-type {
-    margin-bottom: 0.1rem; /* Reducido a 0.1rem (o incluso 0) */
+    margin-bottom: 0.1rem;
+    /* Reducido a 0.1rem (o incluso 0) */
 }
 
 /* 🚨 NUEVO: Clase para hacer el contenedor de la contraseña el punto de referencia (HTML tiene 'relative-parent') */
@@ -75,7 +77,7 @@ label {
 input {
     width: 100%;
     /* AJUSTE CLAVE: Padding reducido para hacer los inputs menos altos */
-    padding: 0.5rem; 
+    padding: 0.5rem;
     /* El padding-right se moverá a la regla específica de contraseña para evitar afectar a 'Usuario o Correo' */
     border: 1px solid #ccc;
     border-radius: 8px;
@@ -86,7 +88,8 @@ input {
 
 /* 🚨 AJUSTE FINAL DEL INPUT: Solo el input de contraseña necesita padding a la derecha */
 .form-group.relative-parent input {
-    padding-right: 2.5rem; /* Espacio extra para el icono */
+    padding-right: 2.5rem;
+    /* Espacio extra para el icono */
 }
 
 input:focus {
@@ -100,12 +103,15 @@ input:focus {
 /* 🚨 ESTAS SON LAS ÚNICAS REGLAS NECESARIAS PARA EL ICONO */
 .toggle-password {
     position: absolute;
-    right: 10px; /* Distancia desde el borde derecho */
-    
+    right: 10px;
+    /* Distancia desde el borde derecho */
+
     /* 🚨 CORRECCIÓN CLAVE: Posición ajustada. Necesita este valor fijo más el transform. */
-    top: 70%; /* Usamos 70% para abarcar la etiqueta y caer en el centro del input. */
-    transform: translateY(-50%); /* Ajuste fino para centrar verticalmente */
-    
+    top: 70%;
+    /* Usamos 70% para abarcar la etiqueta y caer en el centro del input. */
+    transform: translateY(-50%);
+    /* Ajuste fino para centrar verticalmente */
+
     cursor: pointer;
     color: #888;
 }
@@ -125,7 +131,7 @@ input:focus {
     cursor: pointer;
     transition: background 0.3s;
     /* AJUSTE: Espacio balanceado. Controla la separación entre Contraseña y el botón. */
-    margin-top: 1.2rem; 
+    margin-top: 1.2rem;
 }
 
 .btn:hover {
@@ -155,12 +161,12 @@ input:focus {
 .form-registro-grid {
     display: grid;
     /* Distribuye los campos en dos columnas iguales */
-    grid-template-columns: 1fr 1fr; 
+    grid-template-columns: 1fr 1fr;
     /* Espacio entre las columnas */
-    gap: 10px 20px; 
+    gap: 10px 20px;
 }
 
 .form-registro-grid .form-group {
     /* El margen es manejado por el 'gap' del grid */
-    margin-bottom: 0; 
-}
+    margin-bottom: 0;
+} 

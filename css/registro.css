@@ -29,11 +29,12 @@ body {
 
 .auth-box {
     background: #fff;
-    /* AJUSTE FINAL: Padding vertical reducido para compactar el contenido total */
-    padding: 1rem 2.5rem;
+    /* 🚨 CAMBIO CLAVE: Aumentar el padding vertical (2rem) y horizontal (3rem) */
+    padding: 2rem 3rem;
     border-radius: 12px;
     width: 100%;
-    max-width: 400px;
+    /* 🚨 CAMBIO CLAVE: Aumentar el ancho máximo a 550px */
+    max-width: 550px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     text-align: center;
 }
@@ -50,18 +51,18 @@ body {
 /* ======================================================= */
 .form-group {
     /* 🚨 CORRECCIÓN CLAVE: Reducimos el margen de todos los grupos al mínimo */
-    margin-bottom: 0.1rem;
+    margin-bottom: 0.2rem;
+    /* Se mantiene la regla general */
     text-align: left;
 }
 
-/* 🚨 REGLAS ELIMINADAS: Eliminamos :first-of-type para mantener consistencia */
-
-/* 🚨 MANTENEMOS: Eliminamos el margen inferior del último campo antes del botón. */
-.form-group:last-of-type {
-    margin-bottom: 0;
+/* 🚨 NUEVA REGLA: Reducir el margen inferior del primer campo para acercarlo al segundo */
+.form-group:first-of-type {
+    margin-bottom: 0.1rem;
+    /* Reducido a 0.1rem (o incluso 0) */
 }
 
-/* Clase para hacer el contenedor de la contraseña el punto de referencia (HTML tiene 'relative-parent') */
+/* 🚨 NUEVO: Clase para hacer el contenedor de la contraseña el punto de referencia (HTML tiene 'relative-parent') */
 .form-group.relative-parent {
     position: relative;
 }
@@ -106,7 +107,7 @@ input:focus {
     right: 10px;
     /* Distancia desde el borde derecho */
 
-    /* Posición ajustada. Necesita este valor fijo más el transform. */
+    /* 🚨 CORRECCIÓN CLAVE: Posición ajustada. Necesita este valor fijo más el transform. */
     top: 70%;
     /* Usamos 70% para abarcar la etiqueta y caer en el centro del input. */
     transform: translateY(-50%);
@@ -169,4 +170,4 @@ input:focus {
 .form-registro-grid .form-group {
     /* El margen es manejado por el 'gap' del grid */
     margin-bottom: 0;
-}
+} 
