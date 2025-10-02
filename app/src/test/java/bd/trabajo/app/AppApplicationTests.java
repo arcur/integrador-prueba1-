@@ -1,4 +1,4 @@
-package integrador.proyecto1.app;
+package bd.trabajo.app;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

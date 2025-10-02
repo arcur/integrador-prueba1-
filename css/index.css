@@ -1,4 +1,83 @@
 * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: #f4f7f9; /* Fondo muy claro */
+    color: #333;
+    line-height: 1.6;
+    
+    /* AJUSTE CLAVE (ESCRITORIO): Aumentamos a 250px para compensar el footer fijo por completo. */
+    padding-bottom: 0px; 
+}
+
+/* 🚀 TÍTULO PRINCIPAL: Centrado 🚀 */
+h2 {
+    text-align: center;
+    font-size: 2.5rem; 
+    font-weight: 700;
+    color: #1e3c72; /* Azul oscuro */
+    margin-top: 20px;
+    margin-bottom: 25px;
+}
+
+/* ----------------------------------------------------------------- */
+/* ========== HEADER (Navegación Superior) ========== */
+/* ----------------------------------------------------------------- */
+.header {
+    background: #1a1a2e;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.navbar ul {
+    list-style: none;
+    display: flex;
+    gap: 1.5rem;
+}
+
+.navbar a {
+    text-decoration: none;
+    color: #ddd;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.navbar a:hover {
+    color: #fff;
+}
+
+.cart button {
+    background: #e94560;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.cart button:hover {
+    background: #ff2e63;
+}
+
+
+
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -217,3 +296,9 @@ body {
     grid-template-columns: 1fr;
   }
 }
+
+/* ==== Ajuste SOLO para contacto.html ==== */
+footer {
+    position: relative !important; /* anula el fixed */
+}
+

@@ -9,8 +9,8 @@
 
 body {
     font-family: 'Inter', sans-serif;
-    background: linear-gradient(135deg, #1a1a2e, #16213e);
-    height: 100vh;
+    background: url("/imagenes/tecnologias-del-futuro-y-el-impacto-en-tu-negocio.jpg") no-repeat center center fixed; 
+    background-size: cover;    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -28,21 +28,22 @@ body {
 }
 
 .auth-box {
-    background: #fff;
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
     /* 🚨 CAMBIO CLAVE: Aumentar el padding vertical de 1rem a 2rem para dar más altura */
     padding: 2rem 2.5rem;
     border-radius: 12px;
     width: 100%;
     max-width: 500px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
     text-align: center;
 }
 
 .auth-box h2 {
-    /* AJUSTE: Margen inferior reducido para acercar el título al formulario */
-    margin-bottom: 0.8rem;
-    color: #1a1a2e;
-    font-size: 1.6rem;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2rem;
+    color: #ffffff;
+    margin-bottom: 1rem;
+    letter-spacing: 1px;
 }
 
 /* ======================================================= */
@@ -67,12 +68,14 @@ body {
 }
 
 label {
-    font-weight: 600;
-    font-size: 0.9rem;
-    /* Espacio mínimo entre la etiqueta y el input */
-    margin-bottom: 0.1rem;
+    font-family: 'Poppins', sans-serif; /* o Inter, según tu elección */
+    font-weight: 500;
+    font-size: 0.95rem;
+    color: #e0e0f1;
+    margin-bottom: 0.4rem;  /* MÁS ESPACIO entre el subtítulo y el input */
     display: block;
 }
+
 
 input {
     width: 100%;
@@ -121,7 +124,7 @@ input:focus {
 /* ======================================================= */
 .btn {
     width: 100%;
-    background: #1a1a2e;
+    background: #636396;
     color: #fff;
     border: none;
     padding: 0.8rem;
@@ -170,3 +173,43 @@ input:focus {
     /* El margen es manejado por el 'gap' del grid */
     margin-bottom: 0;
 } 
+
+/* Logo arriba a la izquierda */
+.logo-empresa {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 140px;
+    height: auto;
+    z-index: 1000;
+}
+
+/* Enlace de "Regístrate aquí" con color personalizado */
+.link-registro {
+    color: #e94560;       /* tu color destacado */
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.link-registro:hover {
+    color: #ff2e63;      /* color cuando pasa el mouse */
+}
+
+/* Cambia solo el texto antes del enlace dentro de .switch */
+.switch {
+    color: #e6e6f0;   /* gris azulado suave */
+    font-weight: 500;
+}
+
+/* Mantiene el color personalizado solo para el enlace */
+.switch a {
+    color: #e94560;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.switch a:hover {
+    color: #ff2e63;
+}

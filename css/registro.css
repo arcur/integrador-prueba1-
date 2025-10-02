@@ -9,7 +9,8 @@
 
 body {
     font-family: 'Inter', sans-serif;
-    background: linear-gradient(135deg, #1a1a2e, #16213e);
+    background: url("/imagenes/tecnologias-del-futuro-y-el-impacto-en-tu-negocio.jpg") no-repeat center center fixed; 
+    background-size: cover;
     height: 100vh;
     display: flex;
     justify-content: center;
@@ -28,58 +29,51 @@ body {
 }
 
 .auth-box {
-    background: #fff;
-    /* 🚨 CAMBIO CLAVE: Aumentar el padding vertical (2rem) y horizontal (3rem) */
-    padding: 2rem 3rem;
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
+    padding: 2rem 2.5rem;
     border-radius: 12px;
     width: 100%;
-    /* 🚨 CAMBIO CLAVE: Aumentar el ancho máximo a 550px */
     max-width: 550px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
     text-align: center;
 }
 
+/* ======================================================= */
+/* ========== TITULOS (LOGIN / REGISTRO) ========== */
+/* ======================================================= */
 .auth-box h2 {
-    /* AJUSTE: Margen inferior reducido para acercar el título al formulario */
-    margin-bottom: 0.8rem;
-    color: #1a1a2e;
-    font-size: 1.6rem;
+    font-family: 'Orbitron', sans-serif; /* mismo estilo futurista */
+    font-size: 2rem;
+    color: #ffffff;
+    margin-bottom: 1rem;
+    letter-spacing: 1px;
+    text-align: center;
 }
 
 /* ======================================================= */
-/* ========== FORM ELEMENTS (COMPACTACIÓN) ========== */
+/* ========== FORM ELEMENTS ========== */
 /* ======================================================= */
 .form-group {
-    /* 🚨 CORRECCIÓN CLAVE: Reducimos el margen de todos los grupos al mínimo */
-    margin-bottom: 0.2rem;
-    /* Se mantiene la regla general */
+    margin-bottom: 1.2rem;  /* separación uniforme */
     text-align: left;
 }
 
-/* 🚨 NUEVA REGLA: Reducir el margen inferior del primer campo para acercarlo al segundo */
-.form-group:first-of-type {
-    margin-bottom: 0.1rem;
-    /* Reducido a 0.1rem (o incluso 0) */
-}
-
-/* 🚨 NUEVO: Clase para hacer el contenedor de la contraseña el punto de referencia (HTML tiene 'relative-parent') */
 .form-group.relative-parent {
     position: relative;
 }
 
 label {
-    font-weight: 600;
-    font-size: 0.9rem;
-    /* Espacio mínimo entre la etiqueta y el input */
-    margin-bottom: 0.1rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    font-size: 0.95rem;
+    color: #e0e0f1;
+    margin-bottom: 0.5rem;
     display: block;
 }
 
 input {
     width: 100%;
-    /* AJUSTE CLAVE: Padding reducido para hacer los inputs menos altos */
     padding: 0.5rem;
-    /* El padding-right se moverá a la regla específica de contraseña para evitar afectar a 'Usuario o Correo' */
     border: 1px solid #ccc;
     border-radius: 8px;
     font-size: 0.9rem;
@@ -87,10 +81,8 @@ input {
     transition: border 0.3s;
 }
 
-/* 🚨 AJUSTE FINAL DEL INPUT: Solo el input de contraseña necesita padding a la derecha */
 .form-group.relative-parent input {
-    padding-right: 2.5rem;
-    /* Espacio extra para el icono */
+    padding-right: 2.5rem; /* espacio para el ícono */
 }
 
 input:focus {
@@ -98,31 +90,23 @@ input:focus {
 }
 
 /* ======================================================= */
-/* ========== ICONO: POSICIONAMIENTO ABSOLUTO ========== */
+/* ========== ICONO DE PASSWORD ========== */
 /* ======================================================= */
-
-/* 🚨 ESTAS SON LAS ÚNICAS REGLAS NECESARIAS PARA EL ICONO */
 .toggle-password {
     position: absolute;
     right: 10px;
-    /* Distancia desde el borde derecho */
-
-    /* 🚨 CORRECCIÓN CLAVE: Posición ajustada. Necesita este valor fijo más el transform. */
     top: 70%;
-    /* Usamos 70% para abarcar la etiqueta y caer en el centro del input. */
     transform: translateY(-50%);
-    /* Ajuste fino para centrar verticalmente */
-
     cursor: pointer;
     color: #888;
 }
 
 /* ======================================================= */
-/* ========== BUTTON & LINKS ========== */
+/* ========== BOTONES & LINKS ========== */
 /* ======================================================= */
 .btn {
     width: 100%;
-    background: #1a1a2e;
+    background: #636396;
     color: #fff;
     border: none;
     padding: 0.8rem;
@@ -131,7 +115,6 @@ input:focus {
     font-weight: 600;
     cursor: pointer;
     transition: background 0.3s;
-    /* AJUSTE: Espacio balanceado. Controla la separación entre Contraseña y el botón. */
     margin-top: 1.2rem;
 }
 
@@ -140,9 +123,10 @@ input:focus {
 }
 
 .switch {
-    /* Espacio para separar los enlaces del botón */
     margin-top: 0.8rem;
     font-size: 0.9rem;
+    color: #b0b0d9; /* gris azulado */
+    font-weight: 500;
 }
 
 .switch a {
@@ -157,17 +141,26 @@ input:focus {
 }
 
 /* ======================================================= */
-/* ========== REGISTRO: TWO-COLUMN LAYOUT (Opcional) ========== */
+/* ========== REGISTRO: GRID OPCIONAL ========== */
 /* ======================================================= */
 .form-registro-grid {
     display: grid;
-    /* Distribuye los campos en dos columnas iguales */
     grid-template-columns: 1fr 1fr;
-    /* Espacio entre las columnas */
     gap: 10px 20px;
 }
 
 .form-registro-grid .form-group {
-    /* El margen es manejado por el 'gap' del grid */
     margin-bottom: 0;
-} 
+}
+
+/* ======================================================= */
+/* ========== LOGO EMPRESA ========== */
+/* ======================================================= */
+.logo-empresa {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 150px;
+    height: auto;
+    z-index: 1000;
+}

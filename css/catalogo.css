@@ -1,5 +1,5 @@
 /* ----------------------------------------------------------------- */
-/* ========== GLOBAL: Configuración Base y Reseteo ========== */
+/* ========== GLOBAL RESET ========== */
 /* ----------------------------------------------------------------- */
 * {
     margin: 0;
@@ -12,9 +12,6 @@ body {
     background: #f4f7f9; /* Fondo muy claro */
     color: #333;
     line-height: 1.6;
-    
-    /* AJUSTE CLAVE (ESCRITORIO): Aumentamos a 250px para compensar el footer fijo por completo. */
-    padding-bottom: 250px; 
 }
 
 /* 🚀 TÍTULO PRINCIPAL: Centrado 🚀 */
@@ -37,7 +34,7 @@ h2 {
     justify-content: space-between;
     align-items: center;
     padding: 1rem 2rem;
-    position: sticky;
+    position: fixed;
     top: 0;
     z-index: 1000;
 }
@@ -81,7 +78,6 @@ h2 {
 /* ----------------------------------------------------------------- */
 /* ========== 2. BARRA DE BÚSQUEDA Y ORDENACIÓN ========== */
 /* ----------------------------------------------------------------- */
-
 .search-bar {
     max-width: 1400px;
     margin: 20px auto 0;
@@ -116,7 +112,6 @@ h2 {
 /* ----------------------------------------------------------------- */
 /* ========== LAYOUT Y FILTROS (SIDEBAR) ========== */
 /* ----------------------------------------------------------------- */
-
 .layout {
     display: flex;
     flex-direction: row; 
@@ -172,7 +167,6 @@ h2 {
 /* ----------------------------------------------------------------- */
 /* ========== 4. CUADRÍCULA DE PRODUCTOS (MAIN) ========== */
 /* ----------------------------------------------------------------- */
-
 .product-container {
     flex-grow: 1;
     display: grid;
@@ -254,14 +248,7 @@ h2 {
 /* ----------------------------------------------------------------- */
 /* ========== 5. MEDIA QUERIES (RESPONSIVIDAD) ========== */
 /* ----------------------------------------------------------------- */
-
-/* Tablet y Móvil (menos de 900px) */
 @media (max-width: 900px) {
-    /* AJUSTE CRÍTICO: Se mantiene el margen de seguridad a 900px para la vista móvil. */
-    body {
-        padding-bottom: 900px; 
-    }
-    
     .layout {
         flex-direction: column; /* Apila filtros y productos */
         margin: 10px auto;
@@ -298,5 +285,12 @@ h2 {
     h2 {
         font-size: 2rem;
     }
-    
+}
+
+/* ----------------------------------------------------------------- */
+/* ========== FOOTER FIJO/DESACTIVADO ========== */
+/* ----------------------------------------------------------------- */
+footer {
+    position: relative; /* 👈 ya no es fixed */
+    width: 100%;
 }
