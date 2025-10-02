@@ -1,24 +1,28 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>TechStore - Catálogo de Periféricos</title>
 
-  <link rel="stylesheet" href="css/styles.css">
-  <link rel="stylesheet" href="../css/header.css"> 
-  <link rel="stylesheet" href="../css/footer.css"> 
+  <link rel="stylesheet" href="css/header.css">
 
+  <link rel="stylesheet" href="../css/footer.css">
+
+  <link rel="stylesheet" href="css/catalogo.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/header.css"> 
+
 </head>
+
 <body>
   <!-- HEADER -->
   <div id="header-placeholder"></div>
 
   <!-- SEARCH & SORT -->
+  <h2>Catalogo</h2>
   <section class="search-bar">
     <input type="text" id="searchInput" placeholder="🔍 Buscar productos...">
     <select id="sortSelect">
@@ -48,25 +52,19 @@
     </main>
   </div>
 
-   <div id="footer-placeholder"></div>
+  <div id="footer-placeholder"></div>
 
-    <script src="../js/header.js"></script> 
-    
-    <script>
-        // Llama a la función loadHTML (definida en ../js/header.js)
-        loadHTML('../header/header.html', 'header-placeholder'); 
-        loadHTML('../footer/footer.html', 'footer-placeholder'); 
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-  <script src="../js/header.js"></script> 
-    
-    <script>
-        // Llama a la función loadHTML (definida en ../js/header.js)
-        loadHTML('../header/header.html', 'header-placeholder'); 
-        loadHTML('../footer/footer.html', 'footer-placeholder'); 
-    </script>
 
-  <script src="js/script.js"></script>
+  <script src="../js/header.js"></script>
+
+  <script>
+    // Llama a la función loadHTML (definida en ../js/header.js)
+    loadHTML('../header/header.html', 'header-placeholder');
+    loadHTML('../footer/footer.html', 'footer-placeholder'); 
+  </script>
+
+  <script src="js/catalogo.js"></script>
 </body>
-</html>
+
+</html> 

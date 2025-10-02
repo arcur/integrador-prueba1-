@@ -1,0 +1,302 @@
+/* ----------------------------------------------------------------- */
+/* ========== GLOBAL: Configuración Base y Reseteo ========== */
+/* ----------------------------------------------------------------- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: #f4f7f9; /* Fondo muy claro */
+    color: #333;
+    line-height: 1.6;
+    
+    /* AJUSTE CLAVE (ESCRITORIO): Aumentamos a 250px para compensar el footer fijo por completo. */
+    padding-bottom: 250px; 
+}
+
+/* 🚀 TÍTULO PRINCIPAL: Centrado 🚀 */
+h2 {
+    text-align: center;
+    font-size: 2.5rem; 
+    font-weight: 700;
+    color: #1e3c72; /* Azul oscuro */
+    margin-top: 20px;
+    margin-bottom: 25px;
+}
+
+/* ----------------------------------------------------------------- */
+/* ========== HEADER (Navegación Superior) ========== */
+/* ----------------------------------------------------------------- */
+.header {
+    background: #1a1a2e;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.navbar ul {
+    list-style: none;
+    display: flex;
+    gap: 1.5rem;
+}
+
+.navbar a {
+    text-decoration: none;
+    color: #ddd;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.navbar a:hover {
+    color: #fff;
+}
+
+.cart button {
+    background: #e94560;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.cart button:hover {
+    background: #ff2e63;
+}
+
+/* ----------------------------------------------------------------- */
+/* ========== 2. BARRA DE BÚSQUEDA Y ORDENACIÓN ========== */
+/* ----------------------------------------------------------------- */
+
+.search-bar {
+    max-width: 1400px;
+    margin: 20px auto 0;
+    padding: 10px 20px;
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap; 
+    background-color: #ffffff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    border-radius: 8px;
+}
+
+.search-bar input,
+.search-bar select {
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 1rem;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.search-bar input {
+    flex: 2; 
+    min-width: 200px;
+}
+
+.search-bar select {
+    flex: 1;
+    max-width: 250px;
+}
+
+/* ----------------------------------------------------------------- */
+/* ========== LAYOUT Y FILTROS (SIDEBAR) ========== */
+/* ----------------------------------------------------------------- */
+
+.layout {
+    display: flex;
+    flex-direction: row; 
+    max-width: 1400px;
+    margin: 30px auto;
+    padding: 0 20px;
+    gap: 20px;
+}
+
+.filters {
+    width: 250px;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    align-self: flex-start; 
+    height: fit-content;
+}
+
+.filters h3 {
+    color: #1e3c72; 
+    border-bottom: 2px solid #e94560; 
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+    font-size: 1.25rem;
+}
+
+.filters ul {
+    list-style: none;
+    padding: 0;
+}
+
+.filter-btn {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 10px 0;
+    margin-bottom: 5px;
+    background: none;
+    border: none;
+    color: #555;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: color 0.2s, background-color 0.2s;
+    border-radius: 4px;
+}
+
+.filter-btn:hover {
+    color: #1e3c72;
+    background-color: #f0f4f7;
+}
+
+/* ----------------------------------------------------------------- */
+/* ========== 4. CUADRÍCULA DE PRODUCTOS (MAIN) ========== */
+/* ----------------------------------------------------------------- */
+
+.product-container {
+    flex-grow: 1;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.product-card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.product-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-bottom: 1px solid #eee;
+}
+
+.product-info {
+    padding: 15px;
+}
+
+.product-info h4 {
+    font-size: 1.15rem;
+    color: #1e3c72;
+    margin-bottom: 5px;
+}
+
+.product-info p {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.price {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #e94560; 
+    margin-bottom: 15px;
+}
+
+.add-to-cart {
+    display: block;
+    width: 100%;
+    padding: 10px 0;
+    text-align: center;
+    background-color: #4885e8; 
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: 600;
+    transition: background-color 0.2s;
+}
+
+.add-to-cart:hover {
+    background-color: #1e3c72;
+}
+
+/* Estilo para "No se encontraron productos" */
+.product-container p {
+    grid-column: 1 / -1; 
+    text-align: center;
+    color: #999;
+    font-style: italic;
+    padding: 50px;
+    background-color: white;
+    border-radius: 8px;
+}
+
+/* ----------------------------------------------------------------- */
+/* ========== 5. MEDIA QUERIES (RESPONSIVIDAD) ========== */
+/* ----------------------------------------------------------------- */
+
+/* Tablet y Móvil (menos de 900px) */
+@media (max-width: 900px) {
+    /* AJUSTE CRÍTICO: Se mantiene el margen de seguridad a 900px para la vista móvil. */
+    body {
+        padding-bottom: 900px; 
+    }
+    
+    .layout {
+        flex-direction: column; /* Apila filtros y productos */
+        margin: 10px auto;
+        padding: 0 10px;
+        gap: 15px;
+    }
+
+    .filters {
+        width: 100%; /* Los filtros ocupan todo el ancho */
+        margin-bottom: 10px;
+        order: -1;
+    }
+
+    .product-container {
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 15px;
+    }
+
+    .product-card img {
+        height: 150px;
+    }
+    
+    .search-bar {
+        padding: 10px;
+    }
+
+    .search-bar input,
+    .search-bar select {
+        width: 100%;
+        max-width: 100%;
+        flex: none;
+    }
+    
+    h2 {
+        font-size: 2rem;
+    }
+    
+}

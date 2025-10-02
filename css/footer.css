@@ -1,32 +1,40 @@
-/* 🚨 Estilo Básico del Footer 🚨 */
+/* ----------------------------------------------------------------- */
+/* ========== FOOTER (Estilos Generales) ========== */
+/* ----------------------------------------------------------------- */
+
+/* Estilo Básico del Footer */
 footer {
-    background-color: #1e3c72; /* Azul oscuro que armoniza con tu fondo */
-    color: #f8f8f8; /* Color de texto blanco/gris claro */
-    padding: 30px 20px 10px; /* Padding superior, a los lados e inferior */
+    background-color: #1e3c72; /* Azul oscuro */
+    color: #f8f8f8;
+    padding: 15px 20px 5px;
     width: 100%;
     box-sizing: border-box;
-    font-family: Arial, sans-serif;
-    /* 🚨 CLAVE: Posición fija abajo si quieres que se pegue al final de la página,
-       pero para páginas largas, mejor déjalo estático (posición por defecto). 
-       Si quieres que siempre esté visible, usa 'position: fixed; bottom: 0;' */
+    font-family: 'Inter', sans-serif; 
+
+    /* CLAVE: Fija el footer en la parte inferior de la ventana */
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 990;
 }
 
 .footer-container {
     display: flex;
-    justify-content: space-around; /* Distribuye las secciones */
-    max-width: 1200px; /* Limita el ancho máximo para evitar que se estire demasiado */
-    margin: 0 auto 20px; /* Centra el contenido y añade margen inferior */
-    flex-wrap: wrap; /* Permite que las secciones se envuelvan en pantallas pequeñas */
+    justify-content: space-around;
+    max-width: 1200px;
+    margin: 0 auto 20px;
+    flex-wrap: wrap;
 }
 
 .footer-section {
     padding: 10px;
-    flex: 1; /* Permite que las secciones compartan espacio */
-    min-width: 150px; /* Ancho mínimo para cada columna */
+    flex: 1;
+    min-width: 150px;
+    box-sizing: border-box; 
 }
 
 .footer-section h4 {
-    color: #4885e8; /* Un toque de azul brillante para los títulos */
+    color: #4885e8; /* Azul brillante para títulos */
     margin-bottom: 15px;
     font-size: 1.1rem;
 }
@@ -41,14 +49,14 @@ footer {
 }
 
 .footer-section a {
-    color: #b0c4de; /* Color de enlace más suave */
+    color: #b0c4de; /* Color de enlace suave */
     text-decoration: none;
     transition: color 0.3s;
     font-size: 0.95rem;
 }
 
 .footer-section a:hover {
-    color: #ffffff; /* Brillo blanco al pasar el ratón */
+    color: #ffffff;
 }
 
 /* Sección de Copyright */
@@ -62,4 +70,23 @@ footer {
     margin: 0;
     font-size: 0.8rem;
     color: #888;
+}
+
+
+/* ----------------------------------------------------------------- */
+/* ========== MEDIA QUERIES (Responsividad del Footer) ========== */
+/* ----------------------------------------------------------------- */
+
+@media (max-width: 900px) {
+    /* Distribución en móvil: dos columnas por fila */
+    .footer-container {
+        justify-content: flex-start; 
+        margin-bottom: 10px;
+    }
+    
+    .footer-section {
+        min-width: 100px; 
+        flex: 0 0 50%; /* Dos columnas por fila */
+        padding: 5px;
+    }
 }
