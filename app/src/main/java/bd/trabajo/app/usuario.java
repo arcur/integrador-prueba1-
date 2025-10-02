@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
  * Representa a los usuarios del sistema (clientes y/o administradores).
  */
 @Entity
-public class usuario {
+public class Usuario {
 
     // Clave primaria auto-incremental
     @Id
@@ -57,10 +57,10 @@ public class usuario {
     private LocalDateTime fechaRegistro;
 
     // --- Constructor por defecto (necesario para JPA) ---
-    public usuario() {}
+    public Usuario() {}
 
     // --- Constructor con campos requeridos (sin ID y sin fechaRegistro) ---
-    public usuario(String nombre, String apellidoPaterno, String apellidoMaterno, String numeroDni, String telefono, String correo, String usuario, String contrasena) {
+    public Usuario(String nombre, String apellidoPaterno, String apellidoMaterno, String numeroDni, String telefono, String correo, String usuario, String contrasena) {
         this.nombre = nombre;
         this.apellidoPaterno = apellidoPaterno;
         this.apellidoMaterno = apellidoMaterno;
