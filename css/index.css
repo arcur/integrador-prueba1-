@@ -1,99 +1,121 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: 'Inter', sans-serif;
-    background: #f4f7f9; /* Fondo muy claro */
-    color: #333;
-    line-height: 1.6;
-    
-    /* AJUSTE CLAVE (ESCRITORIO): Aumentamos a 250px para compensar el footer fijo por completo. */
-    padding-bottom: 0px; 
-}
-
-/* 🚀 TÍTULO PRINCIPAL: Centrado 🚀 */
-h2 {
-    text-align: center;
-    font-size: 2.5rem; 
-    font-weight: 700;
-    color: #1e3c72; /* Azul oscuro */
-    margin-top: 20px;
-    margin-bottom: 25px;
-}
-
-/* ----------------------------------------------------------------- */
-/* ========== HEADER (Navegación Superior) ========== */
-/* ----------------------------------------------------------------- */
-.header {
-    background: #1a1a2e;
-    color: #fff;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 2rem;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-}
-
-.logo {
-    font-size: 1.5rem;
-    font-weight: 700;
-}
-
-.navbar ul {
-    list-style: none;
-    display: flex;
-    gap: 1.5rem;
-}
-
-.navbar a {
-    text-decoration: none;
-    color: #ddd;
-    font-weight: 500;
-    transition: color 0.3s;
-}
-
-.navbar a:hover {
-    color: #fff;
-}
-
-.cart button {
-    background: #e94560;
-    color: #fff;
-    border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background 0.3s;
-}
-
-.cart button:hover {
-    background: #ff2e63;
-}
-
-
-
+/* ==============================
+   RESET
+============================== */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+/* ==============================
+   BODY
+============================== */
 body {
-  background-color: #F5F5F5;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Inter', sans-serif;
+  background: linear-gradient(270deg, #1a1a2e, #16213e, #0f3460, #533483);
+  background-size: 600% 600%;
+  animation: gradientBG 20s ease infinite;
+  color: #fff;
+  line-height: 1.6;
+  margin: 0; 
+  padding-top: 80px;
 }
 
-.titulo {
+/* ==============================
+   ANIMACIÓN FONDO
+============================== */
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ==============================
+   TÍTULOS
+============================== */
+h2.titulo {
   text-align: center;
-  font-size: 40px;
-  padding-top: 50px;
+  font-size: 2.5rem; 
+  font-weight: 700;
+  font-family: 'Orbitron', sans-serif; /* Fuente futurista */
+  color: #d6b5ff; /* Morado claro */
+  margin-top: 40px;
+  margin-bottom: 20px;
+  text-shadow: 
+    0 0 5px #b388ff,
+    0 0 10px #9c27b0,
+    0 0 20px #8a2be2;
 }
 
+/* ==============================
+   HEADER
+============================== */
+.header {
+  background: #1a1a2e;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  position: fixed;
+  top: 0;
+  z-index: 1000;
+  width: 100%;    
+  /* Quitar esta línea */
+  /* border-bottom: 1px solid #ddd;  */
+  box-shadow: 0 2px 8px rgba(0,0,0,0.5); /* opcional, sombra en vez de línea */
+}
+
+
+.logo {
+  font-size: 1.8rem;
+  font-weight: 700;
+  font-family: 'Orbitron', sans-serif;
+  color: #d6b5ff;
+  text-shadow: 
+    0 0 5px #b388ff,
+    0 0 10px #9c27b0,
+    0 0 20px #8a2be2;
+}
+
+.navbar ul {
+  list-style: none;
+  display: flex;
+  gap: 1.5rem;
+}
+
+.navbar a {
+  text-decoration: none;
+  color: #ddd;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.navbar a:hover {
+  color: #fff;
+}
+
+/* ==============================
+   CARRITO
+============================== */
+.cart button {
+  background: #6a0dad;
+  color: #fff;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.cart button:hover {
+  background: #9c27b0;
+  transform: scale(1.05);
+}
+
+/* ==============================
+   SLIDER
+============================== */
 .slider-box {
   position: relative;
   max-width: 1280px;
@@ -109,11 +131,11 @@ body {
 .slide {
   min-width: 100%;
   position: relative;
-  display: none; /* Por defecto ocultas */
+  display: none;
 }
 
 .slide.active {
-  display: block; /* Solo la activa se ve */
+  display: block;
 }
 
 .slide img {
@@ -128,14 +150,15 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  color: #d71111;
+  color: #fff;
 }
 
 .texto h2 {
   font-size: 40px;
+  font-family: 'Orbitron', sans-serif;
 }
 
-/* Botones */
+/* Botones slider */
 .prev, .next {
   cursor: pointer;
   position: absolute;
@@ -180,34 +203,10 @@ body {
 .dot.active {
   background-color: #717171;
 }
-@keyframes slide {
-    0% {margin-left: 0;}
-    30% {margin-left: 0;}
 
-    35% {margin-left: -100%;}
-    65% {margin-left: -100%;}
-    
-    70% {margin-left: -200%;}
-    100% {margin-left: -200%;}
-}
-
-@media(max-width:991px){
-
-    body {
-        padding: 30px;
-    }
-    .slider-box{
-        width: 100%;
-    }
-    .texto{
-        top: 50%;
-        padding: 0 25;
-    }
-    .texto h2{
-        font-size: 25px;
-        margin-bottom: 15px;
-    }
-}
+/* ==============================
+   CATEGORÍAS
+============================== */
 .categorias {
   max-width: 1280px;
   margin: 50px auto;
@@ -235,17 +234,18 @@ body {
   position: absolute;
   right: 20px;
   bottom: 20px;
-  background: #000;
+  background: #6a0dad;
   color: #fff;
-  padding: 10px 20px;
+  padding: 12px 24px;
   border-radius: 25px;
   text-decoration: none;
-  font-size: 14px;
-  transition: background 0.3s;
+  font-size: 15px;
+  transition: background 0.3s, transform 0.2s;
 }
 
 .btn-banner:hover {
-  background: #444;
+  background: #9c27b0;
+  transform: scale(1.05);
 }
 
 /* Grid categorías */
@@ -257,10 +257,11 @@ body {
 }
 
 .categoria {
-  background: #fff;
+  background: rgba(255,255,255,0.9);
   border-radius: 10px;
   padding: 15px;
   transition: transform 0.3s, box-shadow 0.3s;
+  color: #333;
 }
 
 .categoria img {
@@ -281,13 +282,26 @@ body {
 
 .categoria:hover {
   transform: translateY(-5px);
-  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
 }
 
-/* Responsive */
+/* ==============================
+   FOOTER
+============================== */
+footer {
+  position: relative !important;
+}
+
+
+/* ==============================
+   RESPONSIVE
+============================== */
 @media (max-width: 991px) {
   .grid-categorias {
     grid-template-columns: repeat(2, 1fr);
+  }
+  .texto h2 {
+    font-size: 25px;
   }
 }
 
@@ -296,9 +310,3 @@ body {
     grid-template-columns: 1fr;
   }
 }
-
-/* ==== Ajuste SOLO para contacto.html ==== */
-footer {
-    position: relative !important; /* anula el fixed */
-}
-

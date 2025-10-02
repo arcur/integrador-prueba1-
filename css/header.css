@@ -10,25 +10,23 @@ body {
   background: #f5f6fa;
   color: #333;
   line-height: 1.6;
+  
 }
 
 /* ========== HEADER ========== */
 .header {
-  background: #1a1a2e;
+  background: rgba(20, 20, 40, 0.9); /* efecto glass oscuro */
+  backdrop-filter: blur(10px);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
   color: #fff;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 1rem 2rem;
-  /* --- CAMBIOS CLAVE PARA FIJAR EL HEADER --- */
   position: fixed;
-  /* Asegura que se quede pegado a la ventana */
   top: 0;
   left: 0;
-  /* Asegura que comience desde la izquierda */
   width: 100%;
-  /* Ocupa todo el ancho */
-  /* -------------------------------------------- */
   z-index: 1000;
 }
 
@@ -52,27 +50,46 @@ body {
 
 /* 🚨 NUEVA REGLA: Estilo para el texto que acompaña al logo */
 .logo-text {
-  color: #fff;
-  /* Asegura que el texto sea visible */
-  /* El font-size y font-weight se heredan de .logo */
+  font-family: 'Orbitron', sans-serif; /* 🔹 Fuente futurista */
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #d6b5ff; /* Morado suave */
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-shadow: 
+    0 0 5px #b388ff,
+    0 0 10px #9c27b0,
+    0 0 20px #8a2be2;
+  transition: transform 0.3s ease, text-shadow 0.3s ease;
 }
 
+.logo-text:hover {
+  transform: scale(1.05);
+  text-shadow: 
+    0 0 10px #e1baff,
+    0 0 20px #c77dff,
+    0 0 40px #9c27b0;
+}
 
 .navbar ul {
   list-style: none;
   display: flex;
-  gap: 1.5rem;
+  gap: 2rem;
 }
 
 .navbar a {
   text-decoration: none;
-  color: #ddd;
-  font-weight: 500;
-  transition: color 0.3s;
+  color: #e0d6ff;
+  font-weight: 600;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.3s, transform 0.2s;
 }
-
 .navbar a:hover {
-  color: #fff;
+  color: #b388ff;
+  transform: translateY(-2px);
 }
 
 .cart button {
@@ -257,29 +274,29 @@ body {
 .cart-buttons {
   display: flex;
   align-items: center;
-  gap: 10px;
-  /* Espacio entre botones */
+  gap: 12px;
 }
 
 .header-btn {
-  background-color: #e04a5a;
+  background: linear-gradient(135deg, #6a0dad, #8a2be2);
   color: #fff;
   border: none;
-  padding: 8px 16px;
-  border-radius: 8px;
+  padding: 10px 18px;
+  border-radius: 10px;
   font-size: 14px;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Orbitron', sans-serif;
   cursor: pointer;
-  height: 40px;
+  height: 42px;
+  min-width: 140px; /* 🔹 mismo tamaño */
   display: flex;
   align-items: center;
   justify-content: center;
-  white-space: nowrap;
+  gap: 8px;
   text-decoration: none;
-  /* 🔹 Para quitar el subrayado del enlace */
-  transition: background-color 0.3s ease;
+  transition: background 0.3s, transform 0.2s;
 }
 
 .header-btn:hover {
-  background-color: #c63c4d;
+  background: linear-gradient(135deg, #7b1fa2, #9c27b0);
+  transform: scale(1.05);
 }
