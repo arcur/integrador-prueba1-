@@ -1,0 +1,126 @@
+body {
+  font-family: 'Inter', sans-serif;
+  background: linear-gradient(270deg, #1a1a2e, #16213e, #0f3460, #533483);
+  background-size: 600% 600%;
+  animation: gradientBG 20s ease infinite;
+  color: #fff;
+  padding-top: 80px;
+}
+
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.checkout {
+  max-width: 1280px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+.titulo {
+  text-align: center;
+  font-size: 2.5rem;
+  font-family: 'Orbitron', sans-serif;
+  color: #d6b5ff;
+  margin-bottom: 30px;
+  text-shadow: 0 0 10px #9c27b0;
+}
+
+.checkout-layout {
+  display: flex;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+/* FORMULARIO */
+.formulario {
+  flex: 1;
+  min-width: 300px;
+  background-color: rgba(255,255,255,0.05);
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.3);
+}
+
+.formulario h2 {
+  font-size: 1.5rem;
+  color: #d6b5ff;
+  margin-bottom: 20px;
+}
+
+.formulario input,
+.formulario textarea {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border: none;
+  border-radius: 8px;
+  background-color: #0f3460;
+  color: #fff;
+  font-size: 1rem;
+}
+
+.formulario textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.btn-finalizar {
+  background-color: #6a0dad;
+  color: #fff;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.btn-finalizar:hover {
+  background-color: #9c27b0;
+}
+
+/* RESUMEN */
+.resumen {
+  flex: 1;
+  min-width: 300px;
+  background-color: rgba(255,255,255,0.05);
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.3);
+}
+
+.resumen h2 {
+  font-size: 1.5rem;
+  color: #d6b5ff;
+  margin-bottom: 20px;
+}
+
+.resumen-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  color: #ccc;
+}
+
+.resumen-total {
+  text-align: right;
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #ffcc00;
+  margin-top: 20px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .checkout-layout {
+    flex-direction: column;
+  }
+
+  .formulario,
+  .resumen {
+    width: 100%;
+  }
+}

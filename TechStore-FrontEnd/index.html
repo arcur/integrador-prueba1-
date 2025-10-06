@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TechStore - Inicio</title>
+
+    <!-- Fuentes y estilos -->
+    <link rel="stylesheet" href="css/index.css" />
+    <link rel="stylesheet" href="css/header_footer.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Orbitron:wght@500;700&display=swap"
+        rel="stylesheet" />
+</head>
+
+<body>
+    <!-- 🔁 Header modular -->
+    <div id="header-placeholder"></div>
+
+    <!-- 🏠 Hero principal -->
+    <section class="hero">
+        <div class="hero-text">
+            <h1>Bienvenido a <span>TechStore</span></h1>
+            <p>Explora lo último en periféricos, tecnología y accesorios para tu setup.</p>
+            <a href="catalogo.html" class="btn-hero">Ver Catálogo</a>
+        </div>
+        <div class="hero-img">
+            <img src="assets/img/hero-setup.jpg" alt="Setup tecnológico moderno" />
+        </div>
+    </section>
+    <!-- 🎞️ Carrusel de promociones -->
+    <section class="slider-box">
+        <div class="slides">
+            <!-- Los slides se generan dinámicamente con carrusel.js -->
+        </div>
+
+        <!-- Botones de navegación -->
+        <span class="prev">&#10094;</span>
+        <span class="next">&#10095;</span>
+
+        <!-- Puntos indicadores -->
+        <div class="dots"></div>
+    </section>
+
+
+    <!-- 🧩 Categorías destacadas -->
+    <section class="categorias">
+        <h2>Categorías Populares</h2>
+        <div class="grid-categorias">
+            <div class="categoria">
+                <img src="assets/img/computador.jpg" alt="Computador" />
+                <h3>Computadoras</h3>
+                <p>Máquinas de alto rendimiento para gamers y profesionales.</p>
+            </div>
+            <div class="categoria">
+                <img src="assets/img/teclado.jpg" alt="Teclado" />
+                <h3>Teclados</h3>
+                <p>Mecánicos, RGB y ergonómicos para cada estilo.</p>
+            </div>
+            <div class="categoria">
+                <img src="assets/img/laptop.jpg" alt="Laptop" />
+                <h3>Laptops</h3>
+                <p>Portátiles potentes para trabajo y entretenimiento.</p>
+            </div>
+            <div class="categoria">
+                <img src="assets/img/impresora.jpg" alt="Impresora" />
+                <h3>Impresoras</h3>
+                <p>Conectividad moderna y calidad profesional.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 🛍️ Productos destacados -->
+    <section class="destacados">
+        <h2>Productos Destacados</h2>
+        <div class="productos-grid">
+            <div class="producto-card">
+                <img src="assets/img/auriculares.jpg" alt="Auriculares Bluetooth" />
+                <h3>Auriculares Bluetooth</h3>
+                <p>S/ 85.00</p>
+                <a href="producto.html" class="btn-card">Ver más</a>
+            </div>
+            <div class="producto-card">
+                <img src="assets/img/lampara.jpg" alt="Lámpara LED" />
+                <h3>Lámpara LED</h3>
+                <p>S/ 35.50</p>
+                <a href="producto.html" class="btn-card">Ver más</a>
+            </div>
+            <div class="producto-card">
+                <img src="assets/img/monitor.jpg" alt="Monitor OLED" />
+                <h3>Monitor OLED</h3>
+                <p>S/ 350.00</p>
+                <a href="producto.html" class="btn-card">Ver más</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 📢 Banner promocional -->
+    <section class="banner-promo">
+        <img src="assets/img/banner-promo.jpg" alt="Banner de promoción" />
+        <div class="banner-text">
+            <h2>¡Descuentos de temporada!</h2>
+            <p>Hasta 15% en productos seleccionados</p>
+            <a href="catalogo.html" class="btn-banner">Ver Ofertas</a>
+        </div>
+    </section>
+
+    <!-- 🔁 Footer modular -->
+    <div id="footer-placeholder"></div>
+
+    <!-- Scripts -->
+    <script src="js/header.js"></script>
+    <script src="js/carrusel.js"></script>
+    <script>
+        loadHTML('components/header.html', 'header-placeholder');
+        loadHTML('components/footer.html', 'footer-placeholder');
+    </script>
+</body>
+
+</html>

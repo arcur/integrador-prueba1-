@@ -1,0 +1,163 @@
+/* ============================== */
+/* RESET GENERAL */
+/* ============================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: linear-gradient(270deg, #1a1a2e, #16213e, #0f3460, #533483);
+  background-size: 600% 600%;
+  animation: gradientBG 20s ease infinite;
+  color: #fff;
+  padding-top: 80px;
+}
+
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ============================== */
+/* CONTENEDOR PRINCIPAL */
+/* ============================== */
+.carrito {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+.titulo {
+  text-align: center;
+  font-size: 2.5rem;
+  font-family: 'Orbitron', sans-serif;
+  color: #d6b5ff;
+  margin-bottom: 30px;
+  text-shadow: 0 0 10px #9c27b0;
+}
+
+/* ============================== */
+/* TABLA DE CARRITO */
+/* ============================== */
+.carrito-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: rgba(255,255,255,0.05);
+  border-radius: 10px;
+  overflow: hidden;
+  min-width: 800px;
+}
+
+.carrito-table th,
+.carrito-table td {
+  padding: 15px;
+  text-align: center;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.carrito-table th {
+  background-color: #0f3460;
+  color: #fff;
+}
+
+.carrito-table img {
+  width: 80px;
+  border-radius: 8px;
+}
+
+.carrito-table input[type="number"] {
+  width: 60px;
+  padding: 5px;
+  border-radius: 6px;
+  border: none;
+  background-color: #1a1a2e;
+  color: #fff;
+  text-align: center;
+}
+
+/* ============================== */
+/* TOTAL Y BOTONES */
+/* ============================== */
+.total {
+  text-align: right;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #ffcc00;
+  margin-top: 20px;
+}
+
+.btn-eliminar {
+  background-color: #e94560;
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.btn-eliminar:hover {
+  background-color: #ff2e63;
+}
+
+.btn-finalizar {
+  display: block;
+  margin-left: auto;
+  margin-top: 30px;
+  background-color: #6a0dad;
+  color: #fff;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.btn-finalizar:hover {
+  background-color: #9c27b0;
+}
+
+/* ============================== */
+/* RESPONSIVE */
+/* ============================== */
+@media (max-width: 900px) {
+  .carrito {
+    padding: 10px;
+  }
+
+  .carrito-table {
+    display: block;
+    overflow-x: auto;
+    width: 100%;
+  }
+
+  .carrito-table thead {
+    background-color: #0f3460;
+  }
+
+  .carrito-table th,
+  .carrito-table td {
+    white-space: nowrap;
+    font-size: 0.9rem;
+    padding: 10px;
+  }
+
+  .carrito-table img {
+    width: 60px;
+  }
+
+  .btn-finalizar {
+    width: 100%;
+    margin-top: 20px;
+  }
+
+  .total {
+    text-align: center;
+    margin-top: 15px;
+  }
+}

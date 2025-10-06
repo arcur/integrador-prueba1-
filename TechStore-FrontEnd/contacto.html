@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TechStore - Contacto</title>
+
+    <!-- Estilos -->
+    <link rel="stylesheet" href="css/header_footer.css" />
+    <link rel="stylesheet" href="css/contacto.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+</head>
+
+<body>
+    <!-- HEADER -->
+    <div id="header-placeholder"></div>
+    <div style="position: relative; width: 100%; height: 250px; overflow: hidden;">
+        <img src="assets/img/tecnologias-del-futuro-y-el-impacto-en-tu-negocio.jpg"
+            style="width: 100%; height: 100%; object-fit: cover; display: block;" alt="Banner tecnológico">
+    </div>
+    <main>
+        <!-- Formulario y tabla -->
+        <div class="container-form-table">
+            <!-- Formulario de contacto -->
+            <form action="#">
+                <fieldset>
+                    <legend>Datos Personales</legend>
+
+                    <p>
+                        <label for="txtnombres">Nombres:</label>
+                        <input type="text" id="txtnombres" oninput="validarNombre(this)" required />
+                    </p>
+
+                    <p>
+                        <label for="txtapellidos">Apellidos:</label>
+                        <input type="text" id="txtapellidos" oninput="validarApellido(this)" required />
+                    </p>
+
+                    <p>
+                        <label for="txtNumero">Número Contacto:</label>
+                        <input type="text" id="txtNumero" maxlength="9" pattern="[0-9]{9}" required
+                            oninput="validarNumero(this)" />
+                    </p>
+
+                    <p>
+                        <label for="txtCorreo">Correo Electrónico:</label>
+                        <input type="email" id="txtCorreo" oninput="validarCorreo(this)" required />
+                    </p>
+
+                    <p>
+                        <label for="txtMensaje">Mensaje:</label><br />
+                        <textarea id="txtMensaje" oninput="validarMensaje(this)" required></textarea>
+                    </p>
+
+                    <p>
+                        <input type="submit" value="Enviar" />
+                        <input type="reset" value="Limpiar" />
+                    </p>
+                </fieldset>
+            </form>
+
+            <!-- Tabla de asesores y mapa -->
+            <div class="tabla-asesores">
+                <h3>ATENCIÓN AL CLIENTE</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>NOMBRE</th>
+                            <th>APELLIDO</th>
+                            <th>TELÉFONO</th>
+                            <th>CORREO ELECTRÓNICO</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>JORGE</td>
+                            <td>LAZARO</td>
+                            <td>998717122</td>
+                            <td>jorge.laz99@gmail.com</td>
+                        </tr>
+                        <tr>
+                            <td>JHAMPIER</td>
+                            <td>CANAZA</td>
+                            <td>983264563</td>
+                            <td>jhampier.canaz45@gmail.com</td>
+                        </tr>
+                        <tr>
+                            <td>JUNIOR</td>
+                            <td>JUAREZ</td>
+                            <td>996896313</td>
+                            <td>marco.juar29@gmail.com</td>
+                        </tr>
+                        <td>JEINER</td>
+                        <td>SALAZAR</td>
+                        <td>983937325</td>
+                        <td>jeinersalazar@gmail.com</td>
+                        </tr>
+                        <td>JAVIER</td>
+                        <td>ZUMAETA</td>
+                        <td>963214568</td>
+                        <td>javier.zumaeta@gmail.com</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <!-- Mapa de ubicación -->
+                <iframe class="ubicacion"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2320.6583915139618!2d-77.00960231096445!3d-11.983728109127313!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9105c562b237b1ad%3A0x81b7bf88d50f89ff!2sUniversidad%20Tecnológica%20Del%20Perú!5e0!3m2!1ses-419!2spe!4v1745464392758!5m2!1ses-419!2spe"
+                    allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <div id="footer-placeholder"></div>
+
+    <!-- Scripts -->
+    <script src="js/header.js"></script>
+    <script>
+        loadHTML('components/header.html', 'header-placeholder');
+        loadHTML('components/footer.html', 'footer-placeholder');
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,269 @@
+/* ============================== */
+/* RESET Y BASE */
+/* ============================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  font-family: 'Inter', sans-serif;
+  background-color: #f9f9f9;
+  color: #333;
+}
+
+/* ============================== */
+/* LAYOUT GENERAL */
+/* ============================== */
+.admin-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* ============================== */
+/* SIDEBAR IZQUIERDA */
+/* ============================== */
+.sidebar {
+  width: 240px;
+  background-color: #ffffff;
+  border-right: 1px solid #ddd;
+  padding: 30px 20px;
+  box-shadow: 2px 0 6px rgba(0,0,0,0.05);
+}
+
+.sidebar h2 {
+  font-size: 1.4rem;
+  font-family: 'Orbitron', sans-serif;
+  color: #1a1a2e;
+  margin-bottom: 30px;
+}
+
+.sidebar nav ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.sidebar nav a {
+  text-decoration: none;
+  color: #333;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  border-radius: 6px;
+  transition: background 0.3s, color 0.3s;
+}
+
+.sidebar nav a:hover,
+.sidebar nav a.activo {
+  background-color: #1a1a2e;
+  color: #fff;
+}
+
+/* ============================== */
+/* CONTENIDO PRINCIPAL */
+/* ============================== */
+.admin-main {
+  flex: 1;
+  padding: 40px;
+}
+
+.admin-main h1 {
+  font-size: 2rem;
+  font-family: 'Orbitron', sans-serif;
+  color: #1a1a2e;
+  margin-bottom: 30px;
+}
+
+.admin-main h2 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  color: #1a1a2e;
+}
+
+/* ============================== */
+/* TABLAS */
+/* ============================== */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 12px;
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+thead {
+  background-color: #f0f0f0;
+}
+
+tbody tr:hover {
+  background-color: #fdfdfd;
+}
+
+/* ============================== */
+/* BOTONES PERSONALIZADOS */
+/* ============================== */
+.btn-primary {
+  background-color: #636396;
+  border-color: #636396;
+}
+
+.btn-primary:hover {
+  background-color: #6345e9;
+  border-color: #6345e9;
+}
+
+.btn-outline-primary {
+  color: #636396;
+  border-color: #636396;
+}
+
+.btn-outline-primary:hover {
+  background-color: #636396;
+  color: #fff;
+}
+
+.btn-outline-danger {
+  color: #e94560;
+  border-color: #e94560;
+}
+
+.btn-outline-danger:hover {
+  background-color: #e94560;
+  color: #fff;
+}
+
+.btn-outline-success {
+  color: #28a745;
+  border-color: #28a745;
+}
+
+.btn-outline-success:hover {
+  background-color: #28a745;
+  color: #fff;
+}
+
+.btn-outline-info {
+  color: #6345e9;
+  border-color: #6345e9;
+}
+
+.btn-outline-info:hover {
+  background-color: #6345e9;
+  color: #fff;
+}
+
+/* ============================== */
+/* BADGES Y ESTADOS */
+/* ============================== */
+.estado {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+.estado.pendiente {
+  background-color: #e94560;
+}
+
+.estado.enviado {
+  background-color: #636396;
+}
+
+.estado.entregado {
+  background-color: #28a745;
+}
+
+/* ============================== */
+/* CARDS DASHBOARD */
+/* ============================== */
+.cards {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.card {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 20px;
+  flex: 1;
+  min-width: 200px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.card h3 {
+  font-size: 1.2rem;
+  color: #1a1a2e;
+  margin-bottom: 10px;
+}
+
+.card p {
+  font-size: 1rem;
+  color: #555;
+}
+
+/* ============================== */
+/* FORMULARIOS */
+/* ============================== */
+form input,
+form select,
+form textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  margin-bottom: 15px;
+}
+
+form button {
+  padding: 10px 20px;
+  background-color: #636396;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+form button:hover {
+  background-color: #6345e9;
+}
+
+/* ============================== */
+/* RESPONSIVE */
+/* ============================== */
+@media (max-width: 768px) {
+  .admin-layout {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .sidebar nav ul {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .admin-main {
+    padding: 20px;
+  }
+}

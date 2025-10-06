@@ -1,0 +1,148 @@
+body {
+  font-family: 'Inter', sans-serif;
+  background: linear-gradient(270deg, #1a1a2e, #16213e, #0f3460, #533483);
+  background-size: 600% 600%;
+  animation: gradientBG 20s ease infinite;
+  color: #fff;
+  padding-top: 80px;
+}
+
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.producto-detalle {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+.producto-box {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  background-color: rgba(255,255,255,0.05);
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.3);
+}
+
+.producto-box img {
+  max-width: 400px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.info {
+  flex: 1;
+  min-width: 280px;
+}
+
+.info h1 {
+  font-size: 2rem;
+  font-family: 'Orbitron', sans-serif;
+  color: #d6b5ff;
+  margin-bottom: 10px;
+}
+
+.info .categoria {
+  font-size: 1rem;
+  color: #ccc;
+  margin-bottom: 10px;
+}
+
+.info .descripcion {
+  font-size: 1.1rem;
+  color: #eee;
+  margin-bottom: 20px;
+}
+
+.info .precio {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #ffcc00;
+  margin-bottom: 20px;
+}
+
+.btn-agregar {
+  background-color: #6a0dad;
+  color: #fff;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.btn-agregar:hover {
+  background-color: #9c27b0;
+}
+
+.beneficios {
+  display: flex;
+  justify-content: space-around;
+  margin: 40px 0;
+  padding: 20px;
+  background-color: rgba(255,255,255,0.05);
+  border-radius: 10px;
+  font-size: 1rem;
+  color: #ccc;
+  gap: 20px;
+}
+
+.beneficios i {
+  color: #ffcc00;
+  margin-right: 8px;
+}
+
+.recomendados {
+  margin-top: 60px;
+}
+
+.recomendados h2 {
+  font-size: 1.8rem;
+  font-family: 'Orbitron', sans-serif;
+  color: #d6b5ff;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.recomendados-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.recomendados-grid .card {
+  background-color: rgba(255,255,255,0.08);
+  border-radius: 10px;
+  padding: 15px;
+  text-align: center;
+  transition: transform 0.3s;
+}
+
+.recomendados-grid .card:hover {
+  transform: translateY(-5px);
+}
+
+.recomendados-grid img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.recomendados-grid h3 {
+  margin-top: 10px;
+  font-size: 1rem;
+  color: #d6b5ff;
+}
+
+.recomendados-grid p {
+  font-size: 0.9rem;
+  color: #ccc;
+}
+
