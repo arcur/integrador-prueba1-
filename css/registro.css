@@ -9,15 +9,11 @@
 
 body {
     font-family: 'Inter', sans-serif;
-    /* Nota: La ruta de la imagen debe ser relativa a la ubicación del archivo HTML */
-    background: url("../imagenes/tecnologias-del-futuro-y-el-impacto-en-tu-negocio.jpg") no-repeat center center fixed;
-    background-size: cover;
-    height: 100vh;
+    background: url("/imagenes/tecnologias-del-futuro-y-el-impacto-en-tu-negocio.jpg") no-repeat center center fixed; 
+    background-size: cover;    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    /* Usar flex-direction column para que el logo no interfiera con el centrado */
-    flex-direction: column;
 }
 
 /* ======================================================= */
@@ -32,181 +28,188 @@ body {
 }
 
 .auth-box {
-    /* Fondo oscuro y moderno */
-    background: linear-gradient(135deg, #1a1a2e99, #16213e99); /* semi-transparente para ver el fondo */
-    backdrop-filter: blur(5px); /* Efecto de cristal esmerilado */
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
+    /* 🚨 CAMBIO CLAVE: Aumentar el padding vertical de 1rem a 2rem para dar más altura */
     padding: 2rem 2.5rem;
     border-radius: 12px;
     width: 100%;
-    max-width: 450px; /* Ajuste para un formulario más compacto */
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.1);
+    max-width: 500px;
+    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
     text-align: center;
 }
 
-/* ======================================================= */
-/* ========== TITULOS (LOGIN / REGISTRO) ========== */
-/* ======================================================= */
 .auth-box h2 {
     font-family: 'Orbitron', sans-serif;
     font-size: 2rem;
-    color: #00ffc4; /* Color de acento futurista */
-    margin-bottom: 1.5rem;
+    color: #ffffff;
+    margin-bottom: 1rem;
     letter-spacing: 1px;
-    text-align: center;
 }
 
 /* ======================================================= */
-/* ========== FORM ELEMENTS ========== */
+/* ========== FORM ELEMENTS (COMPACTACIÓN) ========== */
 /* ======================================================= */
 .form-group {
-    margin-bottom: 1.2rem;
+    /* AJUSTE CLAVE: Espacio vertical mínimo entre los grupos de campo */
+    margin-bottom: 0.2rem;
+    /* Se mantiene la regla general */
     text-align: left;
 }
 
+/* 🚨 NUEVA REGLA: Reducir el margen inferior del primer campo para acercarlo al segundo */
+.form-group:first-of-type {
+    margin-bottom: 0.1rem;
+    /* Reducido a 0.1rem (o incluso 0) */
+}
+
+/* 🚨 NUEVO: Clase para hacer el contenedor de la contraseña el punto de referencia (HTML tiene 'relative-parent') */
 .form-group.relative-parent {
     position: relative;
 }
 
 label {
-    font-family: 'Inter', sans-serif; /* Usamos Inter para la legibilidad */
-    font-weight: 600;
-    font-size: 0.9rem;
+    font-family: 'Poppins', sans-serif; /* o Inter, según tu elección */
+    font-weight: 500;
+    font-size: 0.95rem;
     color: #e0e0f1;
-    margin-bottom: 0.3rem; /* Menos margen para compactar */
+    margin-bottom: 0.4rem;  /* MÁS ESPACIO entre el subtítulo y el input */
     display: block;
 }
 
+
 input {
     width: 100%;
-    padding: 0.75rem; /* Más padding para mejor touch/click */
-    border: 1px solid #3a4a6b; /* Borde más oscuro */
+    /* AJUSTE CLAVE: Padding reducido para hacer los inputs menos altos */
+    padding: 0.5rem;
+    /* El padding-right se moverá a la regla específica de contraseña para evitar afectar a 'Usuario o Correo' */
+    border: 1px solid #ccc;
     border-radius: 8px;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     outline: none;
-    transition: border 0.3s, box-shadow 0.3s;
-    background-color: #2c3a57; /* Fondo de input oscuro */
-    color: #f0f0f0; /* Texto claro */
+    transition: border 0.3s;
 }
 
+/* 🚨 AJUSTE FINAL DEL INPUT: Solo el input de contraseña necesita padding a la derecha */
 .form-group.relative-parent input {
     padding-right: 2.5rem;
+    /* Espacio extra para el icono */
 }
 
 input:focus {
-    border-color: #00ffc4; /* Borde de enfoque del color de acento */
-    box-shadow: 0 0 8px rgba(0, 255, 196, 0.4);
-    background-color: #344360;
+    border-color: #281f8b;
 }
 
 /* ======================================================= */
-/* ========== ICONO DE PASSWORD ========== */
+/* ========== ICONO: POSICIONAMIENTO ABSOLUTO ========== */
 /* ======================================================= */
+
+/* 🚨 ESTAS SON LAS ÚNICAS REGLAS NECESARIAS PARA EL ICONO */
 .toggle-password {
     position: absolute;
-    right: 15px; /* Ajuste para mayor separación del borde */
-    /* Ajuste fino basado en la estructura del HTML y el padding del input */
-    transform: translateY(-50%); /* Centrado vertical absoluto */
-    top: 65%; /* Ajuste a la posición relativa a la caja del input */
-    cursor: pointer;
-    color: #b0b0d9;
-    font-size: 1.1rem;
-    transition: color 0.2s;
-}
+    right: 10px;
+    /* Distancia desde el borde derecho */
 
-.toggle-password:hover {
-    color: #00ffc4;
+    /* 🚨 CORRECCIÓN CLAVE: Posición ajustada. Necesita este valor fijo más el transform. */
+    top: 70%;
+    /* Usamos 70% para abarcar la etiqueta y caer en el centro del input. */
+    transform: translateY(-50%);
+    /* Ajuste fino para centrar verticalmente */
+
+    cursor: pointer;
+    color: #888;
 }
 
 /* ======================================================= */
-/* ========== BOTONES & LINKS ========== */
+/* ========== BUTTON & LINKS ========== */
 /* ======================================================= */
 .btn {
     width: 100%;
-    background: linear-gradient(90deg, #636396, #4f46e5); /* Degradado más dinámico */
+    background: #636396;
     color: #fff;
     border: none;
-    padding: 0.9rem;
+    padding: 0.8rem;
     border-radius: 8px;
     font-size: 1rem;
-    font-weight: 700;
+    font-weight: 600;
     cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
-    margin-top: 1.5rem;
-    box-shadow: 0 4px 10px rgba(79, 70, 229, 0.4);
+    transition: background 0.3s;
+    /* AJUSTE: Espacio balanceado. Controla la separación entre Contraseña y el botón. */
+    margin-top: 1.2rem;
 }
 
 .btn:hover {
-    background: linear-gradient(90deg, #4f46e5, #636396);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 15px rgba(79, 70, 229, 0.6);
+    background: #6345e9;
 }
 
 .switch {
-    margin-top: 1rem;
+    /* Espacio para separar los enlaces del botón */
+    margin-top: 0.8rem;
     font-size: 0.9rem;
-    color: #b0b0d9;
-    font-weight: 500;
 }
 
 .switch a {
-    color: #00ffc4; /* Color de acento para el link */
+    color: #e94560;
     text-decoration: none;
     font-weight: 600;
     transition: color 0.3s;
 }
 
 .switch a:hover {
-    color: #00e0b3;
+    color: #ff2e63;
 }
 
 /* ======================================================= */
-/* ========== LOGO EMPRESA ========== */
+/* ========== REGISTRO: TWO-COLUMN LAYOUT (Opcional) ========== */
 /* ======================================================= */
+.form-registro-grid {
+    display: grid;
+    /* Distribuye los campos en dos columnas iguales */
+    grid-template-columns: 1fr 1fr;
+    /* Espacio entre las columnas */
+    gap: 10px 20px;
+}
+
+.form-registro-grid .form-group {
+    /* El margen es manejado por el 'gap' del grid */
+    margin-bottom: 0;
+} 
+
+/* Logo arriba a la izquierda */
 .logo-empresa {
     position: absolute;
     top: 20px;
     left: 20px;
-    width: 150px;
+    width: 140px;
     height: auto;
     z-index: 1000;
 }
 
-/* ======================================================= */
-/* ========== ALERTS & MESSAGES (CORREGIDO) ========== */
-/* ======================================================= */
-
-.alert {
-    padding: 10px 15px;
-    margin-bottom: 1.5rem;
-    border-radius: 6px;
-    text-align: left;
-    font-size: 0.9rem;
+/* Enlace de "Regístrate aquí" con color personalizado */
+.link-registro {
+    color: #e94560;       /* tu color destacado */
     font-weight: 600;
-    
-    /* Animación: Usaremos opacidad y altura para una transición suave cuando JS cambie display */
-    transition: opacity 0.3s ease-in-out, max-height 0.5s ease-out, padding 0.5s ease-out;
-    max-height: 0; /* Por defecto, altura cero */
-    overflow: hidden; /* Ocultar el contenido */
-    padding-top: 0;
-    padding-bottom: 0;
+    text-decoration: none;
+    transition: color 0.3s;
 }
 
-/* Cuando JS establece display: block, aplicamos esta regla */
-.alert.mt-3 {
-    max-height: 100px; /* Suficiente altura para el mensaje */
-    padding: 10px 15px;
+.link-registro:hover {
+    color: #ff2e63;      /* color cuando pasa el mouse */
 }
 
-/* Clase de éxito */
-.alert-success {
-    background-color: rgba(16, 185, 129, 0.2); /* verde con transparencia */
-    color: #10b981; /* verde brillante */
-    border: 1px solid #10b981;
+/* Cambia solo el texto antes del enlace dentro de .switch */
+.switch {
+    color: #e6e6f0;   /* gris azulado suave */
+    font-weight: 500;
 }
 
-/* Clase de peligro/error */
-.alert-danger {
-    background-color: rgba(239, 68, 68, 0.2); /* rojo con transparencia */
-    color: #ef4444; /* rojo brillante */
-    border: 1px solid #ef4444;
+/* Mantiene el color personalizado solo para el enlace */
+.switch a {
+    color: #e94560;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.switch a:hover {
+    color: #ff2e63;
 }
