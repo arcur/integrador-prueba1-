@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TechStore - Catálogo de Periféricos</title>
+
+  <link rel="stylesheet" href="css/tienda.css">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+
+<body>
+
+  <header class="header">
+    <div class="logo">
+      <img src="https.../logo.png" alt="TechStore Logo"> <span>TECHSTORE</span>
+    </div>
+    <nav class="navbar">
+      <ul>
+        <li><a href="#"><i class="fas fa-home"></i> Inicio</a></li>
+        <li><a href="#"><i class="fas fa-book"></i> Catálogo</a></li>
+        <li><a href="#"><i class="fas fa-tags"></i> Ofertas</a></li>
+        <li><a href="#"><i class="fas fa-envelope"></i> Contacto</a></li>
+      </ul>
+    </nav>
+    <div class="user-actions">
+      <button class="cart-btn" id="cart-icon-button">
+        <i class="fas fa-shopping-cart"></i>
+        <span>Carrito</span>
+        <span id="cart-count">0</span>
+      </button>
+      <button class="login-btn">
+        <i class="fas fa-user"></i>
+        <span>Iniciar Sesión</span>
+      </button>
+    </div>
+  </header>
+
+  <h2>Catálogo</h2>
+  <section class="search-bar">
+    <input type="text" id="searchInput" placeholder="🔍 Buscar productos...">
+    <select id="sortSelect">
+      <option value="default">Ordenar por</option>
+      <option value="priceLowHigh">Precio: Menor a Mayor</option>
+      <option value="priceHighLow">Precio: Mayor a Menor</option>
+      <option value="newest">Novedades</option>
+    </select>
+  </section>
+
+  <div class="layout">
+    <aside class="filters">
+      <h3>Categorías</h3>
+      <ul>
+        <li><button class="filter-btn active" data-category="todos">Todos</button></li>
+        <li><button class="filter-btn" data-category="mouse">Mouse</button></li>
+        <li><button class="filter-btn" data-category="teclado">Teclados</button></li>
+        <li><button class="filter-btn" data-category="auriculares">Auriculares</button></li>
+        <li><button class="filter-btn" data-category="monitores">Monitores</button></li>
+      </ul>
+    </aside>
+
+    <main class="product-container" id="productContainer">
+      </main>
+  </div>
+
+
+  <div id="added-item-modal" class="overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="modal-title">Cesta (1 artículo)</h2>
+        <button class="close-btn" data-target="added-item-modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div id="modal-item-placeholder"></div>
+
+        <div class="recommendation">
+          <h3>Te recomendamos</h3>
+          <div class="cart-item">
+            <img src="https://via.placeholder.com/100x100/337ab7/fff?text=Windows" alt="Windows 11">
+            <div class="item-details">
+              <h4>Windows 11 Pro</h4>
+              <p>Microsoft Store</p>
+            </div>
+            <div class="item-price">
+              <p>29.99 €</p>
+              <span>-85%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <div class="total-section">
+          <span>Cesta total:</span>
+          <span id="modal-total">S/ 0.00</span>
+        </div>
+        <div class="modal-buttons">
+          <button id="go-to-cart-btn">Ir a la cesta (1)</button>
+          <button id="pay-btn">Pagar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="full-cart-page" class="overlay">
+    <div class="full-cart-container">
+      <div class="cart-items-list">
+        <h1>Cesta</h1>
+        <div id="full-cart-item-container">
+          </div>
+      </div>
+      <aside class="cart-summary">
+        <h2>Resumen</h2>
+        <div class="summary-line">
+          <span>Precio oficial</span>
+          <span id="summary-subtotal">S/ 0.00</span>
+        </div>
+        <div class="summary-line">
+          <span>Descuento</span>
+          <span id="summary-discount">S/ 0.00</span>
+        </div>
+        <div class="summary-line total">
+          <span>Total</span>
+          <span id="summary-total">S/ 0.00</span>
+        </div>
+        <button id="next-step-btn">Siguiente</button>
+        <p class="continue-shopping" data-target="full-cart-page">
+          &lt; Continuar comprando
+        </p>
+      </aside>
+    </div>
+  </div>
+  
+  <footer class="footer">
+    <p>&copy; 2024 TechStore. Todos los derechos reservados.</p>
+  </footer>
+
+  <script src="js/tienda.js"></script>
+
+</body>
+
+</html>
