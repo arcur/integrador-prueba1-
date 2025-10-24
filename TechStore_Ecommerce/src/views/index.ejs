@@ -1,0 +1,85 @@
+<%- include('partials/header') %>
+
+    <% if (locals.error) { %>
+        <div class="alert alert-danger" role="alert"
+            style="margin-top: -20px; margin-bottom: 20px; background-color: rgba(220, 53, 69, 0.8); border: none; color: white;">
+            <i class="bi bi-exclamation-triangle-fill"></i>
+            <%= error %>
+        </div>
+        <% } %>
+
+            <section class="hero">
+                <div class="hero-text">
+                    <h1>Bienvenido a <span>TechStore</span></h1>
+                    <p>Explora lo último en periféricos, tecnología y accesorios para tu setup.</p>
+                    <a href="/catalogo" class="btn-theme btn-hero">
+                        <i class="bi bi-grid-3x3-gap-fill"></i> Ver Catálogo
+                    </a>
+                </div>
+                <div class="hero-img">
+                    <img src="/img/setup.jpg" alt="Setup tecnológico moderno" />
+                </div>
+            </section>
+
+            <section class="categorias">
+                <h2>Categorías Populares</h2>
+                <div class="grid-categorias">
+                    <% if (categorias && categorias.length> 0) { %>
+                        <% categorias.forEach(cat=> { %>
+                            <a href="/catalogo" class="categoria card-theme no-padding">
+                                <img src="<%= cat.imagen_producto ? cat.imagen_producto : '/img/placeholder-cat.webp' %>"
+                                    alt="<%= cat.nombre_categoria %>"
+                                    onerror="this.onerror=null; this.src='/img/placeholder-cat.webp';" />
+                                <div class="categoria-texto">
+                                    <h3>
+                                        <%= cat.nombre_categoria %>
+                                    </h3>
+                                    <p>
+                                        <%= cat.descripcion_categoria.substring(0, 50) %>...
+                                    </p>
+                                </div>
+                            </a>
+                            <% }) %>
+                                <% } else { %>
+                                    <p>No hay categorías disponibles.</p>
+                                    <% } %>
+                </div>
+            </section>
+
+           <section class="destacados">
+    <h2>Productos Destacados</h2>
+    <div class="productos-grid">
+        <% if (productosDestacados && productosDestacados.length > 0) { %>
+            <% productosDestacados.forEach(producto => { %>
+                <div class="producto-card card-theme">
+                    <a href="/producto/<%= producto.id_producto %>" class="product-link">
+                        <img src="<%= producto.imagen ? producto.imagen : '/img/placeholder-prod.webp' %>"
+                             alt="<%= producto.nombre_producto %>"
+                             onerror="this.onerror=null; this.src='/img/placeholder-prod.webp';" />
+                    </a>
+                    <h3>
+                        <a href="/producto/<%= producto.id_producto %>" class="product-link">
+                            <%= producto.nombre_producto %>
+                        </a>
+                    </h3>
+
+                    <div class="producto-info mt-auto"> <span class="badge"><%= producto.nombre_categoria || 'General' %></span>
+                        <p class="precio">S/ <%= producto.precio.toFixed(2) %></p>
+                    </div>
+                   <button type="button" class="btn-theme btn-card mt-2 btn-add-to-cart"
+                            data-product-id="<%= producto.id_producto %>"
+                            data-product-name="<%= producto.nombre_producto %>">
+                         <i class="bi bi-cart-plus"></i> Añadir
+                    </button>
+                </div>
+            <% }) %>
+        <% } else if (!locals.error) { %>
+             <p class="text-center" style="grid-column: 1 / -1;">No hay productos destacados disponibles en este momento.</p>
+        <% } %>
+    </div>
+    <div class="text-center mt-4">
+        <a href="/catalogo" class="btn-theme">Ver todos los productos</a>
+    </div>
+</section>
+
+            <%- include('partials/footer') %>

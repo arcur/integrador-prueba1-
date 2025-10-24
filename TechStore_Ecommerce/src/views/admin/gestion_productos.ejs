@@ -1,0 +1,95 @@
+<%- include('partials/admin_header') %>
+
+<% if (locals.success) { %>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="bi bi-check-circle-fill"></i> <%= success %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<% } %>
+<% if (locals.error) { %>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="bi bi-exclamation-triangle-fill"></i> <%= error %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<% } %>
+
+<% if (stockBajo.length > 0) { %>
+    <div class="alert alert-warning" role="alert">
+        <h5 class="alert-heading"><i class="bi bi-exclamation-triangle-fill"></i> ¡Alerta de Stock Bajo!</h5>
+        <p>Los siguientes productos tienen 10 unidades o menos:</p>
+        <ul>
+            <% stockBajo.forEach(p => { %>
+                <li>
+                    <strong><%= p.nombre_producto %></strong> (Stock total: <%= p.stock %>)
+                    <a href="/admin/productos/<%= p.id_producto %>/lotes" class="ms-2">Administrar Lotes</a>
+                </li>
+            <% }) %>
+        </ul>
+    </div>
+<% } %>
+
+<div class="d-flex justify-content-end mb-3">
+    <a href="/admin/productos/nuevo" class="btn btn-primary">
+        <i class="bi bi-plus-circle-fill"></i> Añadir Nuevo Producto
+    </a>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-striped table-hover align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Producto</th>
+                        <th scope="col">Categoría</th>
+                        <th scope="col">Precio (Venta)</th>
+                        <th scope="col">Stock Total</th>
+                        <th scope="col">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% productos.forEach(producto => { %>
+                        
+                        <tr class="
+                            <% if (producto.stock == 0) { %>
+                                table-danger
+                            <% } else if (producto.stock <= 10) { %>
+                                table-warning
+                            <% } %>
+                        ">
+                            <th scope="row"><%= producto.id_producto %></th>
+                            <td class="fw-bold"><%= producto.nombre_producto %></td>
+                            <td><%= producto.nombre_categoria || 'N/A' %></td>
+                            <td>S/ <%= producto.precio.toFixed(2) %></td>
+                            
+                            <td class="fw-bold fs-5">
+                                <a href="/admin/productos/<%= producto.id_producto %>/lotes" 
+                                   class="btn btn-outline-dark btn-sm" 
+                                   title="Gestionar Lotes">
+                                    <i class="bi bi-boxes"></i> <%= producto.stock %>
+                                </a>
+                            </td>
+                            
+                            <td>
+                                <a href="/admin/productos/editar/<%= producto.id_producto %>" class="btn btn-warning btn-sm" title="Editar Producto">
+                                    <i class="bi bi-pencil-fill"></i>
+                                </a>
+                                <a href="/admin/productos/<%= producto.id_producto %>/lotes/nuevo" class="btn btn-success btn-sm" title="Añadir Lote (Stock)">
+                                    <i class="bi bi-plus-lg"></i>
+                                </a>
+                                <a href="/admin/productos/eliminar/<%= producto.id_producto %>" 
+                                   class="btn btn-danger btn-sm" title="Eliminar Producto"
+                                   onclick="return confirm('¿Estás seguro de que quieres eliminar este producto: <%= producto.nombre_producto %>? Se eliminarán TODOS sus lotes.')">
+                                    <i class="bi bi-trash-fill"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<%- include('partials/admin_footer') %>

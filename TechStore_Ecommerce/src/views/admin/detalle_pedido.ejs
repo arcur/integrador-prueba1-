@@ -1,0 +1,94 @@
+<%- include('partials/admin_header') %>
+
+<div class="card shadow-sm">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">Pedido #<%= pedido.id_pedido %></h5>
+        <a href="/admin/pedidos" class="btn btn-secondary btn-sm">
+            <i class="bi bi-arrow-left-circle"></i> Volver a Gestión de Pedidos
+        </a>
+    </div>
+    <div class="card-body">
+        
+        <div class="row g-4">
+            <div class="col-md-6">
+                <h6>Datos del Cliente</h6>
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <strong>Nombre:</strong> <%= pedido.nombre %> <%= pedido.apellido_paterno %>
+                    </li>
+                    <li class="list-group-item">
+                        <strong>DNI:</strong> <%= pedido.numero_dni %>
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Correo:</strong> <%= pedido.correo %>
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Teléfono:</strong> <%= pedido.telefono %>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="col-md-6">
+                <h6>Datos del Pedido</h6>
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <strong>Fecha:</strong> <%= new Date(pedido.fecha).toLocaleString('es-PE') %>
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Estado:</strong> 
+                        <% if (pedido.estado === 'Pendiente') { %>
+                            <span class="badge text-bg-warning fs-6"><%= pedido.estado %></span>
+                        <% } else if (pedido.estado === 'Pagado') { %>
+                            <span class="badge text-bg-success fs-6"><%= pedido.estado %></span>
+                        <% } else if (pedido.estado === 'Enviado') { %>
+                            <span class="badge text-bg-info fs-6"><%= pedido.estado %></span>
+                        <% } else { %>
+                            <span class="badge text-bg-danger fs-6"><%= pedido.estado %></span>
+                        <% } %>
+                    </li>
+                    <li class="list-group-item list-group-item-dark">
+                        <strong class="fs-5">Total Pagado: S/ <%= pedido.total.toFixed(2) %></strong>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <hr class="my-4">
+
+        <h6>Productos en este Pedido</h6>
+        <div class="table-responsive">
+            <table class="table align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th scope="col">Producto</th>
+                        <th scope="col">Precio Venta (Unit.)</th>
+                        <th scope="col">Costo (Unit.)</th>
+                        <th scope="col" class="text-center">Cantidad</th>
+                        <th scope="col" class="text-end">Subtotal Venta</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% detalles.forEach(item => { %>
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <img src="<%= item.imagen ? item.imagen : 'https://via.placeholder.com/80x80.png?text=Tech' %>" 
+                                         alt="<%= item.nombre_producto %>" 
+                                         style="width: 60px; height: 60px; object-fit: cover; margin-right: 15px;">
+                                    <span class="fw-bold"><%= item.nombre_producto %></span>
+                                </div>
+                            </td>
+                            <td>S/ <%= item.precio_unitario.toFixed(2) %></td>
+                            <td class="text-danger">S/ <%= item.costo_unitario.toFixed(2) %></td>
+                            <td class="text-center"><%= item.cantidad %></td>
+                            <td class="text-end fw-bold">S/ <%= (item.precio_unitario * item.cantidad).toFixed(2) %></td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+<%- include('partials/admin_footer') %>

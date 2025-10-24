@@ -1,0 +1,72 @@
+<%- include('partials/admin_header') %>
+
+<% if (locals.error) { %>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="bi bi-exclamation-triangle-fill"></i> <%= error %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<% } %>
+
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title text-center mb-4">Seleccione el Reporte a Generar</h5>
+                
+                <form action="/admin/reportes/generar" method="POST" id="reportForm">
+                    
+                    <div class="mb-3">
+                        <label for="tipoReporte" class="form-label">Tipo de Reporte:</label>
+                        <select class="form-select" id="tipoReporte" name="tipoReporte" required>
+                            <option value="" disabled selected>-- Elija un reporte --</option>
+                            <option value="inventario">Inventario Actual (CSV)</option>
+                            <option value="ventas">Ventas por Rango de Fechas (CSV)</option>
+                            </select>
+                    </div>
+
+                    <div id="dateFields" class="row g-3 mb-3" style="display: none;">
+                        <div class="col-md-6">
+                            <label for="fechaInicio" class="form-label">Fecha de Inicio:</label>
+                            <input type="date" class="form-control" id="fechaInicio" name="fechaInicio">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="fechaFin" class="form-label">Fecha de Fin:</label>
+                            <input type="date" class="form-control" id="fechaFin" name="fechaFin">
+                        </div>
+                    </div>
+
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-download"></i> Generar y Descargar Reporte
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const tipoReporteSelect = document.getElementById('tipoReporte');
+    const dateFieldsDiv = document.getElementById('dateFields');
+    const fechaInicioInput = document.getElementById('fechaInicio');
+    const fechaFinInput = document.getElementById('fechaFin');
+
+    tipoReporteSelect.addEventListener('change', function() {
+        if (this.value === 'ventas') {
+            dateFieldsDiv.style.display = 'flex'; // Usamos flex por el 'row'
+            fechaInicioInput.required = true;
+            fechaFinInput.required = true;
+        } else {
+            dateFieldsDiv.style.display = 'none';
+            fechaInicioInput.required = false;
+            fechaFinInput.required = false;
+            // Limpiar valores si se cambia
+            fechaInicioInput.value = '';
+            fechaFinInput.value = '';
+        }
+    });
+</script>
+
+
+<%- include('partials/admin_footer') %>

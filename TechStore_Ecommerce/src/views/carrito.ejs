@@ -1,0 +1,109 @@
+<%- include('partials/header') %>
+
+<% if (locals.error) { %>
+    <div class="alert alert-danger" role="alert" style="margin-top: -20px; margin-bottom: 20px; background-color: rgba(220, 53, 69, 0.8); border: none; color: white;">
+        <i class="bi bi-exclamation-triangle-fill"></i> <%= error %>
+    </div>
+<% } %>
+<% if (locals.success) { %>
+    <div class="alert alert-success" role="alert" style="margin-top: -20px; margin-bottom: 20px; background-color: rgba(25, 135, 84, 0.8); border: none; color: white;">
+        <i class="bi bi-check-circle-fill"></i> <%= success %>
+    </div>
+<% } %>
+
+<h1>
+    <i class="bi bi-cart-fill"></i> Mi Carrito de Compras
+</h1>
+<hr style="border-color: rgba(106, 13, 173, 0.5); margin-bottom: 30px;">
+
+<% if (!carrito || carrito.items.length === 0) { %>
+    <div class="alert-info-theme text-center card-theme" style="padding: 40px;"> <h2><i class="bi bi-cart-x"></i> Tu carrito está vacío.</h2>
+        <p class="lead mt-3">Parece que aún no has añadido ningún producto.</p>
+        <a href="/catalogo" class="btn-theme mt-4">
+             <i class="bi bi-arrow-left-circle"></i> Volver al Catálogo
+        </a>
+    </div>
+
+<% } else { %>
+    <div class="carrito-layout">
+
+        <section class="carrito-items card-theme">
+            <h4>Productos en tu Carrito</h4>
+            <div class="table-responsive mt-3">
+                <table class="table align-middle carrito-tabla">
+                    <thead>
+                        <tr>
+                            <th scope="col" style="width: 50%;">Producto</th>
+                            <th scope="col" class="text-center">Cantidad</th>
+                            <th scope="col" class="text-end">Precio Unit.</th>
+                            <th scope="col" class="text-end">Subtotal</th>
+                            <th scope="col"></th> </tr>
+                    </thead>
+                    <tbody>
+                        <% carrito.items.forEach(item => { %>
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center gap-3">
+                                        <img src="<%= item.imagen ? item.imagen : '/img/placeholder-prod.webp' %>"
+                                             alt="<%= item.nombre_producto %>"
+                                             class="carrito-item-img"
+                                             onerror="this.onerror=null; this.src='/img/placeholder-prod.webp';">
+                                        <a href="/producto/<%= item.id_producto %>" class="carrito-item-nombre">
+                                            <%= item.nombre_producto %>
+                                        </a>
+                                    </div>
+                                </td>
+                                <td class="text-center">
+                                    <form action="/carrito/actualizar" method="POST" class="d-inline-block">
+                                        <input type="hidden" name="id_producto" value="<%= item.id_producto %>">
+                                        <input type="number" name="cantidad"
+                                               value="<%= item.cantidad %>"
+                                               min="1"
+                                               max="<%= item.stock_disponible %>"
+                                               class="form-control form-control-sm input-theme carrito-cantidad-input"
+                                               onchange="this.form.submit()"
+                                               aria-label="Cantidad de <%= item.nombre_producto %>">
+                                    </form>
+                                </td>
+                                <td class="text-end">S/ <%= item.precio.toFixed(2) %></td>
+                                <td class="text-end fw-bold">S/ <%= (item.precio * item.cantidad).toFixed(2) %></td>
+                                <td class="text-center">
+                                    <a href="/carrito/eliminar/<%= item.id_producto %>"
+                                       class="btn btn-outline-danger btn-sm carrito-delete-btn"
+                                       title="Eliminar <%= item.nombre_producto %>">
+                                        <i class="bi bi-trash-fill"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <aside class="carrito-resumen card-theme">
+            <h4>Resumen del Pedido</h4>
+            <ul class="list-group list-group-flush resumen-lista mt-3">
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <span>Subtotal Productos</span>
+                    <span>S/ <%= carrito.total.toFixed(2) %></span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <span>Costo de Envío</span>
+                    <span class="text-success">Gratis</span> </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center total-row">
+                    <strong class="fs-5">Total a Pagar</strong>
+                    <strong class="fs-5">S/ <%= carrito.total.toFixed(2) %></strong>
+                </li>
+            </ul>
+
+            <div class="d-grid mt-4"> <a href="/pedido/checkout" class="btn-theme btn-lg">
+                    <i class="bi bi-shield-check-fill"></i> Proceder al Pago
+                </a>
+            </div>
+        </aside>
+
+    </div>
+<% } %>
+
+<%- include('partials/footer') %>

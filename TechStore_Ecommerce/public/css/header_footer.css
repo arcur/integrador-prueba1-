@@ -1,0 +1,302 @@
+/* public/css/header_footer.css */
+
+/* ============================== */
+/* HEADER               */
+/* ============================== */
+.header {
+    background-color: #1a1a2e; /* Azul oscuro/morado base */
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 5%; /* Ajuste de padding lateral */
+    position: fixed;
+    top: 0;
+    left: 0; /* Asegura que empiece desde la izquierda */
+    width: 100%;
+    z-index: 1000;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4); /* Sombra más pronunciada */
+    height: 80px; /* Altura fija definida en body padding-top */
+}
+
+.header-left .logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+/* Puedes usar un icono o una imagen SVG aquí si prefieres */
+.header-logo-icon {
+    font-size: 2rem; /* Tamaño del icono */
+    margin-right: 10px;
+    color: #d6b5ff; /* Color del icono */
+}
+
+.logo-text {
+    font-size: 1.8rem;
+    font-weight: 700;
+    font-family: 'Orbitron', sans-serif;
+    color: #d6b5ff;
+    text-shadow:
+        0 0 5px #b388ff,
+        0 0 10px #9c27b0,
+        0 0 15px #8a2be2; /* Ajuste de sombra */
+    white-space: nowrap; /* Evita que el texto se rompa */
+}
+
+/* Contenedor principal de la navegación */
+.navbar {
+    display: flex;
+    align-items: center;
+}
+
+.navbar-nav { /* Aplicado al <ul> */
+    list-style: none;
+    display: flex;
+    gap: 2rem; /* Espacio entre links */
+    margin: 0; /* Reseteo */
+    padding: 0; /* Reseteo */
+}
+
+.nav-item { /* Aplicado al <li> */
+    /* Estilos específicos si son necesarios */
+}
+
+.nav-link { /* Aplicado al <a> */
+    text-decoration: none;
+    color: #ddd;
+    font-weight: 600; /* Un poco más grueso */
+    transition: color 0.3s, text-shadow 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 6px; /* Espacio entre icono y texto */
+    font-size: 1rem;
+}
+
+.nav-link:hover,
+.nav-link.active { /* Para resaltar la página actual */
+    color: #fff;
+    text-shadow: 0 0 5px #d6b5ff;
+}
+
+.header-right {
+    display: flex;
+    align-items: center; /* Centra verticalmente */
+    gap: 1.5rem; /* Espacio entre botones/iconos */
+}
+
+/* Botón reutilizable (ya definido en theme.css como .btn-theme, podemos usarlo) */
+/* Si necesitas un estilo específico para el header: */
+.header-btn {
+    padding: 0.6rem 1.2rem; /* Ajuste de padding */
+    font-size: 0.95rem;
+}
+
+/* Estilo para iconos de acción (carrito, usuario) */
+.action-icon {
+    color: #ddd;
+    font-size: 1.5rem; /* Tamaño iconos */
+    transition: color 0.3s, transform 0.2s;
+}
+.action-icon:hover {
+    color: #fff;
+    transform: scale(1.1);
+}
+
+/* Dropdown de Usuario (si se implementa) */
+.user-dropdown {
+    position: relative;
+    display: inline-block;
+}
+.dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    background-color: #16213e;
+    min-width: 160px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.4);
+    z-index: 1;
+    border-radius: 5px;
+    overflow: hidden; /* Para bordes redondeados */
+    margin-top: 10px; /* Espacio desde el icono */
+}
+.dropdown-content a {
+    color: #ddd;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    transition: background-color 0.2s, color 0.2s;
+}
+.dropdown-content a:hover {
+    background-color: #6a0dad;
+    color: #fff;
+}
+.user-dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Menú hamburguesa (para responsive) */
+.menu-toggle {
+    display: none; /* Oculto en escritorio */
+    font-size: 1.8rem;
+    background: none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+}
+
+/* ============================== */
+/* FOOTER               */
+/* ============================== */
+.footer {
+    background-color: #1a1a2e;
+    color: #ccc; /* Color base más claro */
+    padding: 50px 5% 20px; /* Padding ajustado */
+    font-size: 0.95rem;
+    margin-top: auto; /* Empuja el footer hacia abajo */
+    border-top: 3px solid #6a0dad; /* Borde superior morado */
+}
+
+.footer-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Más espacio mínimo */
+    gap: 40px; /* Más espacio */
+    max-width: 1320px;
+    margin: 0 auto;
+    padding-bottom: 30px; /* Espacio antes del bottom */
+}
+
+.footer-section h4 {
+    color: #d6b5ff;
+    font-size: 1.2rem; /* Ligeramente más grande */
+    margin-bottom: 20px;
+    font-family: 'Orbitron', sans-serif;
+    position: relative;
+    padding-bottom: 10px;
+}
+/* Línea decorativa bajo títulos del footer */
+.footer-section h4::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 40px;
+    height: 2px;
+    background-color: #9c27b0;
+}
+
+.footer-section p {
+    color: #bbb; /* Texto un poco más claro */
+    margin-bottom: 10px; /* Espacio entre párrafos */
+}
+
+.footer-section ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-section ul li {
+    margin-bottom: 12px; /* Más espacio entre links */
+}
+
+.footer-section a {
+    color: #bbb;
+    text-decoration: none;
+    transition: color 0.3s, padding-left 0.3s;
+}
+
+.footer-section a:hover {
+    color: #fff;
+    padding-left: 5px; /* Efecto sutil al pasar el mouse */
+}
+
+/* Iconos sociales */
+.social-icons {
+    margin-top: 15px; /* Espacio sobre los iconos */
+}
+.social-icons a {
+    font-size: 1.5rem; /* Iconos más grandes */
+    margin-right: 15px;
+    color: #bbb;
+    transition: color 0.3s, transform 0.3s;
+}
+.social-icons a:hover {
+    color: #d6b5ff; /* Color principal al pasar el mouse */
+    transform: scale(1.2); /* Efecto de zoom */
+}
+
+.footer-bottom {
+    text-align: center;
+    margin-top: 40px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 20px;
+    color: #999; /* Texto más oscuro */
+    font-size: 0.9rem;
+}
+
+/* ============================== */
+/* RESPONSIVE           */
+/* ============================== */
+@media (max-width: 992px) {
+    .navbar-nav {
+        display: none; /* Ocultar menú principal */
+        position: absolute;
+        top: 80px; /* Debajo del header */
+        left: 0;
+        width: 100%;
+        background-color: #16213e; /* Fondo ligeramente diferente */
+        flex-direction: column;
+        padding: 1rem 0;
+        box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+        gap: 0; /* Sin gap vertical */
+    }
+    .navbar-nav.active {
+        display: flex; /* Mostrar menú al activar */
+    }
+    .nav-item {
+        width: 100%;
+        text-align: center;
+    }
+    .nav-link {
+        padding: 1rem; /* Más padding vertical */
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        width: 100%;
+        justify-content: center; /* Centrar icono y texto */
+    }
+    .nav-item:last-child .nav-link {
+        border-bottom: none;
+    }
+    .menu-toggle {
+        display: block; /* Mostrar botón hamburguesa */
+    }
+    .header-right {
+         /* Mantener iconos de carrito/usuario visibles */
+    }
+}
+
+@media (max-width: 768px) {
+    .footer-container {
+        grid-template-columns: 1fr 1fr; /* Dos columnas en tablet */
+    }
+    .header {
+        padding: 1rem 3%;
+    }
+    .logo-text {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .footer-container {
+        grid-template-columns: 1fr; /* Una columna en móvil */
+    }
+    .header-right {
+        gap: 1rem; /* Menos espacio en móvil */
+    }
+    .action-icon {
+        font-size: 1.3rem;
+    }
+    .header-btn {
+        display: none; /* Ocultar botones de registro/login en móvil, usar iconos */
+    }
+}

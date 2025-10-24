@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="/css/theme.css">
+    <link rel="stylesheet" href="/css/header_footer.css">
+
+</head>
+<body>
+
+    <header class="header">
+        <div class="header-left">
+            <a href="/" class="logo">
+                <i class="bi bi-cpu-fill header-logo-icon"></i> <span class="logo-text">TechStore</span>
+            </a>
+        </div>
+
+        <nav class="navbar">
+            <ul class="navbar-nav" id="navbar-list"> <li class="nav-item">
+                    <a class="nav-link active" href="/"><i class="bi bi-house-door-fill"></i> Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/catalogo"><i class="bi bi-grid-3x3-gap-fill"></i> Catálogo</a>
+                </li>
+                <% if (user && (user.rol === 'Admin' || user.rol === 'MainAdmin')) { %>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/dashboard" style="color: #ffc107;"> <i class="bi bi-gear-fill"></i> Panel Admin
+                        </a>
+                    </li>
+                <% } %>
+                </ul>
+        </nav>
+
+<div class="header-right">
+            <% if (user) { %>
+                <a href="/carrito" class="action-icon position-relative" title="Carrito de Compras">
+                    <i class="bi bi-cart-fill"></i>
+                    <% if (locals.cart && cart.items.length > 0) { %>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger cart-badge" id="cart-item-count">
+                            <%= cart.items.length %>
+                            <span class="visually-hidden">items en el carrito</span>
+                        </span>
+                    <% } else { %>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger cart-badge" id="cart-item-count" style="display: none;">0</span>
+                    <% } %>
+                </a>
+            <% } %>
+
+            <% if (user) { %>
+                <div class="user-dropdown">
+                     <a href="#" class="action-icon" title="Mi Cuenta">
+                        <i class="bi bi-person-circle"></i>
+                    </a>
+                    <div class="dropdown-content">
+                        <a href="#">Hola, <%= user.nombre %></a>
+                        <a href="#">Mis Pedidos</a>
+                        <hr style="margin: 5px 0; border-color: rgba(255,255,255,0.2);">
+                        <a href="/logout">Cerrar Sesión</a>
+                    </div>
+                </div>
+            <% } else { %>
+                <a href="/login" class="btn-theme header-btn d-none d-md-inline-flex">Ingresar</a>
+                <a href="/registro" class="btn-theme header-btn d-none d-md-inline-flex" style="background-color: #9c27b0;">Registrarse</a>
+                <a href="/login" class="action-icon d-md-none" title="Iniciar Sesión"><i class="bi bi-box-arrow-in-right"></i></a>
+            <% } %>
+
+            <button class="menu-toggle" id="menu-toggle-btn" aria-label="Toggle navigation">
+                <i class="bi bi-list"></i>
+            </button>
+        </div>
+    </header>
+
+    <main class="container">

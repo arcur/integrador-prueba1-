@@ -1,0 +1,121 @@
+<%- include('partials/header') %>
+
+<% if (locals.error) { %>
+    <div class="alert alert-danger" role="alert" style="margin-top: -20px; margin-bottom: 20px; background-color: rgba(220, 53, 69, 0.8); border: none; color: white;">
+        <i class="bi bi-exclamation-triangle-fill"></i> <%= error %>
+    </div>
+<% } %>
+<% if (locals.success) { %>
+    <div class="alert alert-success" role="alert" style="margin-top: -20px; margin-bottom: 20px; background-color: rgba(25, 135, 84, 0.8); border: none; color: white;">
+        <i class="bi bi-check-circle-fill"></i> <%= success %>
+    </div>
+<% } %>
+
+<h1>
+    <i class="bi bi-grid-3x3-gap-fill"></i>
+    <% if (filtrosActuales.categoria && locals.categorias) { %>
+        <% const catNombre = categorias.find(c => c.id_categoria === filtrosActuales.categoria)?.nombre_categoria || 'Categoría'; %>
+        <%= catNombre %>
+    <% } else if (filtrosActuales.q) { %>
+         Resultados para "<%= filtrosActuales.q %>"
+    <% } else { %>
+        Nuestro Catálogo
+    <% } %>
+</h1>
+<hr style="border-color: rgba(106, 13, 173, 0.5); margin-bottom: 30px;">
+
+<section class="filtros-catalogo-2filas card-theme mb-4">
+    <form action="/catalogo" method="GET" class="form-filtros-catalogo">
+
+        <div class="filter-row">
+            <div class="filter-group search-group">
+                <label for="q" class="visually-hidden">Buscar</label>
+                <div class="input-group input-group-sm">
+                     <input type="search" class="form-control input-theme" id="q" name="q" placeholder="Buscar producto..." value="<%= filtrosActuales.q || '' %>" aria-label="Buscar producto">
+                     <button type="submit" class="btn btn-theme" title="Buscar">
+                         <i class="bi bi-search"></i>
+                     </button>
+                </div>
+            </div>
+
+            <div class="filter-group sort-group">
+                <label for="ordenarPor" class="form-label visually-hidden">Ordenar</label>
+                 <select class="form-select select-theme form-select-sm" id="ordenarPor" name="ordenarPor" title="Ordenar resultados" onchange="this.form.submit()">
+                    <option value="nombre_asc" <%= (filtrosActuales.ordenarPor === 'nombre_asc') ? 'selected' : '' %>>Nombre A-Z</option>
+                    <option value="precio_asc" <%= (filtrosActuales.ordenarPor === 'precio_asc') ? 'selected' : '' %>>Precio Menor</option>
+                    <option value="precio_desc" <%= (filtrosActuales.ordenarPor === 'precio_desc') ? 'selected' : '' %>>Precio Mayor</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="filter-row">
+            <div class="filter-group category-group">
+                <label for="categoria" class="form-label visually-hidden">Categoría</label>
+                <select class="form-select select-theme form-select-sm" id="categoria" name="categoria" title="Filtrar por categoría">
+                    <option value="">Todas las Categorías</option>
+                    <% if(locals.categorias) { categorias.forEach(cat => { %>
+                        <option value="<%= cat.id_categoria %>" <%= (filtrosActuales.categoria === cat.id_categoria) ? 'selected' : '' %>>
+                            <%= cat.nombre_categoria %>
+                        </option>
+                    <% })} %>
+                </select>
+            </div>
+
+            <div class="filter-group price-group">
+                 <label class="form-label visually-hidden">Precio</label>
+                 <div class="input-group input-group-sm">
+                     <span class="input-group-text input-group-text-theme">S/</span>
+                     <input type="number" class="form-control input-theme" name="precioMin" placeholder="Mín" min="0" step="0.01" value="<%= filtrosActuales.precioMin || '' %>" title="Precio mínimo">
+                     <span class="input-group-text input-group-text-theme">-</span>
+                     <input type="number" class="form-control input-theme" name="precioMax" placeholder="Máx" min="0" step="0.01" value="<%= filtrosActuales.precioMax || '' %>" title="Precio máximo">
+                 </div>
+            </div>
+
+            <div class="filter-group button-group">
+                 <button type="submit" class="btn btn-theme btn-sm">
+                    <i class="bi bi-funnel-fill"></i> Aplicar
+                </button>
+                 <a href="/catalogo" class="btn btn-outline-secondary btn-sm" title="Limpiar todos los filtros">
+                     <i class="bi bi-x-lg"></i> Limpiar
+                 </a>
+            </div>
+        </div>
+
+        </form>
+</section>
+<section class="catalogo-productos mt-4">
+    <div class="productos-grid">
+        <% if (!productos || productos.length === 0) { %>
+            <div class="alert-info-theme text-center" style="grid-column: 1 / -1;">
+                <i class="bi bi-emoji-frown"></i> No se encontraron productos que coincidan.
+                <a href="/catalogo" style="display: block; margin-top: 10px;">Mostrar todos los productos</a>
+            </div>
+        <% } else { %>
+            <% productos.forEach(producto => { %>
+                <div class="producto-card card-theme">
+                     <a href="/producto/<%= producto.id_producto %>" class="product-link">
+                        <img src="<%= producto.imagen ? producto.imagen : '/img/placeholder-prod.webp' %>"
+                             alt="<%= producto.nombre_producto %>"
+                             onerror="this.onerror=null; this.src='/img/placeholder-prod.webp';" />
+                    </a>
+                     <h3>
+                        <a href="/producto/<%= producto.id_producto %>" class="product-link">
+                           <%= producto.nombre_producto %>
+                        </a>
+                    </h3>
+
+                     <div class="producto-info mt-auto"> <span class="badge"><%= producto.nombre_categoria %></span>
+                        <p class="precio">S/ <%= producto.precio.toFixed(2) %></p>
+                    </div>
+                    <button type="button" class="btn-theme btn-card mt-2 btn-add-to-cart"
+                            data-product-id="<%= producto.id_producto %>"
+                            data-product-name="<%= producto.nombre_producto %>">
+                         <i class="bi bi-cart-plus"></i> Añadir
+                    </button>
+                </div>
+            <% }) %>
+        <% } %>
+    </div>
+</section>
+
+<%- include('partials/footer') %>

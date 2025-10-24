@@ -1,0 +1,71 @@
+<%- include('partials/admin_header') %>
+
+<% if (locals.success) { %>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="bi bi-check-circle-fill"></i> <%= success %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<% } %>
+<% if (locals.error) { %>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="bi bi-exclamation-triangle-fill"></i> <%= error %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<% } %>
+
+<div class="d-flex justify-content-end mb-3">
+    <a href="/admin/gestion-admins/nuevo" class="btn btn-primary">
+        <i class="bi bi-person-plus-fill"></i> Añadir Nuevo Administrador
+    </a>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-striped table-hover align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col">Código</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Usuario</th>
+                        <th scope="col">Correo</th>
+                        <th scope="col">Rol</th>
+                        <th scope="col">Estado</th>
+                        <th scope="col">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% admins.forEach(admin => { %>
+                        <tr>
+                            <th scope="row"><%= admin.codigo_usuario %></th>
+                            <td><%= admin.nombre %> <%= admin.apellido_paterno %></td>
+                            <td><%= admin.usuario %></td>
+                            <td><%= admin.correo %></td>
+                            <td>
+                                <% if (admin.nombre_rol === 'MainAdmin') { %>
+                                    <span class="badge text-bg-danger"><%= admin.nombre_rol %></span>
+                                <% } else { %>
+                                    <span class="badge text-bg-info"><%= admin.nombre_rol %></span>
+                                <% } %>
+                            </td>
+                            <td>
+                                <% if (admin.nombre_estado === 'Activo') { %>
+                                    <span class="badge text-bg-success"><%= admin.nombre_estado %></span>
+                                <% } else { %>
+                                    <span class="badge text-bg-secondary"><%= admin.nombre_estado %></span>
+                                <% } %>
+                            </td>
+                            <td>
+                                <a href="/admin/gestion-admins/editar/<%= admin.id_usuario %>" class="btn btn-warning btn-sm" title="Editar Rol/Estado">
+                                    <i class="bi bi-pencil-fill"></i>
+                                </a>
+                                </td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<%- include('partials/admin_footer') %>

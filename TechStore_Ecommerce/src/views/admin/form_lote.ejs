@@ -1,0 +1,74 @@
+<%- include('partials/admin_header') %>
+
+<% if (locals.isNewProduct) { %>
+    <div class="alert alert-success" role="alert">
+        <i class="bi bi-check-circle-fill"></i> 
+        ¡Producto creado! Ahora, añade el primer lote de inventario.
+    </div>
+<% } %>
+
+<% if (locals.error) { %>
+    <div class="alert alert-danger" role="alert">
+        <i class="bi bi-exclamation-triangle-fill"></i> <%= error %>
+    </div>
+<% } %>
+
+<h3 class->Añadir Lote para: 
+    <span class="text-primary"><%= producto.nombre_producto %></span>
+</h3>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/admin/productos">Gestión de Productos</a></li>
+      <li class="breadcrumb-item"><a href="/admin/productos/<%= producto.id_producto %>/lotes">Gestión de Lotes</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Añadir Lote</li>
+    </ol>
+</nav>
+
+<div class="row justify-content-center mt-3">
+    <div class="col-lg-6">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <form action="/admin/productos/<%= producto.id_producto %>/lotes/nuevo" method="POST">
+                    
+                    <div class="mb-3">
+                        <label for="id_proveedor" class="form-label">Proveedor (Opcional)</label>
+                        <select class="form-select" id="id_proveedor" name="id_proveedor">
+                            <option value="">-- Seleccionar Proveedor --</option>
+                            <% proveedores.forEach(prov => { %>
+                                <option value="<%= prov.id_proveedor %>">
+                                    <%= prov.nombre_proveedor %>
+                                </option>
+                            <% }) %>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="cantidad_recibida" class="form-label">Cantidad Recibida (Stock)</label>
+                        <input type="number" class="form-control" id="cantidad_recibida" 
+                               name="cantidad_recibida" min="1" step="1" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="precio_compra" class="form-label">Precio de Compra (Costo) (S/)</label>
+                        <input type="number" class="form-control" id="precio_compra" 
+                               name="precio_compra" min="0.01" step="0.01" required>
+                        <div class="form-text">
+                            Este es el costo (cuánto te costó a ti), no el precio de venta.
+                        </div>
+                    </div>
+
+                    <hr>
+                    <div class="d-flex justify-content-end">
+                        <a href="/admin/productos/<%= producto.id_producto %>/lotes" class="btn btn-secondary me-2">Cancelar</a>
+                        <button type="submit" class="btn btn-success">
+                            <i class="bi bi-save-fill"></i> Guardar Lote
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('partials/admin_footer') %>

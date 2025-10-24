@@ -1,0 +1,61 @@
+<%- include('partials/admin_header') %>
+
+<% if (locals.errors && errors.length > 0) { %>
+    <div class="alert alert-danger" role="alert">
+        <h6 class="alert-heading">Por favor, corrige los siguientes errores:</h6>
+        <ul>
+            <% errors.forEach(err => { %>
+                <li><%= err %></li>
+            <% }) %>
+        </ul>
+    </div>
+<% } %>
+
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <form
+                    action="<%= isEditing ? '/admin/proveedores/editar/' + proveedor.id_proveedor : '/admin/proveedores/nuevo' %>"
+                    method="POST">
+
+                    <div class="mb-3">
+                        <label for="nombre_proveedor" class="form-label">Nombre del Proveedor</label>
+                        <input type="text" class="form-control" id="nombre_proveedor" name="nombre_proveedor"
+                               value="<%= locals.proveedor ? proveedor.nombre_proveedor : '' %>" required>
+                    </div>
+
+                    <div class="row g-3">
+                        <div class="col-md-6 mb-3">
+                            <label for="ruc" class="form-label">RUC (Opcional)</label>
+                            <input type="text" class="form-control" id="ruc" name="ruc"
+                                   value="<%= locals.proveedor ? proveedor.ruc : '' %>"
+                                   pattern="[0-9]{11}" title="Debe ser un RUC de 11 dígitos" maxlength="11">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="numero_contacto" class="form-label">Número de Contacto</label>
+                            <input type="tel" class="form-control" id="numero_contacto" name="numero_contacto"
+                                   value="<%= locals.proveedor ? proveedor.numero_contacto : '' %>" maxlength="15">
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="direccion" class="form-label">Dirección</label>
+                        <textarea class="form-control" id="direccion" name="direccion" rows="3"><%= locals.proveedor ? proveedor.direccion : '' %></textarea>
+                    </div>
+
+                    <hr>
+                    <div class="d-flex justify-content-end">
+                        <a href="/admin/proveedores" class="btn btn-secondary me-2">Cancelar</a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-save-fill"></i>
+                            <%= isEditing ? 'Actualizar Proveedor' : 'Guardar Proveedor' %>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('partials/admin_footer') %>

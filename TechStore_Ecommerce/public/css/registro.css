@@ -1,0 +1,255 @@
+/* public/css/registro.css */
+/* (Estilos COMPLETOS y AUTÓNOMOS para la página de registro) */
+
+/* Fuentes */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Orbitron:wght@500;700&family=Poppins:wght@500&display=swap');
+
+/* Reset Básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    /* Usa una imagen específica para registro o la misma de login */
+    background: url("/img/imagen_login_registro.jpg") no-repeat center center fixed;
+    background-size: cover;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1.5rem; /* Padding general por si el box es muy grande */
+}
+
+/* Logo esquina superior izquierda */
+.logo-empresa {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 140px; /* Ajusta según tu logo */
+    height: auto;
+    z-index: 10;
+}
+.logo-empresa img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+/* Contenedor principal */
+.auth-container {
+    width: 100%;
+    max-width: 700px; /* Ancho mayor para el grid de registro */
+}
+
+.auth-box {
+    background: linear-gradient(135deg, rgba(26, 26, 46, 0.92), rgba(22, 33, 62, 0.92));
+    backdrop-filter: blur(10px);
+    padding: 2.5rem 3rem; /* Padding generoso */
+    border-radius: 15px;
+    box-shadow: 0 8px 32px rgba(106, 13, 173, 0.37);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    text-align: center;
+}
+
+.auth-box h2 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2.2rem;
+    color: #ffffff;
+    margin-bottom: 2rem;
+    letter-spacing: 1px;
+    text-shadow: 0 0 10px rgba(214, 181, 255, 0.5);
+}
+
+/* Alertas de error/éxito */
+.alert {
+    padding: 0.8rem 1rem;
+    margin-bottom: 1.5rem; /* Más espacio para alertas en registro */
+    border-radius: 8px;
+    font-size: 0.9rem;
+    text-align: left;
+    display: flex;
+    align-items: flex-start; /* Alinear al inicio por si hay listas */
+    gap: 10px;
+}
+.alert-danger {
+    background-color: rgba(220, 53, 69, 0.2);
+    border: 1px solid rgba(220, 53, 69, 0.5);
+    color: #f8d7da;
+}
+.alert-success { /* (Aunque no se usa mucho en registro, por consistencia) */
+    background-color: rgba(25, 135, 84, 0.2);
+    border: 1px solid rgba(25, 135, 84, 0.5);
+    color: #d1e7dd;
+}
+.alert i {
+    font-size: 1.2rem;
+    margin-top: 2px; /* Alinear icono con texto */
+}
+/* Estilo específico para lista de errores en registro */
+.alert ul {
+    padding-left: 20px; /* Indentación de la lista */
+    margin-top: 5px; /* Espacio sobre la lista */
+    margin-bottom: 0; /* Quitar margen inferior por defecto */
+}
+.alert li {
+    font-size: 0.85rem; /* Texto de error un poco más pequeño */
+    margin-bottom: 3px; /* Espacio entre errores */
+}
+
+
+/* Formulario General */
+.form-group {
+    margin-bottom: 1rem; /* Espacio base entre filas/elementos */
+    text-align: left;
+    position: relative; /* Para icono de contraseña */
+}
+
+label {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    font-size: 0.9rem;
+    color: #e0e0f1;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="tel"],
+input[type="date"] {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    font-size: 1rem;
+    color: #fff;
+    outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+input[type="password"] {
+    padding-right: 3rem; /* Espacio para icono */
+}
+
+input:focus {
+    border-color: #a881e6;
+    box-shadow: 0 0 0 0.2rem rgba(106, 13, 173, 0.25);
+}
+input::placeholder { color: #888; }
+
+/* Icono mostrar/ocultar contraseña */
+.toggle-password {
+    position: absolute;
+    right: 1rem;
+    /* Ajuste vertical preciso:
+       top: 50% (del contenedor .form-group)
+       + altura del label (aprox 1.4em)
+       + margen bajo el label (0.5rem)
+       / 2 (para centrar en el input) -> Es complejo, usar bottom es más fácil */
+    bottom: 0.8rem; /* Distancia desde abajo del input */
+    transform: translateY(0); /* No necesita transform si usamos bottom */
+    cursor: pointer;
+    color: #aaa;
+    font-size: 1.2rem;
+}
+.toggle-password:hover { color: #fff; }
+
+/* Estilo input date */
+input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(0.8);
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+input[type="date"]::-webkit-calendar-picker-indicator:hover {
+    opacity: 1;
+}
+
+/* Botón Principal */
+.btn {
+    width: 100%;
+    background: linear-gradient(90deg, #6a0dad, #9c27b0);
+    color: #fff;
+    border: none;
+    padding: 0.9rem;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    font-family: 'Orbitron', sans-serif;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
+    margin-top: 1.5rem; /* Espacio sobre el botón */
+    box-shadow: 0 4px 15px rgba(106, 13, 173, 0.4);
+}
+
+.btn:hover {
+    background: linear-gradient(90deg, #9c27b0, #6a0dad);
+    transform: scale(1.03);
+    box-shadow: 0 6px 20px rgba(106, 13, 173, 0.6);
+}
+
+/* Enlace para cambiar a Login */
+.switch {
+    margin-top: 1.5rem;
+    font-size: 0.95rem;
+    color: #e6e6f0;
+    font-weight: 500;
+}
+
+.switch a {
+    color: #ff8ab4;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s, text-shadow 0.3s;
+}
+
+.switch a:hover {
+    color: #ff2e63;
+    text-shadow: 0 0 5px #ff2e63;
+}
+
+
+/* ======================================================= */
+/* === ESTILOS ESPECÍFICOS PARA GRID DE REGISTRO === */
+/* ======================================================= */
+.form-registro-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Dos columnas */
+    gap: 1rem 1.5rem; /* Espacio fila columna */
+    margin-bottom: 1.5rem; /* Espacio antes del botón */
+}
+
+/* Hacer que algunos campos ocupen las dos columnas */
+.form-group.full-width {
+    grid-column: 1 / -1; /* Ocupa toda la fila */
+}
+
+/* Responsive para Grid y Box */
+@media (max-width: 650px) { /* Ajustar breakpoint si es necesario */
+    .auth-container {
+        max-width: 95%; /* Permitir que sea casi pantalla completa */
+    }
+    .auth-box {
+        padding: 2rem 1.5rem; /* Menos padding lateral */
+    }
+     .auth-box h2 {
+        font-size: 1.8rem;
+    }
+    .form-registro-grid {
+        grid-template-columns: 1fr; /* Cambia a una columna */
+        gap: 1rem 0; /* Solo espacio vertical */
+    }
+    /* El .full-width ya no es necesario, pero no molesta */
+}
+
+@media (max-width: 400px) {
+    body { padding: 1rem; } /* Menos padding en pantallas muy pequeñas */
+     .auth-box { padding: 1.5rem 1rem; }
+     .auth-box h2 { font-size: 1.6rem; }
+     .btn { font-size: 1rem; padding: 0.8rem; }
+}

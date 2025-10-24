@@ -1,0 +1,72 @@
+<%- include('partials/admin_header') %>
+
+<% if (locals.error) { %>
+    <div class="alert alert-danger" role="alert">
+        <i class="bi bi-exclamation-triangle-fill"></i> <%= error %>
+    </div>
+<% } %>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <form 
+            action="<%= isEditing ? '/admin/productos/editar/' + producto.id_producto : '/admin/productos/nuevo' %>" 
+            method="POST">
+            
+            <div class="row g-3">
+                <div class="col-md-7">
+                    <div class="mb-3">
+                        <label for="nombre_producto" class="form-label">Nombre del Producto</label>
+                        <input type="text" class="form-control" id="nombre_producto" name="nombre_producto"
+                               value="<%= producto ? producto.nombre_producto : '' %>" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="descripcion_producto" class="form-label">Descripción</label>
+                        <textarea class="form-control" id="descripcion_producto" name="descripcion_producto" rows="9"><%= producto ? producto.descripcion_producto : '' %></textarea>
+                    </div>
+                </div>
+
+                <div class="col-md-5">
+                    <div class="mb-3">
+                        <label for="precio" class="form-label">Precio de Venta (S/)</label>
+                        <input type="number" class="form-control" id="precio" name="precio"
+                               value="<%= producto ? producto.precio : '0.00' %>" 
+                               step="0.01" min="0" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="id_categoria" class="form-label">Categoría</label>
+                        <select class="form-select" id="id_categoria" name="id_categoria" required>
+                            <option value="">-- Seleccionar Categoría --</option>
+                            <% categorias.forEach(cat => { %>
+                                <option 
+                                    value="<%= cat.id_categoria %>"
+                                    <%= (producto && producto.id_categoria == cat.id_categoria) ? 'selected' : '' %>>
+                                    <%= cat.nombre_categoria %>
+                                </option>
+                            <% }) %>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="imagen" class="form-label">URL de la Imagen</label>
+                        <input type="text" class="form-control" id="imagen" name="imagen"
+                               value="<%= producto ? producto.imagen : '' %>" 
+                               placeholder="https://via.placeholder.com/300x200.png?text=TechStore">
+                    </div>
+                </div>
+            </div>
+            
+            <hr>
+
+            <div class="d-flex justify-content-end">
+                <a href="/admin/productos" class="btn btn-secondary me-2">Cancelar</a>
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-save-fill"></i> 
+                    <%= isEditing ? 'Actualizar Producto' : 'Guardar Producto' %>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<%- include('partials/admin_footer') %>

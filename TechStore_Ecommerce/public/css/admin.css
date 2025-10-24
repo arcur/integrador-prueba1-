@@ -1,0 +1,50 @@
+/* public/css/admin.css */
+.sidebar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 100;
+    padding: 48px 0 0; /* Altura del navbar */
+    box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+}
+.sidebar-sticky {
+    position: relative;
+    top: 0;
+    height: calc(100vh - 48px);
+    padding-top: .5rem;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+.nav-link {
+    font-weight: 500;
+    color: #333;
+}
+.nav-link i {
+    margin-right: 8px;
+    width: 16px;
+    text-align: center;
+}
+.nav-link.active {
+    color: #0d6efd;
+    font-weight: bold;
+}
+
+[data-bs-theme="dark"] .sidebar .nav-link {
+    color: rgba(255, 255, 255, 0.75); /* Un blanco semitransparente, como el del header */
+}
+
+/* Color para el enlace activo en modo oscuro */
+[data-bs-theme="dark"] .sidebar .nav-link.active {
+    color: #ffffff; /* Blanco brillante para el activo */
+}
+
+/* Color al pasar el mouse (hover) en modo oscuro */
+[data-bs-theme="dark"] .sidebar .nav-link:hover {
+    color: #ffffff; /* Blanco brillante al pasar el mouse */
+}
+
+/* Color para los encabezados H6 (como "Super Admin") en modo oscuro */
+[data-bs-theme="dark"] .sidebar .sidebar-heading {
+    color: rgba(255, 255, 255, 0.5); /* Un gris más claro para los subtítulos */
+}

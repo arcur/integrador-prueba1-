@@ -1,0 +1,189 @@
+/* public/css/login.css */
+
+/* Fuentes (Asegúrate de tenerlas linkeadas en el HTML o importadas) */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Orbitron:wght@500;700&family=Poppins:wght@500&display=swap');
+
+/* Reset Básico */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: 'Inter', sans-serif;
+    /* Imagen de fondo */
+    background: url("/img/imagen_login_registro.jpg") no-repeat center center fixed; /* Asegúrate de tener esta imagen */
+    background-size: cover;
+    min-height: 100vh; /* Usa min-height para asegurar altura */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem; /* Padding por si el box es muy grande */
+}
+
+/* Logo esquina superior izquierda */
+.logo-empresa {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 140px; /* Ajusta según tu logo */
+    height: auto;
+    z-index: 10; /* Encima del fondo */
+}
+.logo-empresa img {
+    display: block; /* Evita espacio extra */
+    width: 100%;
+    height: auto;
+}
+
+
+/* Contenedor principal */
+.auth-container {
+    width: 100%;
+    max-width: 450px; /* Ancho máximo ajustado */
+}
+
+.auth-box {
+    background: linear-gradient(135deg, rgba(26, 26, 46, 0.9), rgba(22, 33, 62, 0.9)); /* Gradiente con transparencia */
+    backdrop-filter: blur(10px); /* Efecto cristal */
+    padding: 2.5rem 2.5rem; /* Padding aumentado */
+    border-radius: 15px; /* Bordes más redondeados */
+    box-shadow: 0 8px 32px rgba(106, 13, 173, 0.37); /* Sombra morada */
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    text-align: center;
+}
+
+.auth-box h2 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2.2rem; /* Más grande */
+    color: #ffffff;
+    margin-bottom: 2rem; /* Más espacio bajo el título */
+    letter-spacing: 1px;
+    text-shadow: 0 0 10px rgba(214, 181, 255, 0.5); /* Sombra clara */
+}
+
+/* Alertas de error/éxito */
+.alert {
+    padding: 0.8rem 1rem;
+    margin-bottom: 1rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    text-align: left; /* Alineación izquierda para alertas */
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.alert-danger {
+    background-color: rgba(220, 53, 69, 0.2);
+    border: 1px solid rgba(220, 53, 69, 0.5);
+    color: #f8d7da;
+}
+.alert-success {
+    background-color: rgba(25, 135, 84, 0.2);
+    border: 1px solid rgba(25, 135, 84, 0.5);
+    color: #d1e7dd;
+}
+.alert i { font-size: 1.2rem; }
+
+
+/* Formulario */
+.form-group {
+    margin-bottom: 1.2rem; /* Espacio estándar */
+    text-align: left;
+    position: relative; /* Para el icono de contraseña */
+}
+
+label {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    font-size: 0.9rem;
+    color: #e0e0f1;
+    margin-bottom: 0.5rem; /* Espacio label-input */
+    display: block;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 0.8rem 1rem; /* Padding generoso */
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    background-color: rgba(0, 0, 0, 0.2); /* Fondo input oscuro */
+    border-radius: 8px;
+    font-size: 1rem;
+    color: #fff; /* Texto blanco */
+    outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+input[type="password"] {
+    padding-right: 3rem; /* Espacio para el icono */
+}
+
+input:focus {
+    border-color: #a881e6; /* Borde morado claro al enfocar */
+    box-shadow: 0 0 0 0.2rem rgba(106, 13, 173, 0.25);
+}
+input::placeholder { color: #888; } /* Placeholder claro */
+
+/* Icono mostrar/ocultar contraseña */
+.toggle-password {
+    position: absolute;
+    right: 1rem; /* Alineado con padding */
+    top: calc(50% + 10px); /* Ajustar verticalmente (considerando el label) */
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #aaa;
+    font-size: 1.2rem; /* Tamaño icono */
+}
+.toggle-password:hover { color: #fff; }
+
+/* Botón Principal */
+.btn {
+    width: 100%;
+    background: linear-gradient(90deg, #6a0dad, #9c27b0); /* Gradiente botón */
+    color: #fff;
+    border: none;
+    padding: 0.9rem; /* Botón más alto */
+    border-radius: 8px;
+    font-size: 1.1rem; /* Texto botón más grande */
+    font-weight: 600;
+    font-family: 'Orbitron', sans-serif; /* Fuente tech */
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
+    margin-top: 1.5rem; /* Más espacio sobre el botón */
+    box-shadow: 0 4px 15px rgba(106, 13, 173, 0.4);
+}
+
+.btn:hover {
+    background: linear-gradient(90deg, #9c27b0, #6a0dad);
+    transform: scale(1.03); /* Efecto hover sutil */
+    box-shadow: 0 6px 20px rgba(106, 13, 173, 0.6);
+}
+
+/* Enlace para cambiar a Registro/Login */
+.switch {
+    margin-top: 1.5rem; /* Más espacio */
+    font-size: 0.95rem;
+    color: #e6e6f0; /* Texto base claro */
+    font-weight: 500;
+}
+
+.switch a {
+    color: #ff8ab4; /* Rosa/Rojo claro para enlace */
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s, text-shadow 0.3s;
+}
+
+.switch a:hover {
+    color: #ff2e63; /* Más brillante al pasar */
+    text-shadow: 0 0 5px #ff2e63;
+}
+
+/* Responsive (Simple) */
+@media (max-width: 500px) {
+    .auth-box {
+        padding: 2rem 1.5rem; /* Menos padding lateral en móvil */
+    }
+    .auth-box h2 {
+        font-size: 1.8rem;
+    }
+}

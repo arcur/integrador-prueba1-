@@ -1,0 +1,68 @@
+<%- include('partials/admin_header') %>
+
+<% if (locals.success) { %>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="bi bi-check-circle-fill"></i> <%= success %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<% } %>
+
+<div class="d-flex justify-content-between align-items-center">
+    <div>
+        <h2 class="h3"><%= producto.nombre_producto %></h2>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="/admin/productos">Gestión de Productos</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Gestión de Lotes</li>
+            </ol>
+        </nav>
+    </div>
+    <a href="/admin/productos/<%= producto.id_producto %>/lotes/nuevo" class="btn btn-success">
+        <i class="bi bi-plus-circle-fill"></i> Añadir Lote (Ingresar Stock)
+    </a>
+</div>
+
+<div class="card shadow-sm mt-3">
+    <div class="card-header">
+        <h5 class="mb-0">Inventario (PEPS / FIFO) - Stock Total: <%= producto.stock %></h5>
+    </div>
+    <div class="card-body">
+        <p>Los lotes se muestran en orden de ingreso. Las ventas descontarán primero de los lotes más antiguos (arriba).</p>
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th scope="col">ID Lote</th>
+                        <th scope="col">Proveedor</th>
+                        <th scope="col">Fecha Ingreso</th>
+                        <th scope="col">Precio Compra (Costo)</th>
+                        <th scope="col">Cant. Recibida</th>
+                        <th scope="col">Cant. Actual</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if (lotes.length === 0) { %>
+                        <tr>
+                            <td colspan="6" class="text-center text-danger">
+                                No hay lotes para este producto. ¡Stock 0!
+                            </td>
+                        </tr>
+                    <% } %>
+                    
+                    <% lotes.forEach(lote => { %>
+                        <tr class_="<%= (lote.cantidad_actual === 0) ? 'table-secondary text-muted' : '' %>">
+                            <th scope="row">#<%= lote.id_lote %></th>
+                            <td><%= lote.nombre_proveedor || 'N/A' %></td>
+                            <td><%= new Date(lote.fecha_ingreso).toLocaleString('es-PE') %></td>
+                            <td>S/ <%= lote.precio_compra.toFixed(2) %></td>
+                            <td><%= lote.cantidad_recibida %></td>
+                            <td class="fw-bold fs-5"><%= lote.cantidad_actual %></td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<%- include('partials/admin_footer') %>

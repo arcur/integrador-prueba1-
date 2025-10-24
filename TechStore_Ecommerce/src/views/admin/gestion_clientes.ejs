@@ -1,0 +1,76 @@
+<%- include('partials/admin_header') %>
+
+<% if (locals.success) { %>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="bi bi-check-circle-fill"></i> <%= success %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<% } %>
+<% if (locals.error) { %>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="bi bi-exclamation-triangle-fill"></i> <%= error %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<% } %>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-striped table-hover align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col">Código</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">DNI</th>
+                        <th scope="col">Correo</th>
+                        <th scope="col">Estado Actual</th>
+                        <th scope="col" style="width: 250px;">Cambiar Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if (clientes.length === 0) { %>
+                        <tr>
+                            <td colspan="6" class="text-center">No hay clientes registrados.</td>
+                        </tr>
+                    <% } %>
+
+                    <% clientes.forEach(cliente => { %>
+                        <tr class="<%= (cliente.nombre_estado === 'Inactivo') ? 'table-secondary text-muted' : '' %>">
+                            <th scope="row"><%= cliente.codigo_usuario %></th>
+                            <td><%= cliente.nombre %> <%= cliente.apellido_paterno %></td>
+                            <td><%= cliente.numero_dni %></td>
+                            <td><%= cliente.correo %></td>
+                            
+                            <td>
+                                <% if (cliente.nombre_estado === 'Activo') { %>
+                                    <span class="badge text-bg-success"><%= cliente.nombre_estado %></span>
+                                <% } else { %>
+                                    <span class="badge text-bg-secondary"><%= cliente.nombre_estado %></span>
+                                <% } %>
+                            </td>
+
+                            <td>
+                                <form action="/admin/clientes/actualizar-estado/<%= cliente.id_usuario %>" method="POST" class="d-flex">
+                                    <select name="id_estado" class="form-select form-select-sm me-2">
+                                        <% states.forEach(estado => { %>
+                                            <option 
+                                                value="<%= estado.id_estado %>"
+                                                <%= (cliente.id_estado == estado.id_estado) ? 'selected' : '' %>>
+                                                <%= estado.nombre_estado %>
+                                            </option>
+                                        <% }) %>
+                                    </select>
+                                    <button type="submit" class="btn btn-primary btn-sm">
+                                        <i class="bi bi-check-lg"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<%- include('partials/admin_footer') %>
