@@ -98,6 +98,9 @@ adminController.actualizarEstadoPedido = async (req, res) => {
 adminController.mostrarGestionProductos = async (req, res) => {
     try {
         const productos = await Producto.getAllForAdmin();
+        // --- ¡AÑADIR ESTE LOG PARA DIAGNÓSTICO! ---
+        console.log('Valor de "productos" recibido del modelo:', productos);
+        // --- FIN DEL LOG ---
         const stockBajo = productos.filter(p => p.stock > 0 && p.stock <= 10);
         res.render('admin/gestion_productos', {
             title: 'Gestión de Productos',

@@ -112,34 +112,71 @@ carritoController.eliminarDelCarrito = (req, res) => {
     res.redirect('/carrito');
 };
 
+
+
 /**
- * (Opcional pero recomendado) Actualiza la cantidad
- * (POST /carrito/actualizar)
+ * Actualiza la cantidad (POST /carrito/actualizar) en sesión y BD.
+ * (CORREGIDO - Usa sessionCart consistentemente)
  */
-carritoController.actualizarCantidad = (req, res) => {
+carritoController.actualizarCantidad = async (req, res) => {
     const { id_producto, cantidad } = req.body;
     const id = parseInt(id_producto, 10);
     const cant = parseInt(cantidad, 10);
+    const dbCartId = req.session.dbCartId;
     
-   
-    const item = cart.items.find(i => i.id_producto === id);
+    // --- USA sessionCart aquí ---
+    const sessionCart = inicializarCarrito(req); 
+    // --- FIN ---
 
-    if (item && cant > 0) {
-        // Validar contra el stock disponible que guardamos
-        if (cant > item.stock_disponible) {
-            // (Aquí podríamos enviar un error, pero por ahora solo lo ajustamos al máximo)
-            item.cantidad = item.stock_disponible;
-        } else {
-            item.cantidad = cant;
-        }
-    } else if (item && cant <= 0) {
-        // Si la cantidad es 0 o menos, lo eliminamos
-        cart.items = cart.items.filter(i => i.id_producto !== id);
+    // --- USA sessionCart aquí ---
+    const item = sessionCart.items.find(i => i.id_producto === id);
+    // --- FIN ---
+
+    if (!item) {
+        req.flash('error_msg', 'Producto no encontrado en el carrito.');
+        return res.redirect('/carrito');
     }
-    
+
+    let cantidadFinal = cant;
+    let debeEliminarse = false;
+
+    // Validar cantidad y ajustar
+    if (cantidadFinal <= 0) {
+        cantidadFinal = 0;
+        debeEliminarse = true;
+    } else if (cantidadFinal > item.stock_disponible) {
+        cantidadFinal = item.stock_disponible;
+        req.flash('error_msg', `Stock máximo para ${item.nombre_producto} es ${item.stock_disponible}.`);
+    }
+
+    // Actualizar/Eliminar en Sesión (Usa sessionCart)
+    if (debeEliminarse) {
+        sessionCart.items = sessionCart.items.filter(i => i.id_producto !== id);
+    } else {
+        item.cantidad = cantidadFinal;
+    }
+    recalcularTotal(sessionCart);
+
+    // Actualizar/Eliminar en BD
+    if (dbCartId) {
+        try {
+            if (debeEliminarse) {
+                console.log(`[Update Cart Qty -> Remove] User: ${req.session.user.id_usuario}, DB Cart ID: ${dbCartId}, Product: ${id}`);
+                await Carrito.removeItem(dbCartId, id);
+            } else {
+                console.log(`[Update Cart Qty -> Upsert] User: ${req.session.user.id_usuario}, DB Cart ID: ${dbCartId}, Product: ${id}, New Qty: ${cantidadFinal}`);
+                await Carrito.upsertItem(dbCartId, id, cantidadFinal, item.stock_disponible);
+            }
+        } catch (dbError) {
+             console.error(`[Update Cart Qty] DB Error User: ${req.session.user.id_usuario}, Cart: ${dbCartId}, Prod: ${id}:`, dbError);
+             req.flash('error_msg', 'Error al guardar cambio en base de datos.');
+        }
+    }
+
     res.redirect('/carrito');
 };
 
+// ... (resto de funciones y module.exports) ...
 carritoController.agregarAlCarritoAPI = async (req, res) => {
     // isAuth ya verificó que el usuario está logueado
     const id_producto = parseInt(req.params.id, 10); // Asegurar que sea número
