@@ -8,83 +8,86 @@
         </a>
     </div>
     <div class="card-body">
-        
-        <div class="row g-4">
-            <div class="col-md-6">
-                <h6>Datos del Cliente</h6>
-                <ul class="list-group">
-                    <li class="list-group-item">
-                        <strong>Nombre:</strong> <%= pedido.nombre %> <%= pedido.apellido_paterno %>
-                    </li>
-                    <li class="list-group-item">
-                        <strong>DNI:</strong> <%= pedido.numero_dni %>
-                    </li>
-                    <li class="list-group-item">
-                        <strong>Correo:</strong> <%= pedido.correo %>
-                    </li>
-                    <li class="list-group-item">
-                        <strong>Teléfono:</strong> <%= pedido.telefono %>
-                    </li>
-                </ul>
-            </div>
-            
-            <div class="col-md-6">
-                <h6>Datos del Pedido</h6>
-                <ul class="list-group">
-                    <li class="list-group-item">
-                        <strong>Fecha:</strong> <%= new Date(pedido.fecha).toLocaleString('es-PE') %>
-                    </li>
-                    <li class="list-group-item">
-                        <strong>Estado:</strong> 
-                        <% if (pedido.estado === 'Pendiente') { %>
-                            <span class="badge text-bg-warning fs-6"><%= pedido.estado %></span>
-                        <% } else if (pedido.estado === 'Pagado') { %>
-                            <span class="badge text-bg-success fs-6"><%= pedido.estado %></span>
-                        <% } else if (pedido.estado === 'Enviado') { %>
-                            <span class="badge text-bg-info fs-6"><%= pedido.estado %></span>
-                        <% } else { %>
-                            <span class="badge text-bg-danger fs-6"><%= pedido.estado %></span>
-                        <% } %>
-                    </li>
-                    <li class="list-group-item list-group-item-dark">
-                        <strong class="fs-5">Total Pagado: S/ <%= pedido.total.toFixed(2) %></strong>
-                    </li>
-                </ul>
-            </div>
+
+        <div class="row g-3 mb-4 bg-light text-dark p-3 rounded"> <div class="col-md-3"> <strong>Pedido #:</strong> <%= pedido.id_pedido %> </div>
+             <div class="col-md-4"> <strong>Fecha:</strong> <%= new Date(pedido.fecha).toLocaleString('es-PE', {dateStyle: 'medium', timeStyle: 'short'}) %> </div>
+             <div class="col-md-2"> <strong>Estado:</strong>
+                 <% if (pedido.estado === 'Pendiente') { %> <span class="badge text-bg-warning"><%= pedido.estado %></span>
+                 <% } else if (pedido.estado === 'Pagado') { %> <span class="badge text-bg-success"><%= pedido.estado %></span>
+                 <% } else if (pedido.estado === 'Enviado') { %> <span class="badge text-bg-info"><%= pedido.estado %></span>
+                 <% } else { %> <span class="badge text-bg-danger"><%= pedido.estado %></span> <% } %>
+             </div>
+             <div class="col-md-3 text-end"> <strong>Total: S/ <%= pedido.total.toFixed(2) %></strong> </div>
         </div>
 
-        <hr class="my-4">
+        <div class="row g-4 mb-4">
+            <div class="col-md-4">
+                <h6><i class="bi bi-person-fill"></i> Datos del Cliente</h6>
+                <p class="mb-1"><strong>Nombre:</strong> <%= pedido.nombre %> <%= pedido.apellido_paterno %></p>
+                <p class="mb-1"><strong>DNI:</strong> <%= pedido.numero_dni || 'N/A' %></p>
+                <p class="mb-1"><strong>Correo:</strong> <%= pedido.correo || 'N/A' %></p>
+                <p class="mb-0"><strong>Teléfono:</strong> <%= pedido.telefono || 'N/A' %></p>
+            </div>
+            <div class="col-md-4">
+                <h6><i class="bi bi-truck"></i> Envío</h6>
+                 <p class="mb-1"><strong>Dirección:</strong></p>
+                 <p class="mb-1"><%= pedido.direccion_envio || '(No especificada)' %></p>
+                 <p class="mb-1"><strong>Estado Envío:</strong> (Aún no implementado)</p>
+            </div>
+             <div class="col-md-4">
+                <h6><i class="bi bi-credit-card-fill"></i> Pago</h6>
+                 <p class="mb-1"><strong>Método:</strong> <%= pedido.metodo_pago || '(No registrado)' %></p>
+                 <p class="mb-1"><strong>Comprobante:</strong> <%= pedido.tipo_comprobante %></p>
+                 </div>
+        </div>
 
-        <h6>Productos en este Pedido</h6>
-        <div class="table-responsive">
-            <table class="table align-middle">
-                <thead class="table-light">
+        <hr>
+
+        <h6 class="mt-4"><i class="bi bi-box-seam"></i> Productos en este Pedido</h6>
+        <div class="table-responsive mt-3">
+            <table class="table table-sm table-bordered align-middle"> <thead class="table-light">
                     <tr>
                         <th scope="col">Producto</th>
-                        <th scope="col">Precio Venta (Unit.)</th>
-                        <th scope="col">Costo (Unit.)</th>
-                        <th scope="col" class="text-center">Cantidad</th>
+                        <th scope="col" class="text-end">Precio Venta</th>
+                        <th scope="col" class="text-end">Costo Unit.</th> <th scope="col" class="text-center">Cantidad</th>
                         <th scope="col" class="text-end">Subtotal Venta</th>
-                    </tr>
+                        <th scope="col" class="text-end">Subtotal Costo</th> </tr>
                 </thead>
                 <tbody>
+                    <% let costoTotalPedido = 0; %>
                     <% detalles.forEach(item => { %>
+                        <% const subtotalCosto = item.costo_unitario * item.cantidad; %>
+                        <% costoTotalPedido += subtotalCosto; %>
                         <tr>
                             <td>
-                                <div class="d-flex align-items-center">
-                                    <img src="<%= item.imagen ? item.imagen : 'https://via.placeholder.com/80x80.png?text=Tech' %>" 
-                                         alt="<%= item.nombre_producto %>" 
-                                         style="width: 60px; height: 60px; object-fit: cover; margin-right: 15px;">
-                                    <span class="fw-bold"><%= item.nombre_producto %></span>
+                                <div class="d-flex align-items-center gap-2">
+                                    <img src="<%= item.imagen ? item.imagen : 'https://via.placeholder.com/40x40.png?text=?' %>"
+                                         alt="" style="width: 40px; height: 40px; object-fit: contain;">
+                                    <span><%= item.nombre_producto %></span>
                                 </div>
                             </td>
-                            <td>S/ <%= item.precio_unitario.toFixed(2) %></td>
-                            <td class="text-danger">S/ <%= item.costo_unitario.toFixed(2) %></td>
+                            <td class="text-end">S/ <%= item.precio_unitario.toFixed(2) %></td>
+                            <td class="text-end text-danger">S/ <%= item.costo_unitario.toFixed(2) %></td>
                             <td class="text-center"><%= item.cantidad %></td>
                             <td class="text-end fw-bold">S/ <%= (item.precio_unitario * item.cantidad).toFixed(2) %></td>
+                            <td class="text-end text-danger">S/ <%= subtotalCosto.toFixed(2) %></td>
                         </tr>
                     <% }) %>
                 </tbody>
+                 <tfoot>
+                    <tr class="table-light fw-bold">
+                        <td colspan="4" class="text-end">Totales:</td>
+                        <td class="text-end">S/ <%= pedido.total.toFixed(2) %></td>
+                        <td class="text-end text-danger">S/ <%= costoTotalPedido.toFixed(2) %></td>
+                    </tr>
+                    <tr class="table-light fw-bold">
+                            <td colspan="4" class="text-end border-0">Margen Bruto Estimado:</td>
+                            <td colspan="2" class="text-end border-0 <%= (pedido.total - costoTotalPedido >= 0) ? 'text-success' : 'text-danger' %>">
+                                S/ <%= (pedido.total - costoTotalPedido).toFixed(2) %>
+                                (<%= (pedido.total > 0 ? ((pedido.total - costoTotalPedido) / pedido.total * 100).toFixed(1) : 0) %>%)
+                            </td>
+                        </tr>
+                </tfoot>
             </table>
         </div>
 

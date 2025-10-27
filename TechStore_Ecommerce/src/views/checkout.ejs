@@ -1,69 +1,94 @@
 <%- include('partials/header') %>
 
+<%# --- Declarar 'perfil' al inicio para que esté disponible --- %>
+<% let perfil = locals.perfil || {}; /* Usar objeto vacío como fallback */ %>
+<%# --- Fin Declaración --- %>
+
+
 <h1>
-    <i class="bi bi-shield-check-fill"></i> Confirmar Pedido
+    <i class="bi bi-shield-check-fill"></i> Confirmar Datos y Proceder al Pago
 </h1>
 <hr style="border-color: rgba(106, 13, 173, 0.5); margin-bottom: 30px;">
 
-<div class="checkout-layout">
+<% if (locals.error_msg && error_msg.length > 0) { %>
+    <div class="alert alert-danger alert-dismissible fade show flash-alert" role="alert">
+        <i class="bi bi-exclamation-triangle-fill"></i> <%= error_msg %>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<% } %>
 
-    <section class="checkout-resumen card-theme">
-        <h4>Resumen de tu Carrito</h4>
-        <ul class="list-group list-group-flush resumen-lista mt-3">
+<form action="/pedido/procesar" method="POST">
+    <div class="checkout-layout">
 
-            <% carrito.items.forEach(item => { %>
-                <li class="list-group-item d-flex justify-content-between lh-sm">
-                    <div>
-                        <h6 class="my-0"><%= item.nombre_producto %></h6>
-                        <small class="text-muted">Cantidad: <%= item.cantidad %></small>
-                    </div>
-                    <span class="text-muted">S/ <%= (item.precio * item.cantidad).toFixed(2) %></span>
+        <section class="checkout-resumen card-theme">
+            <h4><i class="bi bi-basket3-fill"></i> Resumen de tu Carrito</h4>
+            <ul class="list-group list-group-flush resumen-lista mt-3 mb-4">
+                <% carrito.items.forEach(item => { %>
+                    <li class="list-group-item d-flex justify-content-between lh-sm">
+                        <div>
+                            <h6 class="my-0"><%= item.nombre_producto %></h6>
+                            <small class="text-muted">Cantidad: <%= item.cantidad %></small>
+                        </div>
+                        <span class="text-muted">S/ <%= (item.precio * item.cantidad).toFixed(2) %></span>
+                    </li>
+                <% }) %>
+                <li class="list-group-item d-flex justify-content-between total-row">
+                    <strong class="fs-5">Total</strong>
+                    <strong class="fs-5">S/ <%= carrito.total.toFixed(2) %></strong>
                 </li>
-            <% }) %>
+            </ul>
+             <a href="/carrito" class="btn btn-sm btn-outline-secondary mb-4">
+                 <i class="bi bi-pencil-fill"></i> Modificar Carrito
+             </a>
 
-            <li class="list-group-item d-flex justify-content-between total-row">
-                <strong class="fs-5">Total</strong>
-                <strong class="fs-5">S/ <%= carrito.total.toFixed(2) %></strong>
-            </li>
-        </ul>
-        <a href="/carrito" class="btn btn-sm btn-outline-secondary mt-3">
-            <i class="bi bi-pencil-fill"></i> Modificar Carrito
-        </a>
-    </section>
+             <hr style="border-color: rgba(255, 255, 255, 0.2);">
 
-    <section class="checkout-datos card-theme">
-        <h4>Datos de Entrega y Pago</h4>
+            <div class="tipo-comprobante mt-4">
+                <h5><i class="bi bi-receipt"></i> Tipo de Comprobante</h5>
+                 <div class="form-check">
+                    <input class="form-check-input" type="radio" name="tipo_comprobante" id="boleta" value="Boleta" checked>
+                    <label class="form-check-label" for="boleta">
+                        Boleta
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="tipo_comprobante" id="factura" value="Factura">
+                    <label class="form-check-label" for="factura">
+                        Factura (Próximamente: RUC)
+                    </label>
+                </div>
+            </div>
+        </section>
 
-        <div class="datos-cliente mb-4">
-            <h5><i class="bi bi-person-fill"></i> Cliente</h5>
-            <p class="mb-1"><strong>Nombre:</strong> <%= user.nombre %></p>
-            <% if (locals.userData) { %> <p class="mb-1"><strong>Correo:</strong> <%= userData.correo %></p>
-                 <p class="mb-1"><strong>DNI:</strong> <%= userData.numero_dni %></p>
-            <% } %>
-        </div>
-         <hr style="border-color: rgba(255, 255, 255, 0.2);">
+        <section class="checkout-datos card-theme">
+            <h4><i class="bi bi-truck"></i> Datos de Entrega</h4>
 
-        <div class="direccion-envio my-4">
-            <h5><i class="bi bi-truck"></i> Dirección de Envío</h5>
-            <p class="text-muted small mb-2">(Función de dirección de envío aún no implementada)</p>
-            <input type="text" class="form-control input-theme" placeholder="Ej: Av. La Molina 123, Lima" disabled>
-             </div>
-         <hr style="border-color: rgba(255, 255, 255, 0.2);">
+             <div class="datos-cliente mb-4">
+                <h6>Destinatario:</h6>
+                <p class="mb-1"><%= user.nombre %></p>
+            </div>
 
-        <div class="metodo-pago my-4">
-            <h5><i class="bi bi-credit-card-fill"></i> Método de Pago</h5>
-            <p class="text-muted small mb-2">(Selección de pago aún no implementada)</p>
-            <select class="form-select select-theme" disabled>
-                <option>Pago contra entrega (Temporal)</option>
-                </select>
-             </div>
+            <div class="direccion-envio mb-3">
+                <label for="direccion_envio" class="form-label profile-edit-label">Dirección de Envío Completa</label>
+                <textarea class="form-control input-theme" id="direccion_envio" name="direccion_envio" rows="3" required placeholder="Ej: Av. La Molina 123, Dpto 405, La Molina, Lima"><%= locals.formData?.direccion_envio || '' %></textarea> <div class="form-text text-muted small">Incluye calle, número, distrito, ciudad.</div>
+            </div>
 
-        <form action="/pedido/procesar" method="POST" class="d-grid"> <button type="submit" class="btn-theme btn-lg">
-                <i class="bi bi-bag-check-fill"></i>
-                Confirmar y Finalizar Pedido
-            </button>
-        </form>
-    </section>
-</div>
+            <div class="telefono-envio mb-4">
+                <label for="telefono_contacto" class="form-label profile-edit-label">Teléfono de Contacto (para envío)</label>
+                <input type="tel" class="form-control input-theme" id="telefono_contacto" name="telefono_contacto" required placeholder="Ej: 987654321" value="<%= locals.formData?.telefono_contacto || perfil?.telefono || '' %>"> </div>
+
+
+            <div class="d-grid mt-4">
+                <button type="submit" class="btn-theme btn-lg">
+                     <i class="bi bi-arrow-right-circle-fill"></i> Continuar al Pago
+                </button>
+            </div>
+             <p class="text-muted small text-center mt-3">
+                 Al continuar, tu pedido se creará como 'Pendiente'. Tendrás 5 horas para completar el pago.
+             </p>
+
+        </section>
+    </div>
+</form>
 
 <%- include('partials/footer') %>

@@ -8,7 +8,7 @@ const catalogoController = {};
 /**
  * Controlador ÚNICO para mostrar el catálogo (filtrado, buscado, ordenado).
  * Lee los parámetros desde req.query.
- */
+ 
 catalogoController.mostrarCatalogo = async (req, res) => {
     try {
         // 1. Extraer parámetros de la URL (req.query)
@@ -65,7 +65,58 @@ catalogoController.mostrarCatalogo = async (req, res) => {
         console.error('Error al mostrar el catálogo:', error);
         res.status(500).send('Error interno del servidor al cargar catálogo.');
     }
+};*/
+
+catalogoController.mostrarCatalogo = async (req, res) => {
+    try {
+        const { categoria, precioMin, precioMax, q, ordenarPor } = req.query;
+        const options = { 
+               categoriaId: categoria ? parseInt(categoria, 10) : null,
+            precioMin: precioMin ? parseFloat(precioMin) : null,
+            precioMax: precioMax ? parseFloat(precioMax) : null,
+            searchTerm: q || null, // 'q' es común para search query
+            sortBy: ordenarPor || 'nombre_asc' // Orden por defecto
+        };
+        const [productos, categorias] = await Promise.all([  Producto.getFilteredSortedProducts(options), // Usamos la nueva función versátil
+            Producto.getAllCategories()]);
+
+        let titulo = 'Nuestro Catálogo - TechStore';
+        let categoriaActivaNombre = 'Todas';
+        
+        if (options.categoriaId) {
+            const catActiva = categorias.find(c => c.id_categoria === options.categoriaId);
+            if (catActiva) {
+                titulo = `${catActiva.nombre_categoria} - Catálogo`;
+                categoriaActivaNombre = catActiva.nombre_categoria;
+            }
+        }
+        if (options.searchTerm) {
+             titulo = `Resultados para "${options.searchTerm}" - Catálogo`
+        }
+
+        res.render('catalogo', {
+            title: titulo,
+            productos: productos,
+            categorias: categorias,
+            filtrosActuales: {  
+                categoria: options.categoriaId,
+                precioMin: options.precioMin,
+                precioMax: options.precioMax,
+                q: options.searchTerm,
+                ordenarPor: options.sortBy
+            },
+            // ¡NUEVO! Pasar query a la vista para el header
+            query: req.query,
+            categoriaActivaNombre: categoriaActivaNombre,
+            error: req.query.error || null,
+            success: req.query.success || null
+        });
+    } catch (error) {
+        console.error('Error al mostrar el catálogo:', error);
+        res.status(500).send('Error interno del servidor al cargar catálogo.');
+    }
 };
+
 
 // Ya no necesitamos mostrarCatalogoPorCategoria
 

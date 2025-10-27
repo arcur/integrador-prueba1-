@@ -1,0 +1,75 @@
+<%- include('partials/header') %>
+
+<% if (locals.success_msg && success_msg.length > 0) { %>
+    <div class="alert alert-success alert-dismissible fade show flash-alert" role="alert">
+        <i class="bi bi-check-circle-fill"></i> <%= success_msg %>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<% } %>
+<% if (locals.error_msg && error_msg.length > 0) { %>
+    <div class="alert alert-danger alert-dismissible fade show flash-alert" role="alert">
+        <i class="bi bi-exclamation-triangle-fill"></i> <%= error_msg %>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<% } %>
+
+<h1><i class="bi bi-person-circle"></i> Mi Cuenta</h1>
+<hr style="border-color: rgba(106, 13, 173, 0.5); margin-bottom: 30px;">
+
+<div class="row g-4 mi-cuenta-layout"> <div class="col-lg-7"> <div class="card-theme h-100">
+            <h4>Información Personal</h4>
+            <ul class="profile-info-list mt-3"> <li>
+                    <strong>Código Cliente:</strong> <span><%= perfil.codigo_usuario %></span>
+                </li>
+                <li>
+                    <strong>Nombre Completo:</strong> <span><%= perfil.nombre %> <%= perfil.apellido_paterno %> <%= perfil.apellido_materno %></span>
+                </li>
+                <li>
+                    <strong>Usuario:</strong> <span><%= perfil.usuario %></span>
+                </li>
+                 <li>
+                    <strong>DNI:</strong> <span><%= perfil.numero_dni || 'No registrado' %></span>
+                </li>
+                 <li>
+                    <strong>Teléfono:</strong> <span><%= perfil.telefono || 'No registrado' %></span>
+                </li>
+                <li>
+                    <strong>Correo Electrónico:</strong> <a href="mailto:<%= perfil.correo %>"><%= perfil.correo %></a>
+                </li>
+                <li>
+                    <strong>Miembro desde:</strong> <span><%= new Date(perfil.fecha_registro).toLocaleDateString('es-PE', { year: 'numeric', month: 'long', day: 'numeric'}) %></span> </li>
+                 <li>
+                    <strong>Estado Cuenta:</strong>
+                     <% if (perfil.nombre_estado === 'Activo') { %>
+                        <span class="badge text-bg-success"><%= perfil.nombre_estado %></span>
+                    <% } else { %>
+                        <span class="badge text-bg-secondary"><%= perfil.nombre_estado %></span>
+                    <% } %>
+                </li>
+            </ul>
+            <a href="/editar-perfil" class="btn btn-outline-theme mt-4 btn-sm"> <i class="bi bi-pencil-fill"></i> Editar Perfil
+            </a>
+        </div>
+    </div>
+
+    <div class="col-lg-5"> <div class="card-theme h-100">
+             <h4>Accesos Rápidos</h4>
+             <ul class="action-list mt-3"> <li> <a href="/mis-pedidos" class="list-group-item-action"> <i class="bi bi-box-seam-fill"></i> Mis Pedidos
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="list-group-item-action disabled">
+                        <i class="bi bi-geo-alt-fill"></i> Mis Direcciones (Próximamente)
+                    </a>
+                </li>
+                 <li>
+                    <a href="#" class="list-group-item-action disabled">
+                        <i class="bi bi-shield-lock-fill"></i> Cambiar Contraseña (Próximamente)
+                    </a>
+                 </li>
+             </ul>
+        </div>
+    </div>
+</div>
+
+<%- include('partials/footer') %>
