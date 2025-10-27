@@ -1,4 +1,4 @@
-/* css/style_mis_pedidos.css (Actualizado para la nueva estructura HTML) */
+/* css/style_mis_pedidos.css (Actualizado para iconos en 'Entregado' y pulso verde) */
 
 /* ============================================== */
 /* === ESTILOS PARA MIS PEDIDOS === */
@@ -17,7 +17,7 @@
 .stepper-wrapper {
     display: flex;
     justify-content: space-between;
-    margin: 3rem 0 2rem 0; /* Margen para el stepper */
+    margin: 3rem 0 2rem 0; 
     list-style-type: none;
     padding: 0;
     position: relative;
@@ -40,9 +40,9 @@
     content: "";
     border-bottom: 3px solid var(--bs-border-color); 
     width: 100%;
-    top: 20px; /* Posiciona la línea en el centro del círculo (40px / 2) */
+    top: 20px; 
     left: -50%;
-    z-index: 1; /* Detrás del círculo */
+    z-index: 1; 
 }
 [data-bs-theme="dark"] .stepper-item::before {
     border-bottom-color: var(--bs-gray-700);
@@ -54,33 +54,32 @@
 }
 
 /* ============================================== */
-/* === ESTILOS DEL CÍRCULO DEL STEPPER (NUEVO) === */
+/* === ESTILOS DEL CÍRCULO DEL STEPPER === */
 /* ============================================== */
 .stepper-circle {
-    position: relative; /* Posición normal en el flujo */
+    position: relative; 
     width: 40px;
     height: 40px;
     border-radius: 50%;
     background-color: var(--bs-secondary-bg);
     border: 3px solid var(--bs-border-color);
-    z-index: 2; /* Encima de la línea */
-    margin-bottom: 0.5rem; /* Espacio entre círculo y texto */
+    z-index: 2; 
+    margin-bottom: 0.5rem; 
     
-    /* Centrar el ícono <i> que está dentro */
     display: flex; 
     justify-content: center;
     align-items: center;
-    font-size: 1.25rem;
+    font-size: 1.25rem; /* Tamaño base del ícono */
     font-weight: bold;
     line-height: 1;
-    color: var(--bs-gray-500); /* Color del ícono por defecto */
+    color: var(--bs-gray-500); 
 }
 [data-bs-theme="dark"] .stepper-circle {
     background-color: var(--bs-gray-700);
     border-color: var(--bs-gray-700);
 }
 
-/* --- 1. ESTADO: COMPLETADO (Verde) --- */
+/* --- 1. ESTADO: COMPLETADO (Verde - por defecto) --- */
 .stepper-item.completed {
     color: var(--bs-success); 
 }
@@ -90,14 +89,16 @@
 .stepper-item.completed .stepper-circle {
     background-color: var(--bs-success); 
     border-color: var(--bs-success); 
-    color: white; /* Color del ícono 'check' */
+    color: white; /* Color del ícono (check, tienda, camión) */
+    /* CAMBIO: Eliminado content: "✓" */
 }
 
 /* --- 2. ESTADO: ACTIVO (Base) --- */
 .stepper-item.active .stepper-circle {
     background-color: var(--bs-body-bg);
-    animation: pulse 1.5s infinite; 
+    animation: pulse 1.5s infinite; /* Animación base (se sobrescribe por color) */
 }
+/* La línea anterior a un paso activo debe estar completada (verde por defecto) */
 .stepper-item.active::before {
      border-bottom: 3px solid var(--bs-success); 
 }
@@ -108,9 +109,10 @@
 }
 .stepper-item.active.step-tienda .stepper-circle {
     border-color: var(--bs-info);
-    color: var(--bs-info); /* Color del ícono 'tienda' */
+    color: var(--bs-info); 
     animation-name: pulse-info; 
 }
+/* La línea anterior a "En Tienda" no existe, no necesita color */
 
 /* --- 4. MODIFICADOR: En Camino (Amarillo) --- */
 .stepper-item.active.step-camino {
@@ -118,8 +120,36 @@
 }
 .stepper-item.active.step-camino .stepper-circle {
     border-color: var(--bs-warning);
-    color: var(--bs-warning); /* Color del ícono 'camión' */
+    color: var(--bs-warning); 
     animation-name: pulse-warning; 
+}
+/* Línea anterior a "En Camino" debe ser amarilla */
+.stepper-item.active.step-camino::before {
+     border-bottom: 3px solid var(--bs-warning); 
+}
+
+/* --- 5. MODIFICADOR: Entregado (Verde - con pulso) --- */
+/* CAMBIO: Aplicar animación al último paso completado */
+.stepper-item.completed.step-entregado .stepper-circle {
+    animation: pulse-success 1.5s infinite;
+}
+/* La línea anterior a "Entregado" (cuando está activo) es amarilla */
+.stepper-item.active.step-entregado::before { /* Aunque no lo usamos activo, es buena práctica */
+     border-bottom: 3px solid var(--bs-warning);
+}
+
+
+/* --- Reglas para estado "En Camino" (pasos anteriores amarillos) --- */
+.stepper-item.completed.step-camino {
+    color: var(--bs-warning); 
+}
+.stepper-item.completed.step-camino::before {
+    border-bottom: 3px solid var(--bs-warning); 
+}
+.stepper-item.completed.step-camino .stepper-circle {
+    background-color: var(--bs-warning); 
+    border-color: var(--bs-warning); 
+    color: var(--bs-dark); /* Color oscuro para ícono sobre amarillo */
 }
 
 
@@ -133,6 +163,12 @@
     0% { box-shadow: 0 0 0 0 rgba(13, 202, 240, 0.7); }
     70% { box-shadow: 0 0 0 10px rgba(13, 202, 240, 0); }
     100% { box-shadow: 0 0 0 0 rgba(13, 202, 240, 0); }
+}
+/* CAMBIO: Nueva animación de pulso verde */
+@keyframes pulse-success {
+    0% { box-shadow: 0 0 0 0 rgba(25, 135, 84, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(25, 135, 84, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(25, 135, 84, 0); }
 }
 
 /* ============================================== */
@@ -179,4 +215,19 @@
 }
 [data-bs-theme="light"] .stepper-item.active::before {
     border-bottom-color: var(--bs-success);
+}
+[data-bs-theme="light"] .stepper-item.active.step-camino::before {
+    border-bottom-color: var(--bs-warning);
+}
+[data-bs-theme="light"] .stepper-item.completed.step-camino {
+    color: var(--bs-warning-text-emphasis);
+}
+[data-bs-theme="light"] .stepper-item.completed.step-camino .stepper-circle {
+    background-color: var(--bs-warning);
+    border-color: var(--bs-warning);
+    color: var(--bs-dark);
+}
+/* CAMBIO: Pulso verde en modo claro */
+[data-bs-theme="light"] .stepper-item.completed.step-entregado .stepper-circle {
+    animation-name: pulse-success; 
 }
