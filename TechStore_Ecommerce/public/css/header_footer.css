@@ -1,7 +1,8 @@
 /* public/css/header_footer.css */
+/* (VERSIÓN FINAL COMPLETA - Incluye Base + Búsqueda + Responsive Corregido) */
 
 /* ============================== */
-/* HEADER               */
+/* HEADER                       */
 /* ============================== */
 .header {
     background-color: #1a1a2e; /* Azul oscuro/morado base */
@@ -9,141 +10,203 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem 5%; /* Ajuste de padding lateral */
+    padding: 0 5%; /* Padding lateral, vertical se controla con height */
     position: fixed;
-    top: 0;
-    left: 0; /* Asegura que empiece desde la izquierda */
-    width: 100%;
+    top: 0; left: 0; width: 100%;
     z-index: 1000;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4); /* Sombra más pronunciada */
-    height: 80px; /* Altura fija definida en body padding-top */
+    height: 80px; /* Altura fija */
 }
 
-.header-left .logo {
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-}
+/* Izquierda: Logo */
+.header-left { flex-shrink: 0; } /* Evita que el logo se encoja */
+.header-left .logo { display: flex; align-items: center; text-decoration: none; }
+.header-logo-icon { font-size: 2rem; margin-right: 10px; color: #d6b5ff; }
+.logo-text { font-size: 1.8rem; font-weight: 700; font-family: 'Orbitron', sans-serif; color: #d6b5ff; text-shadow: 0 0 5px #b388ff, 0 0 10px #9c27b0, 0 0 15px #8a2be2; white-space: nowrap; }
 
-/* Puedes usar un icono o una imagen SVG aquí si prefieres */
-.header-logo-icon {
-    font-size: 2rem; /* Tamaño del icono */
-    margin-right: 10px;
-    color: #d6b5ff; /* Color del icono */
-}
-
-.logo-text {
-    font-size: 1.8rem;
-    font-weight: 700;
-    font-family: 'Orbitron', sans-serif;
-    color: #d6b5ff;
-    text-shadow:
-        0 0 5px #b388ff,
-        0 0 10px #9c27b0,
-        0 0 15px #8a2be2; /* Ajuste de sombra */
-    white-space: nowrap; /* Evita que el texto se rompa */
-}
-
-/* Contenedor principal de la navegación */
+/* Centro: Navegación y Búsqueda */
 .navbar {
+    flex-grow: 1; /* Ocupa el espacio central */
     display: flex;
     align-items: center;
+    justify-content: flex-end; /* Alinea contenido (búsqueda + nav) a la derecha por defecto */
+    margin: 0 1.5rem; /* Margen para separar de logo y acciones */
+    overflow: hidden; /* Evita desbordamiento */
 }
 
-.navbar-nav { /* Aplicado al <ul> */
+/* Búsqueda */
+.header-search-form {
+    display: flex;
+    max-width: 400px; /* Ancho máximo */
+    width: 100%; /* Ocupa espacio disponible */
+    margin-right: 2rem; /* Espacio antes de los links de nav (en escritorio) */
+}
+.header-search-form .form-control { /* Usar clases de theme.css */ }
+.header-search-form .btn-theme { /* Usar clases de theme.css */ }
+/* Ajustes visuales para unir input y botón */
+.header-search-form .input-theme {
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+    flex-grow: 1; /* Input ocupa espacio */
+    font-size: 0.9rem; padding: 0.4rem 0.75rem; /* Tamaño SM */
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    border-color: rgba(255, 255, 255, 0.2) !important; color: #fff !important;
+}
+.header-search-form .input-theme:focus { background-color: rgba(255, 255, 255, 0.2) !important; border-color: #d6b5ff !important; }
+.header-search-form .input-theme::placeholder { color: #aaa; }
+.header-search-form .btn-theme {
+    border-top-left-radius: 0; border-bottom-left-radius: 0;
+    padding: 0.4rem 0.8rem; font-size: 0.9rem; flex-shrink: 0; /* Botón no se encoge */
+}
+.header-search-form .btn-theme i { margin: 0; }
+
+/* Navegación Principal (UNA SOLA LISTA) */
+.navbar-nav {
     list-style: none;
-    display: flex;
-    gap: 2rem; /* Espacio entre links */
-    margin: 0; /* Reseteo */
-    padding: 0; /* Reseteo */
+    display: flex; /* Horizontal por defecto */
+    gap: 1.8rem; /* Espacio entre links */
+    margin: 0; padding: 0;
+    flex-shrink: 0; /* Evita que los links se encojan demasiado */
 }
-
-.nav-item { /* Aplicado al <li> */
-    /* Estilos específicos si son necesarios */
-}
-
-.nav-link { /* Aplicado al <a> */
-    text-decoration: none;
-    color: #ddd;
-    font-weight: 600; /* Un poco más grueso */
+.nav-item { /* ... */ }
+.nav-link {
+    text-decoration: none; color: #ddd; font-weight: 600;
     transition: color 0.3s, text-shadow 0.3s;
-    display: flex;
-    align-items: center;
-    gap: 6px; /* Espacio entre icono y texto */
-    font-size: 1rem;
+    display: flex; align-items: center; gap: 6px; font-size: 1rem;
+    white-space: nowrap; /* Evita que links se rompan */
 }
+.nav-link:hover, .nav-link.active { color: #fff; text-shadow: 0 0 5px #d6b5ff; }
+.nav-link.admin-link { color: #ffdf7e; /* Amarillo para admin link */ }
+.nav-link.admin-link:hover { color: #ffc107; text-shadow: 0 0 5px #ffc107; }
 
-.nav-link:hover,
-.nav-link.active { /* Para resaltar la página actual */
-    color: #fff;
-    text-shadow: 0 0 5px #d6b5ff;
-}
 
+/* Derecha: Acciones */
 .header-right {
-    display: flex;
-    align-items: center; /* Centra verticalmente */
-    gap: 1.5rem; /* Espacio entre botones/iconos */
+    display: flex; align-items: center; gap: 1.5rem;
+    flex-shrink: 0; /* Evita que se encojan */
 }
-
-/* Botón reutilizable (ya definido en theme.css como .btn-theme, podemos usarlo) */
-/* Si necesitas un estilo específico para el header: */
-.header-btn {
-    padding: 0.6rem 1.2rem; /* Ajuste de padding */
-    font-size: 0.95rem;
-}
-
-/* Estilo para iconos de acción (carrito, usuario) */
+.header-btn { padding: 0.6rem 1.2rem; font-size: 0.95rem; }
+.register-btn { background-color: #8a2be2; /* Morado más brillante para registro */ }
+.register-btn:hover { background-color: #9c27b0; }
 .action-icon {
     color: #ddd;
-    font-size: 1.5rem; /* Tamaño iconos */
+    font-size: 1.5rem;
     transition: color 0.3s, transform 0.2s;
+    text-decoration: none; /* Asegura que no haya subrayado */
 }
-.action-icon:hover {
-    color: #fff;
-    transform: scale(1.1);
+.action-icon:hover { color: #fff; transform: scale(1.1); }
+.action-icon .badge { /* Estilo badge carrito */
+    font-size: 0.65em; /* Más pequeño */
+    padding: 0.25em 0.4em;
+    vertical-align: top; /* Alinear arriba del icono */
 }
 
-/* Dropdown de Usuario (si se implementa) */
-.user-dropdown {
-    position: relative;
-    display: inline-block;
-}
+/* Dropdown Usuario */
+.user-dropdown { position: relative; display: inline-block; }
 .dropdown-content {
-    display: none;
-    position: absolute;
-    right: 0;
-    background-color: #16213e;
-    min-width: 160px;
+    display: none; position: absolute; right: 0;
+    background-color: #16213e; min-width: 180px; /* Un poco más ancho */
     box-shadow: 0 8px 16px rgba(0,0,0,0.4);
-    z-index: 1;
-    border-radius: 5px;
-    overflow: hidden; /* Para bordes redondeados */
-    margin-top: 10px; /* Espacio desde el icono */
+    z-index: 1001; /* Encima del header si es necesario */
+    border-radius: 5px; overflow: hidden;
+    margin-top: 10px; /* Espacio */
+    padding: 5px 0; /* Padding vertical interno */
 }
 .dropdown-content a {
-    color: #ddd;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
+    color: #ddd; padding: 10px 16px; /* Ajuste padding */
+    text-decoration: none; display: block;
     transition: background-color 0.2s, color 0.2s;
+    font-size: 0.95rem; /* Tamaño texto dropdown */
 }
-.dropdown-content a:hover {
-    background-color: #6a0dad;
-    color: #fff;
-}
-.user-dropdown:hover .dropdown-content {
-    display: block;
+.dropdown-content a:hover { background-color: #6a0dad; color: #fff; }
+.dropdown-content hr { border-color: rgba(255,255,255,0.2) !important; margin: 5px 0 !important; }
+.user-dropdown:hover .dropdown-content { display: block; }
+
+
+/* Botón Hamburguesa */
+.menu-toggle {
+    display: none; /* Oculto por defecto */
+    font-size: 2rem;
+    background: none; border: none; color: #fff;
+    cursor: pointer; padding: 5px; line-height: 1;
+    margin-left: 5px;
 }
 
-/* Menú hamburguesa (para responsive) */
-.menu-toggle {
-    display: none; /* Oculto en escritorio */
-    font-size: 1.8rem;
-    background: none;
-    border: none;
-    color: #fff;
-    cursor: pointer;
+
+/* ============================== */
+/* === RESPONSIVE HEADER ======== */
+/* ============================== */
+@media (max-width: 1100px) { /* Reducir espacio */
+    .navbar { margin: 0 1rem; }
+    .navbar-nav { gap: 1.2rem; }
+    .header-right { gap: 1rem; }
+    .header-search-form { max-width: 300px; margin-right: 1rem; }
 }
+
+@media (max-width: 991.98px) { /* Breakpoint menú móvil */
+    .navbar {
+        /* Estilos del contenedor desplegable */
+        position: fixed; /* Cambiado a fixed para cubrir todo */
+        top: 80px; /* Debajo del header */
+        left: -100%; /* Oculto */
+        width: 100%;
+        height: calc(100vh - 80px);
+        background-color: rgba(22, 33, 62, 0.98);
+        backdrop-filter: blur(5px);
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        padding: 2rem 1rem;
+        transition: left 0.4s ease-in-out;
+        margin: 0;
+        overflow-y: auto;
+        z-index: 999; /* Debajo del header principal */
+    }
+    .navbar.active {
+        left: 0; /* Mostrar */
+    }
+
+    /* Búsqueda dentro del menú móvil */
+    .header-search-form {
+        max-width: 90%;
+        margin: 0 auto 2rem auto; /* Centrada */
+        order: 1; /* Búsqueda primero */
+    }
+
+    /* Lista de navegación en móvil */
+    .navbar-nav {
+        display: flex !important; /* Asegurar que se muestre en el menú */
+        flex-direction: column;
+        gap: 0;
+        width: 100%;
+        text-align: center;
+        order: 2; /* Links después */
+    }
+    .nav-item { width: 100%; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+    .nav-item:last-child { border-bottom: none; }
+    .nav-link { padding: 1rem; justify-content: center; font-size: 1.1rem; width: 100%; }
+
+    /* Mostrar botón hamburguesa */
+    .menu-toggle { display: block; }
+}
+
+@media (max-width: 768px) {
+    .header { padding: 0 3%; }
+    .logo-text { font-size: 1.5rem; }
+    .header-logo-icon { font-size: 1.8rem; }
+}
+
+@media (max-width: 480px) {
+    .header-right { gap: 0.8rem; /* Menos espacio */ }
+    .action-icon { font-size: 1.3rem; }
+    .header-btn { display: none; } /* Ocultar botones texto */
+    .navbar { padding: 1.5rem 1rem; } /* Menos padding menú móvil */
+    .header-search-form { max-width: 100%; margin-bottom: 1.5rem; }
+}
+
+
+@media (max-width: 768px) { .footer-container { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 480px) { .footer-container { grid-template-columns: 1fr; } }
 
 /* ============================== */
 /* FOOTER               */

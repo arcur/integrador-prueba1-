@@ -1,0 +1,65 @@
+<%- include('partials/header') %>
+
+<% if (locals.error_msg && error_msg.length > 0) { %>
+    <div class="alert alert-danger alert-dismissible fade show flash-alert" role="alert">
+        <i class="bi bi-exclamation-triangle-fill"></i> <%= error_msg %>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<% } %>
+
+<h1><i class="bi bi-box-seam-fill"></i> Mis Pedidos</h1>
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/mi-cuenta">Mi Cuenta</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Mis Pedidos</li>
+  </ol>
+</nav>
+<hr style="border-color: rgba(106, 13, 173, 0.5); margin-bottom: 30px;">
+
+<div class="card-theme p-3">
+    <div class="table-responsive">
+        <table class="table table-pedidos-cliente align-middle">
+            <thead>
+                <tr>
+                    <th scope="col">Pedido #</th> <th scope="col">Fecha</th>
+                    <th scope="col">Estado</th>
+                    <th scope="col" class="text-center">Total</th>
+                    <th scope="col" class="text-center">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% if (!pedidos || pedidos.length === 0) { %>
+                    <tr>
+                        <td colspan="5" class="text-center py-4">
+                            <i class="bi bi-info-circle fs-3"></i><br>
+                            Aún no has realizado ningún pedido.
+                        </td>
+                    </tr>
+                <% } else { %>
+                    <% pedidos.forEach(pedido => { %>
+                        <tr>
+                            <th scope="row" data-label="Pedido #">#<%= pedido.id_pedido %></th>
+                            <td data-label="Fecha"><%= new Date(pedido.fecha).toLocaleDateString('es-PE', { year: 'numeric', month: 'short', day: 'numeric'}) %></td>
+                            <td data-label="Estado">
+                                <% if (pedido.estado === 'Pendiente') { %> <span class="badge text-bg-warning"><%= pedido.estado %></span>
+                                <% } else if (pedido.estado === 'Pagado') { %> <span class="badge text-bg-success"><%= pedido.estado %></span>
+                                <% } else if (pedido.estado === 'Enviado') { %> <span class="badge text-bg-info"><%= pedido.estado %></span>
+                                <% } else { %> <span class="badge text-bg-danger"><%= pedido.estado %></span> <% } %>
+                            </td>
+                            <td data-label="Total" class="text-end fw-bold">S/ <%= pedido.total.toFixed(2) %></td>
+                       <td data-label="Acciones" class="text-center">
+                                <a href="/mis-pedidos/<%= pedido.id_pedido %>"
+                                   class="btn btn-sm btn-outline-light"
+                                   title="Ver Detalle del Pedido #<%= pedido.id_pedido %>">
+                                    <i class="bi bi-eye-fill"></i> Ver
+                                </a>
+                                </td>
+                        </tr>
+                    <% }) %>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<%- include('partials/footer') %>

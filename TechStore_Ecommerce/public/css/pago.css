@@ -1,0 +1,103 @@
+/* public/css/pago.css */
+/* Estilos Específicos para la página de Pago y Checkout */
+
+/* === AJUSTES DE LAYOUT ESPECÍFICO DE PAGO === */
+.row.justify-content-center {
+    /* Centrar en pantallas grandes */
+    margin: 0 auto;
+}
+
+/* === ESTILOS PÁGINA DE PAGO (V3 - Corregido Layout) === */
+.payment-methods {
+    list-style: none; /* Quitar viñetas */
+    padding-left: 0;
+}
+
+.payment-methods .list-group-item {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+    color: #ccc;
+    margin-bottom: 10px;
+    border-radius: 8px !important;
+    padding: 1rem 1.25rem;
+    cursor: pointer;
+    transition: background-color 0.3s, border-color 0.3s;
+    
+    /* Flexbox manual: Asegura que los items se distribuyan */
+    display: flex;
+    align-items: flex-start; /* Alinear arriba */
+    gap: 10px; /* Espacio entre el radio button y el texto */
+}
+
+.payment-methods .list-group-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: rgba(106, 13, 173, 0.5);
+}
+
+/* Radio button (Checkmark) */
+.payment-methods .list-group-item .form-check-input {
+    margin-top: 0.1em;
+    cursor: pointer;
+    transform: scale(1.1);
+    flex-shrink: 0; /* No se encoge */
+}
+
+/* Contenedor principal de Texto (Span que contiene título y descripción) */
+.payment-methods .list-group-item > span { 
+     display: flex;
+     flex-direction: column; /* Apila Título y Descripción */
+     flex-grow: 1; /* Ocupa el espacio restante */
+     line-height: 1.2;
+}
+
+/* Icono y Título del método */
+.payment-methods .list-group-item span > span:first-child { 
+    display: flex;
+    align-items: center; /* Alineación horizontal */
+    font-weight: 600;
+    color: #e0e0e0;
+    font-size: 1.05rem;
+    margin-bottom: 3px;
+}
+
+.payment-methods .list-group-item i {
+    color: #d6b5ff;
+    margin-right: 10px;
+    width: 22px;
+    font-size: 1.2em;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+/* Descripción (small) */
+.payment-methods .list-group-item small {
+    font-size: 0.85em;
+    font-weight: 400;
+    color: #aaa;
+    line-height: 1.3;
+    display: block; /* Asegura que la descripción esté en su propia línea */
+}
+
+/* Estilo cuando está seleccionado */
+.payment-methods .list-group-item:has(input:checked) {
+     background-color: rgba(106, 13, 173, 0.3);
+     border-color: #6a0dad;
+     box-shadow: 0 0 10px rgba(106, 13, 173, 0.3);
+}
+.payment-methods .list-group-item:has(input:checked) span,
+.payment-methods .list-group-item:has(input:checked) span > span:first-child,
+.payment-methods .list-group-item:has(input:checked) i {
+    color: #fff;
+}
+.payment-methods .list-group-item:has(input:checked) small { color: #ddd; }
+
+/* Botón verde pagar (Estilo que aplica solo aquí) */
+.btn-success {
+    background: linear-gradient(90deg, #198754, #157347); /* Gradiente verde */
+    border: none; box-shadow: 0 4px 15px rgba(25, 135, 84, 0.4);
+    font-family: 'Orbitron', sans-serif; letter-spacing: 1px;
+}
+.btn-success:hover {
+    background: linear-gradient(90deg, #157347, #198754);
+    transform: scale(1.03); box-shadow: 0 6px 20px rgba(25, 135, 84, 0.6);
+}

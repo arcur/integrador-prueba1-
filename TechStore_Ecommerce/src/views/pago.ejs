@@ -1,0 +1,89 @@
+<%- include('partials/header') %>
+
+<% if (locals.error_msg && error_msg.length > 0) { %>
+    <div class="alert alert-danger alert-dismissible fade show flash-alert" role="alert">
+        <i class="bi bi-exclamation-triangle-fill"></i> <%= error_msg %>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<% } %>
+
+<h1><i class="bi bi-credit-card-2-front-fill"></i> Realizar Pago</h1>
+<p class="lead text-muted">Estás a punto de pagar tu pedido #<%= pedido.id_pedido %></p>
+<hr style="border-color: rgba(106, 13, 173, 0.5); margin-bottom: 30px;">
+
+<script>
+    // Se recomienda añadir esto en el <head> de la plantilla
+    document.addEventListener('DOMContentLoaded', () => {
+        const head = document.getElementsByTagName('head')[0];
+        const link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = '/css/pago.css'; // <-- ENLACE AL NUEVO CSS
+        head.appendChild(link);
+    });
+</script>
+
+
+
+<div class="row justify-content-center">
+    <div class="col-md-7">
+        <div class="card-theme p-4">
+            <h4 class="text-center mb-4">Monto a Pagar:
+                <span style="color: #4dff94; font-size: 1.5em;">S/ <%= pedido.total.toFixed(2) %></span>
+            </h4>
+
+            <p class="text-center text-warning mb-4">
+                <i class="bi bi-clock-fill"></i> Tienes hasta el
+                <strong><%= fechaLimiteFormateada %></strong> para completar el pago.
+            </p>
+
+            <form action="/pago/<%= pedido.id_pedido %>/procesar" method="POST">
+                <div class="mb-4">
+                    <label class="form-label profile-edit-label mb-3">Selecciona tu método de pago simulado:</label>
+
+                    <div class="list-group payment-methods">
+                        <label class="list-group-item d-flex gap-3">
+                            <input class="form-check-input flex-shrink-0" type="radio" name="metodo_pago" id="pagoTarjeta" value="Tarjeta" checked>
+                            <span>
+                                <i class="bi bi-credit-card-fill"></i> Tarjeta de Crédito/Débito
+                                <small class="d-block text-muted">Simulación: Se aprobará automáticamente.</small>
+                            </span>
+                        </label>
+                        <label class="list-group-item d-flex gap-3">
+                            <input class="form-check-input flex-shrink-0" type="radio" name="metodo_pago" id="pagoYape" value="Yape">
+                             <span>
+                                <i class="bi bi-phone-fill"></i> Yape
+                                <small class="d-block text-muted">Simulación: Se aprobará automáticamente.</small>
+                             </span>
+                        </label>
+                         <label class="list-group-item d-flex gap-3">
+                            <input class="form-check-input flex-shrink-0" type="radio" name="metodo_pago" id="pagoPlin" value="Plin">
+                             <span>
+                                <i class="bi bi-phone-vibrate-fill"></i> Plin
+                                 <small class="d-block text-muted">Simulación: Se aprobará automáticamente.</small>
+                             </span>
+                        </label>
+                         <label class="list-group-item d-flex gap-3">
+                            <input class="form-check-input flex-shrink-0" type="radio" name="metodo_pago" id="pagoEfectivo" value="Efectivo">
+                             <span>
+                                <i class="bi bi-cash-coin"></i> Efectivo (Pago contra entrega)
+                                 <small class="d-block text-muted">Simulación: Se marcará como pagado.</small>
+                             </span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="d-grid mt-4">
+                    <button type="submit" class="btn btn-success btn-lg"> <i class="bi bi-check-circle-fill"></i> Confirmar Pago Simulado
+                    </button>
+                </div>
+                 <div class="text-center mt-3">
+                     <a href="/mis-pedidos/<%= pedido.id_pedido %>" class="btn btn-sm btn-outline-secondary">Cancelar y volver al pedido</a>
+                 </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<%- include('partials/footer') %>

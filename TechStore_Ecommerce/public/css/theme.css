@@ -69,7 +69,6 @@ main.container {
     white-space: nowrap; /* Evita que el texto del botón se rompa */
 }
 .btn-theme:hover { background-color: #9c27b0; transform: scale(1.05); color: #fff; }
-.btn-theme i { /* No necesita margen si usamos gap */ }
 
 .card-theme {
     background-color: rgba(26, 26, 46, 0.7);
@@ -192,6 +191,11 @@ main.container { /* ... (Sin cambios) ... */ }
 .input-theme::placeholder { /* ... (Sin cambios) ... */ }
 .select-theme { /* ... (Sin cambios) ... */ }
 .select-theme option { /* ... (Sin cambios) ... */ }
+
+
+
+
+
 .input-group-text-theme { /* Para precios */
      background-color: rgba(0, 0, 0, 0.4);
      border: 1px solid rgba(106, 13, 173, 0.7);
@@ -671,3 +675,390 @@ a.related-link:hover h3 { /* Cambia color título al pasar sobre imagen/título 
     }
     .carrito-resumen { position: static; } /* Quitar sticky */
 }
+
+/* public/css/theme.css */
+
+/* ... (Todo tu CSS anterior) ... */
+
+/* ============================== */
+/* === ESTILOS PÁGINA MI CUENTA === */
+/* ============================== */
+.profile-info-list .list-group-item {
+    background-color: transparent;
+    border-color: rgba(255, 255, 255, 0.1);
+    color: #ccc;
+    padding: 12px 0; /* Solo padding vertical */
+}
+.profile-info-list .list-group-item strong {
+    color: #fff;
+    min-width: 150px; /* Alineación */
+    display: inline-block;
+}
+.profile-info-list .list-group-item:last-child {
+    border-bottom: none;
+}
+.profile-info-list .badge { /* Estilo badge estado cuenta */
+     font-size: 0.9em;
+     padding: 0.4em 0.7em;
+}
+
+.action-list .list-group-item {
+    background-color: rgba(255, 255, 255, 0.05); /* Fondo sutil para acciones */
+    border-color: rgba(255, 255, 255, 0.1);
+    color: #d6b5ff; /* Color enlace */
+    margin-bottom: 10px; /* Espacio entre acciones */
+    border-radius: 6px !important; /* Bordes redondeados */
+    font-weight: 600;
+    transition: background-color 0.3s, transform 0.2s;
+}
+.action-list .list-group-item i {
+    margin-right: 10px;
+    font-size: 1.1em;
+    vertical-align: middle;
+}
+.action-list .list-group-item:hover {
+    background-color: rgba(106, 13, 173, 0.3); /* Morado hover */
+    color: #fff;
+    transform: translateX(5px);
+}
+.action-list .list-group-item.disabled {
+    background-color: rgba(255, 255, 255, 0.03);
+    color: #888;
+    pointer-events: none; /* No se puede hacer clic */
+}
+/* public/css/theme.css */
+
+/* ... (Todo tu CSS anterior: reset, body, hero, ..., reportes) ... */
+
+/* ===================================== */
+/* === ESTILOS PÁGINA MI CUENTA (V2) === */
+/* ===================================== */
+
+/* Ajustes generales para las tarjetas en mi cuenta */
+.mi-cuenta-layout .card-theme {
+    padding: 25px 30px; /* Un poco más de padding */
+    height: 100%; /* Asegura que ambas columnas tengan la misma altura si están en fila */
+}
+.mi-cuenta-layout h4 {
+    font-size: 1.5rem; /* Título de sección más grande */
+    padding-bottom: 10px;
+    margin-bottom: 25px;
+    border-bottom: 1px solid rgba(106, 13, 173, 0.5); /* Separador */
+}
+
+/* Lista de Información Personal */
+.profile-info-list {
+    list-style: none; /* Quitar viñetas si las hubiera */
+    padding-left: 0; /* Quitar padding por defecto */
+}
+.profile-info-list li {
+    background-color: transparent !important; /* Sobreescribir list-group */
+    border: none !important; /* Sobreescribir list-group */
+    padding: 10px 0; /* Espaciado vertical */
+    display: flex; /* Para alinear label y valor */
+    flex-wrap: wrap; /* Permitir que envuelva en móvil */
+    gap: 10px; /* Espacio entre label y valor */
+    font-size: 1rem;
+    color: #ccc;
+    border-bottom: 1px dashed rgba(255, 255, 255, 0.1); /* Separador punteado sutil */
+}
+.profile-info-list li:last-child {
+    border-bottom: none; /* Sin borde en el último */
+}
+.profile-info-list strong {
+    color: #fff;
+    min-width: 160px; /* Ancho fijo para la etiqueta (ajustar si es necesario) */
+    flex-shrink: 0; /* Evita que la etiqueta se encoja */
+}
+.profile-info-list span,
+.profile-info-list a { /* Para el correo */
+    color: #e0e0e0; /* Valor en blanco */
+    word-break: break-word; /* Evita desbordamiento de correo/usuario largo */
+}
+.profile-info-list .badge { /* Estilo badge estado cuenta */
+     font-size: 0.9em;
+     padding: 0.4em 0.8em;
+     vertical-align: middle; /* Alinear mejor con el texto */
+}
+
+/* Lista de Acciones Rápidas */
+.action-list {
+     list-style: none;
+     padding-left: 0;
+}
+.action-list a.list-group-item-action {
+    display: block; /* Ocupa todo el ancho */
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(106, 13, 173, 0.4); /* Borde morado más sutil */
+    color: #d6b5ff;
+    margin-bottom: 12px;
+    padding: 15px 20px; /* Más padding */
+    border-radius: 8px !important;
+    font-weight: 600;
+    font-size: 1.05rem; /* Ligeramente más grande */
+    transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+    display: flex; /* Alinear icono y texto */
+    align-items: center;
+}
+.action-list a.list-group-item-action i {
+    margin-right: 12px;
+    font-size: 1.3em;
+    width: 25px; /* Ancho fijo para icono */
+    text-align: center;
+    color: #9c27b0; /* Icono morado oscuro */
+    transition: color 0.3s;
+}
+.action-list a.list-group-item-action:hover {
+    background-color: rgba(106, 13, 173, 0.5); /* Morado hover */
+    color: #fff;
+    transform: translateX(8px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+.action-list a.list-group-item-action:hover i {
+    color: #fff; /* Icono blanco en hover */
+}
+.action-list a.list-group-item-action.disabled {
+    background-color: rgba(255, 255, 255, 0.03);
+    color: #777; /* Gris más oscuro */
+    border-color: rgba(255, 255, 255, 0.1);
+    pointer-events: none;
+}
+.action-list a.list-group-item-action.disabled i {
+    color: #777;
+}
+
+/* Botón Editar Perfil (deshabilitado) */
+.mi-cuenta-layout .btn[disabled] {
+    background-color: transparent;
+    border-color: #555;
+    color: #777;
+    cursor: not-allowed;
+}
+
+/* ======================================= */
+/* === ESTILOS PÁGINA MIS PEDIDOS (V2) === */
+/* ======================================= */
+
+/* Breadcrumb estilo oscuro (revisado) */
+.breadcrumb {
+    background: none !important;
+    padding-left: 0 !important;
+    margin-bottom: 0.5rem; /* Menos espacio bajo breadcrumb */
+}
+.breadcrumb-item a { color: #d6b5ff; font-weight: 500; }
+.breadcrumb-item a:hover { color: #fff; }
+.breadcrumb-item.active { color: #aaa; } /* Más claro */
+
+/* Tabla de Pedidos Cliente */
+.table-pedidos-cliente {
+    color: #e0e0e0;
+    border: none;
+    margin-bottom: 0;
+    border-collapse: separate;
+    border-spacing: 0 5px;
+    width: 100%; 
+}
+.table-pedidos-cliente thead th {
+    color: #d6b5ff;
+    border: none !important; /* Sin bordes */
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    background-color: transparent !important; 
+    padding: 10px 12px;
+    text-align: center; /* Alinear centro por defecto */
+}
+.table-pedidos-cliente thead th.text-end,
+.table-pedidos-cliente thead th.text-center {
+     text-align: right !important; /* Forzar alineación */
+}
+.table-pedidos-cliente thead th.text-center {
+    text-align: center !important;
+}
+
+
+.table-pedidos-cliente tbody tr {
+    background-color: rgba(255, 255, 255, 0.05); /* Fondo fila sutil */
+    border-radius: 6px; /* Bordes redondeados por fila (si border-collapse es separate) */
+    transition: background-color 0.3s;
+    outline: 1px solid rgba(255, 255, 255, 0.1); /* Borde sutil */
+    text-align: center;
+}
+.table-pedidos-cliente tbody tr:hover {
+    background-color: rgba(255, 255, 255, 0.1); /* Resaltar fila al pasar */
+}
+.table-pedidos-cliente td, .table-pedidos-cliente th[scope="row"] {
+    vertical-align: middle;
+    padding: 15px 12px; /* Más padding vertical */
+    border: none !important; /* Sin bordes internos */
+}
+.table-pedidos-cliente tbody th[scope="row"] { /* ID Pedido */
+    font-weight: bold;
+    color: #fff;
+}
+
+.table-pedidos-cliente .badge {
+    font-size: 0.9em;
+    padding: 0.5em 0.8em; /* Badges más grandes */
+    font-weight: 600;
+}
+.table-pedidos-cliente .badge.text-bg-warning { background-color: #ffc107; color: #333; } /* Ajustar colores si es necesario */
+.table-pedidos-cliente .badge.text-bg-success { background-color: #198754; }
+.table-pedidos-cliente .badge.text-bg-info { background-color: #0dcaf0; color: #333;}
+.table-pedidos-cliente .badge.text-bg-danger { background-color: #dc3545; }
+
+/* Botón "Ver" (Outline theme) */
+.table-pedidos-cliente .btn-outline-light {
+    color: #ccc;
+    border-color: #777;
+    padding: 0.3rem 0.8rem;
+    font-size: 0.85rem;
+    transition: all 0.3s;
+}
+.table-pedidos-cliente .btn-outline-light:hover {
+    color: #1a1a2e; /* Texto oscuro */
+    background-color: #ccc;
+    border-color: #ccc;
+}
+.table-pedidos-cliente .btn-outline-light.disabled {
+    opacity: 0.5;
+}
+
+/* Responsive para Tablas */
+@media (max-width: 768px) {
+    .table-pedidos-cliente thead {
+        display: none; /* Ocultar cabecera */
+    }
+    .table-pedidos-cliente tr {
+        display: block; /* Convertir fila en bloque */
+        margin-bottom: 15px;
+        border-radius: 8px;
+        outline: 1px solid rgba(255, 255, 255, 0.15);
+    }
+    .table-pedidos-cliente td {
+        display: flex; /* Usar flex para alinear label y valor */
+        justify-content: space-between; /* Poner valor a la derecha */
+        padding: 10px 15px;
+        text-align: right !important; /* Alinear valor a la derecha */
+        border-bottom: 1px dashed rgba(255, 255, 255, 0.1); /* Separador interno */
+    }
+     .table-pedidos-cliente td:last-child {
+        border-bottom: none;
+    }
+    /* Añadir pseudo-elemento como etiqueta */
+    .table-pedidos-cliente td::before {
+        content: attr(data-label); /* Necesita data-label en el HTML (no lo tenemos) */
+        /* Alternativa: Definir labels aquí */
+        font-weight: bold;
+        color: #d6b5ff;
+        margin-right: 10px;
+        text-align: left;
+    }
+    /* Definir labels explícitamente si no usamos data-label */
+    .table-pedidos-cliente tr td:nth-of-type(1)::before { content: "Pedido #"; }
+    .table-pedidos-cliente tr td:nth-of-type(2)::before { content: "Fecha"; }
+    .table-pedidos-cliente tr td:nth-of-type(3)::before { content: "Estado"; }
+    .table-pedidos-cliente tr td:nth-of-type(4)::before { content: "Total"; }
+    .table-pedidos-cliente tr td:nth-of-type(5) { justify-content: center; } /* Centrar botón */
+    .table-pedidos-cliente tr td:nth-of-type(5)::before { display: none; } /* Ocultar label para botón */
+
+    .table-pedidos-cliente th[scope="row"] { /* Ocultar ID repetido */
+        display: none;
+    }
+}
+
+
+/* public/css/theme.css */
+
+/* ... (Todo tu CSS anterior) ... */
+
+/* ============================================= */
+/* === ESTILOS DETALLE PEDIDO CLIENTE (Extra) === */
+/* ============================================= */
+.pedido-detalle-header {
+    font-size: 1.05rem;
+    color: #ccc;
+}
+.pedido-detalle-header strong {
+    color: #d6b5ff; /* Morado */
+}
+.pedido-detalle-header .badge {
+    font-size: 1em; /* Mismo tamaño que texto */
+    vertical-align: middle;
+}
+
+.table-pedidos-cliente tfoot td {
+    border-top: 2px solid rgba(106, 13, 173, 0.5) !important; /* Separador total */
+    padding-top: 1rem !important;
+}
+
+
+/* ===================================== */
+/* === ESTILOS EDITAR PERFIL (Extra) === */
+/* ===================================== */
+.profile-edit-label {
+    font-weight: 600;
+    color: #ccc;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+
+/* Input readonly/disabled */
+input[readonly][disabled] {
+    background-color: rgba(0, 0, 0, 0.1) !important; /* Más oscuro */
+    border-color: rgba(255, 255, 255, 0.1) !important;
+    color: #888 !important; /* Texto gris */
+    cursor: not-allowed;
+}
+.form-text.text-muted {
+    color: #999 !important;
+    font-size: 0.8rem;
+}
+
+
+/* ===================================== */
+/* === ESTILOS CHECKOUT (V2 - Corregido) = */
+/* ===================================== */
+.checkout-layout {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+.checkout-resumen { /* Columna Izquierda */
+    flex: 1 1 40%; /* Un poco más pequeña */
+    min-width: 300px;
+    order: 2; /* Mostrar a la derecha en móvil */
+}
+.checkout-datos { /* Columna Derecha */
+    flex: 1 1 55%; /* Un poco más grande */
+    min-width: 320px;
+    order: 1; /* Mostrar a la izquierda en móvil */
+}
+.checkout-resumen h4, .checkout-datos h4 {
+    margin-bottom: 20px; padding-bottom: 10px;
+    border-bottom: 1px solid rgba(106, 13, 173, 0.5);
+}
+.checkout-datos h5 { /* Subtítulos */
+    font-size: 1.15rem; color: #d6b5ff; margin-bottom: 10px;
+    display: flex; align-items: center; gap: 8px;
+}
+/* Ajustes lista resumen en checkout */
+.checkout-resumen .resumen-lista .list-group-item { padding: 8px 0; font-size: 0.95rem; }
+.checkout-resumen .resumen-lista .total-row { font-size: 1.1rem; }
+/* Form check (Boleta/Factura) estilo oscuro */
+.form-check-input {
+    background-color: rgba(0,0,0,0.3);
+    border-color: rgba(255,255,255,0.3);
+}
+.form-check-input:checked {
+    background-color: #6a0dad;
+    border-color: #6a0dad;
+}
+.form-check-input:focus { box-shadow: 0 0 0 0.25rem rgba(106, 13, 173, 0.25); }
+.form-check-label { color: #ccc; }
+/* Responsive Checkout */
+@media (max-width: 767.98px) { /* Breakpoint Bootstrap MD */
+    .checkout-layout { flex-direction: column; }
+    .checkout-resumen, .checkout-datos { order: 0; flex-basis: auto; width: 100%; } /* Resetear orden y ancho */
+}
+
