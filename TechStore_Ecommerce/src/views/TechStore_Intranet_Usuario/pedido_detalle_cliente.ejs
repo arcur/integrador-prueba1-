@@ -1,0 +1,156 @@
+<%# src/views/TechStore_Intranet_Usuario/pedido_detalle_cliente.ejs %>
+<%# USA EL NUEVO LAYOUT %>
+
+<%# --- Definir layout, página actual y CSS específico --- %>
+<% layout('../layouts/cuenta_layout') -%>
+<% locals.currentPage = 'pedidos' %> <%# Sigue siendo parte de pedidos %>
+<% locals.pageStylesheets = ['/css/cuenta_pedidos.css'] %> <%# CSS Adaptado para stepper %>
+
+<%# --- Contenido específico --- %>
+<%# Breadcrumb %>
+<nav aria-label="breadcrumb" style="margin-top: -1rem; margin-bottom: 1rem;">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/cuenta">Dashboard</a></li>
+    <li class="breadcrumb-item"><a href="/cuenta/pedidos">Mis Pedidos</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Detalle Pedido #<%= pedido.id_pedido %></li>
+  </ol>
+</nav>
+
+<h2 class="futuristic-title mb-4">Detalle del Pedido #<%= pedido.id_pedido %></h2>
+
+<%# --- STEPPER DE ESTADO --- %>
+<ul class="stepper-wrapper mb-5">
+    <%# Determinar clases CSS para cada paso basado en el estado actual %>
+    <% const isPendiente = pedido.estado === 'Pendiente'; %>
+    <% const isPagado = pedido.estado === 'Pagado'; %>
+    <% const isEnviado = pedido.estado === 'Enviado'; %>
+    <%# const isEntregado = pedido.estado === 'Entregado'; // Asumimos que no hay estado 'Entregado' aún %>
+    <% const isCancelado = pedido.estado === 'Cancelado'; %>
+
+    <li class="stepper-item <%= (isPagado || isEnviado) ? 'completed step-pendiente' : '' %> <%= isPendiente ? 'active step-pendiente' : '' %>">
+        <div class="stepper-circle"><i class="bi bi-clock-history"></i></div>
+        Pendiente
+    </li>
+    <li class="stepper-item <%= (isEnviado) ? 'completed step-pagado' : '' %> <%= isPagado ? 'active step-pagado' : '' %>">
+        <div class="stepper-circle"><i class="bi bi-credit-card-fill"></i></div>
+        Pagado
+    </li>
+    <li class="stepper-item <%= isEnviado ? 'active step-enviado' : '' %>"> <%# 'completed step-enviado' no es necesario %>
+        <div class="stepper-circle"><i class="bi bi-truck"></i></div>
+        Enviado
+    </li>
+     <li class="stepper-item"> <%# Placeholder para 'Entregado' %>
+        <div class="stepper-circle"><i class="bi bi-check-lg"></i></div>
+        Entregado
+    </li>
+</ul>
+
+<% if(isCancelado) { %>
+    <div class="alert alert-danger text-center"><i class="bi bi-x-octagon-fill"></i> Este pedido fue cancelado.</div>
+<% } %>
+
+
+<div class="card-theme p-4">
+
+    <div class="pedido-detalle-header row g-3 mb-4">
+        <div class="col-md-4"> <strong>Pedido #:</strong> <span class="text-white">#<%= pedido.id_pedido %></span> </div>
+        <div class="col-md-4"> <strong>Fecha:</strong> <span class="text-white"><%= new Date(pedido.fecha).toLocaleDateString('es-PE', { day: '2-digit', month: 'long', year: 'numeric'}) %></span> </div>
+        <div class="col-md-4"> <strong>Estado:</strong>
+            <% if (pedido.estado === 'Pendiente') { %> <span class="badge text-bg-warning"><%= pedido.estado %></span>
+            <% } else if (pedido.estado === 'Pagado') { %> <span class="badge text-bg-success"><%= pedido.estado %></span>
+            <% } else if (pedido.estado === 'Enviado') { %> <span class="badge text-bg-info"><%= pedido.estado %></span>
+            <% } else { %> <span class="badge text-bg-danger"><%= pedido.estado %></span> <% } %>
+        </div>
+    </div>
+     <hr style="border-color: rgba(255, 255, 255, 0.2); margin: 1.5rem 0;">
+
+    <div class="row g-4 mb-4">
+        <div class="col-md-6">
+            <h5><i class="bi bi-person-lines-fill"></i> Datos del Cliente</h5>
+            <p class="mb-1"><%= pedido.nombre %> <%= pedido.apellido_paterno %></p>
+            <p class="mb-1"><%= pedido.correo %></p>
+            <p class="mb-0"><%= pedido.telefono_contacto || pedido.telefono || 'Teléfono no registrado' %></p> <%# Usar telefono_contacto si existe %>
+        </div>
+        <div class="col-md-6">
+            <h5><i class="bi bi-geo-alt-fill"></i> Dirección de Envío</h5>
+            <% if (pedido.direccion_envio) { %>
+                <p class="text-white"><%= pedido.direccion_envio %></p> <% } else { %>
+                <p class="text-muted">(No especificada)</p>
+            <% } %>
+
+             <h5 class="mt-3"><i class="bi bi-credit-card"></i> Método de Pago</h5>
+             <% if (pedido.metodo_pago) { %>
+                 <p class="text-white fw-bold"><%= pedido.metodo_pago %></p>
+                 <% } else if (pedido.estado === 'Pendiente') { %>
+                 <p class="text-warning">Pago pendiente</p>
+                 <% } else { %>
+                 <p class="text-muted">(No registrado)</p>
+             <% } %>
+              <h5><i class="bi bi-receipt"></i> Comprobante</h5>
+              <p class="text-white"><%= pedido.tipo_comprobante %></p>
+        </div>
+    </div>
+
+     <hr style="border-color: rgba(255, 255, 255, 0.2); margin: 1.5rem 0;">
+
+    <h5><i class="bi bi-box-seam"></i> Productos Comprados</h5>
+    <div class="table-responsive mt-3">
+        <table class="table table-pedidos-cliente align-middle"> <%# Reutilizar clase %>
+             <thead>
+                <tr>
+                    <th scope="col" style="width: 60%;">Producto</th>
+                    <th scope="col" class="text-end">Precio Unit.</th>
+                    <th scope="col" class="text-center">Cantidad</th>
+                    <th scope="col" class="text-end">Subtotal</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% detalles.forEach(item => { %>
+                <tr>
+                    <td>
+                        <div class="d-flex align-items-center gap-3">
+                            <img src="<%= item.imagen ? item.imagen : '/img/placeholder-prod.webp' %>"
+                                 alt="<%= item.nombre_producto %>"
+                                 class="carrito-item-img" <%# Reusar clase de carrito %>
+                                 onerror="this.onerror=null; this.src='/img/placeholder-prod.webp';">
+                            <a href="/producto/<%= item.id_producto %>" class="carrito-item-nombre"> <%# Reusar clase %>
+                                <%= item.nombre_producto %>
+                            </a>
+                        </div>
+                    </td>
+                    <td class="text-end">S/ <%= item.precio_unitario.toFixed(2) %></td>
+                    <td class="text-center"><%= item.cantidad %></td>
+                    <td class="text-end fw-bold">S/ <%= (item.precio_unitario * item.cantidad).toFixed(2) %></td>
+                </tr>
+                <% }) %>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="3" class="text-end border-0 pt-3"><strong>Total Pedido:</strong></td>
+                    <td class="text-end border-0 pt-3 fs-5 fw-bold" style="color: #4dff94;">S/ <%= pedido.total.toFixed(2) %></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+    <%# Botón Pagar si está Pendiente %>
+    <% if (pedido.estado === 'Pendiente' && new Date() < new Date(pedido.fecha_limite_pago)) { %>
+        <div class="text-center mt-4 alert alert-warning">
+             <p class="mb-2">Este pedido aún está pendiente de pago.</p>
+             <a href="/pago/<%= pedido.id_pedido %>"
+                class="btn btn-warning"
+                title="Pagar Pedido #<%= pedido.id_pedido %>">
+                 <i class="bi bi-credit-card"></i> Realizar Pago Ahora
+             </a>
+             <p class="small text-muted mt-2 mb-0">Tienes hasta el <%= new Date(pedido.fecha_limite_pago).toLocaleString('es-PE', { hour12: true }) %></p>
+        </div>
+    <% } %>
+
+    <div class="text-center mt-4">
+        <a href="/cuenta/pedidos" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left-circle"></i> Volver a Mis Pedidos
+        </a>
+    </div>
+
+</div>
+

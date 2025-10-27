@@ -1,13 +1,18 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= title %></title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet" />
-    <link rel="stylesheet" href="/css/theme.css">
-    <link rel="stylesheet" href="/css/header_footer.css">
+    <%# Ensure 'title' is always passed or provide a default %>
+        <title>
+            <%= locals.title ? title : 'TechStore' %>
+        </title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet" />
+        <link rel="stylesheet" href="/css/theme.css">
+        <link rel="stylesheet" href="/css/header_footer.css">
 </head>
+
 <body>
 
     <header class="header">
@@ -18,53 +23,91 @@
             </a>
         </div>
 
-        <nav class="navbar" id="main-navbar"> <form action="/catalogo" method="GET" class="header-search-form">
-                 <input type="search" class="form-control input-theme input-sm" name="q" placeholder="Buscar productos..." aria-label="Buscar productos" value="<%= locals.query?.q || '' %>">
-                 <button type="submit" class="btn btn-theme btn-sm">
-                     <i class="bi bi-search"></i>
-                 </button>
-                 <% if (locals.filtrosActuales) { %>
-                     <input type="hidden" name="categoria" value="<%= filtrosActuales.categoria || '' %>">
-                     <input type="hidden" name="precioMin" value="<%= filtrosActuales.precioMin || '' %>">
-                     <input type="hidden" name="precioMax" value="<%= filtrosActuales.precioMax || '' %>">
-                     <input type="hidden" name="ordenarPor" value="<%= filtrosActuales.ordenarPor || '' %>">
-                 <% } %>
-             </form>
+        <nav class="navbar" id="main-navbar">
+            <form action="/catalogo" method="GET" class="header-search-form">
+                <%# Safely access query parameter %>
+                    <input type="search" class="form-control input-theme input-sm" name="q"
+                        placeholder="Buscar productos..." aria-label="Buscar productos"
+                        value="<%= locals.query && locals.query.q ? locals.query.q : '' %>">
+                    <button type="submit" class="btn btn-theme btn-sm">
+                        <i class="bi bi-search"></i>
+                    </button>
+                    <%# Check locals.filtrosActuales before accessing its properties %>
+                        <% if (locals.filtrosActuales) { %>
+                            <input type="hidden" name="categoria"
+                                value="<%= locals.filtrosActuales.categoria ? locals.filtrosActuales.categoria : '' %>">
+                            <input type="hidden" name="precioMin"
+                                value="<%= locals.filtrosActuales.precioMin ? locals.filtrosActuales.precioMin : '' %>">
+                            <input type="hidden" name="precioMax"
+                                value="<%= locals.filtrosActuales.precioMax ? locals.filtrosActuales.precioMax : '' %>">
+                            <input type="hidden" name="ordenarPor"
+                                value="<%= locals.filtrosActuales.ordenarPor ? locals.filtrosActuales.ordenarPor : '' %>">
+                            <% } %>
+            </form>
 
-            <ul class="navbar-nav" id="navbar-list"> <li class="nav-item"> <a class="nav-link" href="/"><i class="bi bi-house-door-fill"></i> Inicio</a> </li>
-                <li class="nav-item"> <a class="nav-link" href="/catalogo"><i class="bi bi-grid-3x3-gap-fill"></i> Catálogo</a> </li>
-                <% if (user && (user.rol === 'Admin' || user.rol === 'MainAdmin')) { %>
-                    <li class="nav-item"> <a class="nav-link admin-link" href="/admin/dashboard"><i class="bi bi-gear-fill"></i> Panel Admin</a> </li>
-                <% } %>
-                </ul>
+            <ul class="navbar-nav" id="navbar-list">
+                <li class="nav-item"> <a class="nav-link" href="/"><i class="bi bi-house-door-fill"></i> Inicio</a>
+                </li>
+                <li class="nav-item"> <a class="nav-link" href="/catalogo"><i class="bi bi-grid-3x3-gap-fill"></i>
+                        Catálogo</a> </li>
+                <%# Check locals.user AND user itself AND user.rol %>
+                    <% if (locals.user && user && (user.rol==='Admin' || user.rol==='MainAdmin' )) { %>
+                        <li class="nav-item"> <a class="nav-link admin-link" href="/admin/dashboard"><i
+                                    class="bi bi-gear-fill"></i> Panel Admin</a> </li>
+                        <% } %>
+            </ul>
         </nav>
 
         <div class="header-right">
-             <% if (user) { %>
-                <a href="/carrito" class="action-icon position-relative" title="Carrito de Compras">
-                    <i class="bi bi-cart-fill"></i>
-                    <% if (locals.cart && cart.items.length > 0) { %> <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger cart-badge" id="cart-item-count"><%= cart.items.length %><span class="visually-hidden">items</span></span> <% } else { %> <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger cart-badge" id="cart-item-count" style="display: none;">0</span> <% } %>
-                </a>
-            <% } %>
-             <% if (user) { %>
-                <div class="user-dropdown">
-                     <a href="#" class="action-icon" title="Mi Cuenta"><i class="bi bi-person-circle"></i></a>
-                    <div class="dropdown-content">
-                        <a href="/mi-cuenta">Hola, <%= user.nombre %></a>
-                        <a href="/mis-pedidos">Mis Pedidos</a>
-                        <hr style="margin: 5px 0; border-color: rgba(255,255,255,0.2);">
-                        <a href="/logout">Cerrar Sesión</a>
-                    </div>
-                </div>
-            <% } else { %>
-                <a href="/login" class="btn-theme header-btn d-none d-md-inline-flex">Ingresar</a>
-                <a href="/registro" class="btn-theme header-btn d-none d-md-inline-flex register-btn">Registrarse</a>
-                <a href="/login" class="action-icon d-md-none" title="Iniciar Sesión"><i class="bi bi-box-arrow-in-right"></i></a>
-            <% } %>
-            <button class="menu-toggle" id="menu-toggle-btn" aria-label="Toggle navigation">
-                <i class="bi bi-list"></i>
-            </button>
+            <%# Check locals.user AND user %>
+                <% if (locals.user && user) { %>
+                    <a href="/carrito" class="action-icon position-relative" title="Carrito de Compras">
+                        <i class="bi bi-cart-fill"></i>
+                        <%# Check locals.cart AND cart AND cart.items is an array %>
+                            <% let itemCount=(locals.cart && cart && Array.isArray(cart.items)) ?
+                                cart.items.reduce((sum, item)=> sum + (item.cantidad || 0), 0)
+                                : 0; %>
+                                <span
+                                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger cart-badge"
+                                    id="cart-item-count" style=" <%= itemCount > 0 ? '' : 'display: none;' %> ">
+                                    <%# <-- CORRECTION: Added Quotes %>
+                                        <%= itemCount %>
+                                            <span class="visually-hidden">items</span>
+                                </span>
+                    </a>
+                    <% } %>
+                        <%# Check locals.user AND user %>
+                            <% if (locals.user && user) { %>
+                                <div class="user-dropdown">
+            <%# ¡ENLACE ACTUALIZADO A /cuenta! %>
+             <a href="/cuenta" class="action-icon" title="Mi Cuenta"><i
+                     class="bi bi-person-circle"></i></a>
+             <div class="dropdown-content">
+                 <%# Safely access user.nombre %>
+                 <a href="/cuenta">Hola, <%= user.nombre ? user.nombre : 'Usuario' %></a> <%# Enlace al dashboard /cuenta %>
+                 <a href="/cuenta/pedidos">Mis Pedidos</a> <%# Enlace a /cuenta/pedidos %>
+                 <a href="/cuenta/configuracion">Configuración</a> <%# Enlace a /cuenta/configuracion %>
+                 <hr>
+                 <a href="/logout">Cerrar Sesión</a>
+             </div>
+        </div>
+                                <% } else { %>
+                                    <a href="/login" class="btn-theme header-btn d-none d-md-inline-flex">Ingresar</a>
+                                    <a href="/registro"
+                                        class="btn-theme header-btn d-none d-md-inline-flex register-btn">Registrarse</a>
+                                    <a href="/login" class="action-icon d-md-none" title="Iniciar Sesión"><i
+                                            class="bi bi-box-arrow-in-right"></i></a>
+                                    <% } %>
+                                        <button class="menu-toggle" id="menu-toggle-btn" aria-label="Toggle navigation">
+                                            <i class="bi bi-list"></i>
+                                        </button>
         </div>
     </header>
 
-    <main class="container">
+    <%# The <main> tag should be in the main view or layout, not here %>
+        <%# <main class="container"> %>
+</body>
+<%# Closing body/html should be in footer %>
+
+</html>
+<%# Closing body/html should be in footer %>

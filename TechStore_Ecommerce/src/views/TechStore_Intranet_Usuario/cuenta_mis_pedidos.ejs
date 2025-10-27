@@ -1,0 +1,70 @@
+<%# src/views/TechStore_Intranet_Usuario/cuenta_mis_pedidos.ejs %>
+<%# Reemplaza a mis_pedidos.html y al antiguo mis-pedidos.ejs %>
+
+<%# --- Definir layout, página actual y CSS específico --- %>
+<% layout('../layouts/cuenta_layout') -%>
+<% locals.currentPage = 'pedidos' %>
+<% locals.pageStylesheets = ['/css/cuenta_pedidos.css'] %> <%# CSS Adaptado para la tabla/modal %>
+
+<%# --- Contenido específico de esta página --- %>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="futuristic-title mb-0">Mis Pedidos Recientes 📦</h2>
+    <%# Puedes añadir filtros aquí si lo deseas %>
+</div>
+
+<div class="card-theme p-3">
+    <div class="table-responsive">
+        <table class="table table-pedidos-cliente align-middle"> <%# Usar clase de theme/cuenta.css %>
+            <thead>
+                <tr>
+                    <th scope="col">Pedido #</th>
+                    <th scope="col">Fecha</th>
+                    <th scope="col">Estado</th>
+                    <th scope="col" class="text-end">Total</th>
+                    <th scope="col" class="text-center">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% if (!pedidos || pedidos.length === 0) { %>
+                    <tr>
+                        <td colspan="5" class="text-center py-4">
+                            <i class="bi bi-info-circle fs-3"></i><br>
+                            Aún no has realizado ningún pedido.
+                        </td>
+                    </tr>
+                <% } else { %>
+                    <% pedidos.forEach(pedido => { %>
+                        <tr>
+                            <th scope="row" data-label="Pedido #">#<%= pedido.id_pedido %></th>
+                            <td data-label="Fecha"><%= new Date(pedido.fecha).toLocaleDateString('es-PE', { year: 'numeric', month: 'short', day: 'numeric'}) %></td>
+                            <td data-label="Estado">
+                                <% if (pedido.estado === 'Pendiente') { %> <span class="badge text-bg-warning"><%= pedido.estado %></span>
+                                <% } else if (pedido.estado === 'Pagado') { %> <span class="badge text-bg-success"><%= pedido.estado %></span>
+                                <% } else if (pedido.estado === 'Enviado') { %> <span class="badge text-bg-info"><%= pedido.estado %></span>
+                                <% } else { %> <span class="badge text-bg-danger"><%= pedido.estado %></span> <% } %>
+                            </td>
+                            <td data-label="Total" class="text-end fw-bold">S/ <%= pedido.total.toFixed(2) %></td>
+                            <td data-label="Acciones" class="text-center">
+                                <a href="/cuenta/pedidos/<%= pedido.id_pedido %>" <%# Ruta actualizada %>
+                                   class="btn btn-sm btn-outline-light"
+                                   title="Ver Detalle del Pedido #<%= pedido.id_pedido %>">
+                                    <i class="bi bi-eye-fill"></i> Ver
+                                </a>
+                                <%# Botón Pagar si está Pendiente %>
+                                <% if (pedido.estado === 'Pendiente' && new Date() < new Date(pedido.fecha_limite_pago)) { %>
+                                     <a href="/pago/<%= pedido.id_pedido %>"
+                                        class="btn btn-sm btn-warning ms-2"
+                                        title="Pagar Pedido #<%= pedido.id_pedido %>">
+                                         <i class="bi bi-credit-card"></i> Pagar
+                                     </a>
+                                <% } %>
+                            </td>
+                        </tr>
+                    <% }) %>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+</div>
+<%# Incluir Modales aquí si decides usarlos para el detalle, o usar página separada %>
+

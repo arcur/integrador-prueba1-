@@ -1,5 +1,5 @@
 // src/models/usuario.model.js
-// (ACTUALIZADO con Gestión de Clientes)
+// (ACTUALIZADO con Gestión de Clientes y updatePassword)
 
 const pool = require('./db');
 const bcrypt = require('bcryptjs');
@@ -8,14 +8,14 @@ const Usuario = {};
 
 /**
  * Modelo para crear un nuevo usuario (Registro PÚBLICO).
- * (Sin cambios)
  */
 Usuario.create = async (newUser) => {
     const salt = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(newUser.contraseña, salt);
+    // Asignar rol 'Cliente' (ID 1) y estado 'Activo' (ID 1) por defecto
     const sql = `
         INSERT INTO usuario (
-            id_rol, id_estado, nombre, apellido_paterno, apellido_materno, 
+            id_rol, id_estado, nombre, apellido_paterno, apellido_materno,
             numero_dni, telefono, correo, usuario, contraseña
         ) VALUES (1, 1, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
@@ -28,33 +28,41 @@ Usuario.create = async (newUser) => {
 };
 
 /**
- * Modelo para buscar un usuario por su 'usuario' (para Login).
- * (Sin cambios)
+ * Modelo para buscar un usuario por su 'usuario' O 'correo'.
+ * Usado por UserDetailsServiceImpl para el login.
  */
-Usuario.findByUsername = async (username) => {
+Usuario.findByUsernameOrEmail = async (loginIdentifier) => {
     const sql = `
-        SELECT 
+        SELECT
             u.id_usuario, u.nombre, u.usuario, u.contraseña,
             r.nombre_rol AS rol, e.nombre_estado AS estado
         FROM usuario u
         JOIN rol r ON u.id_rol = r.id_rol
         JOIN estado e ON u.id_estado = e.id_estado
-        WHERE u.usuario = ?
-    `;
-    const [rows] = await pool.query(sql, [username]);
-    return rows[0]; 
+        WHERE (u.usuario = ? OR u.correo = ?)
+    `; // Busca en ambas columnas
+    const [rows] = await pool.query(sql, [loginIdentifier, loginIdentifier]);
+    return rows[0]; // Devuelve el primero que coincida o undefined
 };
 
 /**
- * Modelo para crear un nuevo usuario (Registro de ADMIN).
- * (Sin cambios)
+ * Modelo para buscar un usuario por su 'usuario' (DEPRECATED - usar findByUsernameOrEmail).
+ */
+Usuario.findByUsername = async (username) => {
+     console.warn("DEPRECATED: Usar findByUsernameOrEmail en lugar de findByUsername");
+     return Usuario.findByUsernameOrEmail(username); // Llamar a la función unificada
+};
+
+
+/**
+ * Modelo para crear un nuevo usuario ADMIN (desde el panel de admin).
  */
 Usuario.createAdmin = async (newAdmin) => {
     const salt = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(newAdmin.contraseña, salt);
     const sql = `
         INSERT INTO usuario (
-            id_rol, id_estado, nombre, apellido_paterno, apellido_materno, 
+            id_rol, id_estado, nombre, apellido_paterno, apellido_materno,
             numero_dni, telefono, correo, usuario, contraseña
         ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
@@ -69,17 +77,16 @@ Usuario.createAdmin = async (newAdmin) => {
 
 /**
  * Modelo para obtener TODOS los administradores (Admins y MainAdmins).
- * (Sin cambios)
  */
 Usuario.getAllAdmins = async () => {
     const sql = `
-        SELECT 
-            u.id_usuario, u.codigo_usuario, u.nombre, u.apellido_paterno, 
-            u.correo, u.usuario, r.nombre_rol, e.nombre_estado
+        SELECT
+            u.id_usuario, u.codigo_usuario, u.nombre, u.apellido_paterno,
+            u.correo, u.usuario, r.nombre_rol, e.nombre_estado, u.id_rol, u.id_estado
         FROM usuario u
         JOIN rol r ON u.id_rol = r.id_rol
         JOIN estado e ON u.id_estado = e.id_estado
-        WHERE u.id_rol IN (2, 3)
+        WHERE u.id_rol IN (2, 3) -- ID de Admin y MainAdmin
         ORDER BY u.nombre ASC
     `;
     const [rows] = await pool.query(sql);
@@ -87,12 +94,12 @@ Usuario.getAllAdmins = async () => {
 };
 
 /**
- * ¡NUEVO! Modelo para obtener TODOS los Clientes.
+ * Modelo para obtener TODOS los Clientes (Rol ID 1).
  */
 Usuario.getAllClients = async () => {
     const sql = `
-        SELECT 
-            u.id_usuario, u.codigo_usuario, u.nombre, u.apellido_paterno, 
+        SELECT
+            u.id_usuario, u.codigo_usuario, u.nombre, u.apellido_paterno,
             u.correo, u.numero_dni, e.nombre_estado, e.id_estado
         FROM usuario u
         JOIN estado e ON u.id_estado = e.id_estado
@@ -104,8 +111,8 @@ Usuario.getAllClients = async () => {
 };
 
 /**
- * Modelo para obtener un usuario por ID (para editar).
- * (Sin cambios)
+ * Modelo para obtener un usuario por ID (para editar admin, perfil, etc.).
+ * Incluye TODO, hasta la contraseña hash.
  */
 Usuario.getById = async (id_usuario) => {
     const sql = `SELECT * FROM usuario WHERE id_usuario = ?`;
@@ -114,12 +121,11 @@ Usuario.getById = async (id_usuario) => {
 };
 
 /**
- * Modelo para actualizar Rol y Estado de un admin.
- * (Sin cambios)
+ * Modelo para actualizar Rol y Estado de un admin (usado por AdminController).
  */
 Usuario.updateAdmin = async (id_usuario, data) => {
     const sql = `
-        UPDATE usuario 
+        UPDATE usuario
         SET id_rol = ?, id_estado = ?
         WHERE id_usuario = ?
     `;
@@ -130,7 +136,7 @@ Usuario.updateAdmin = async (id_usuario, data) => {
 };
 
 /**
- * ¡NUEVO! Modelo para actualizar solo el ESTADO de un usuario (para Clientes).
+ * Modelo para actualizar solo el ESTADO de un usuario (para Clientes).
  */
 Usuario.updateState = async (id_usuario, id_estado) => {
     const sql = `UPDATE usuario SET id_estado = ? WHERE id_usuario = ?`;
@@ -139,8 +145,7 @@ Usuario.updateState = async (id_usuario, id_estado) => {
 };
 
 /**
- * Modelo para obtener los roles de Admin (para el formulario).
- * (Sin cambios)
+ * Modelo para obtener los roles de Admin y MainAdmin (para el formulario de admin).
  */
 Usuario.getAdminRoles = async () => {
     const sql = `SELECT * FROM rol WHERE id_rol IN (2, 3)`;
@@ -150,7 +155,6 @@ Usuario.getAdminRoles = async () => {
 
 /**
  * Modelo para obtener TODOS los estados (Activo/Inactivo).
- * (Sin cambios)
  */
 Usuario.getAllStates = async () => {
     const sql = `SELECT * FROM estado`;
@@ -158,42 +162,34 @@ Usuario.getAllStates = async () => {
     return rows;
 };
 
-// ... (resto de funciones del modelo Usuario) ...
-
 /**
- * ¡NUEVO! Obtener detalles básicos de un usuario por ID (para "Mi Cuenta").
+ * Obtener detalles del perfil de un usuario por ID (para "Mi Cuenta").
  * Excluye la contraseña.
  */
 Usuario.getProfileById = async (id_usuario) => {
     const sql = `
         SELECT
-            u.codigo_usuario, u.nombre, u.apellido_paterno, u.apellido_materno,
+            u.id_usuario, u.codigo_usuario, u.nombre, u.apellido_paterno, u.apellido_materno,
             u.numero_dni, u.telefono, u.correo, u.usuario, u.fecha_registro,
-            r.nombre_rol, e.nombre_estado
+            r.nombre_rol, e.nombre_estado, u.id_rol, u.id_estado
         FROM usuario u
         JOIN rol r ON u.id_rol = r.id_rol
         JOIN estado e ON u.id_estado = e.id_estado
         WHERE u.id_usuario = ?
     `;
     const [rows] = await pool.query(sql, [id_usuario]);
-    return rows[0]; // Devuelve el perfil o undefined
+    return rows[0];
 };
 
 
 /**
- * ¡NUEVO! Actualiza los datos del perfil de un usuario (Cliente).
+ * Actualiza los datos del perfil de un usuario (Cliente).
  * Verifica duplicados de correo y usuario si se cambian.
- * @param {number} id_usuario
- * @param {object} profileData - { nombre, apellido_paterno, apellido_materno, telefono, correo, usuario }
  */
 Usuario.updateProfile = async (id_usuario, profileData) => {
-    // 1. Obtener datos actuales para comparar
-    const currentUser = await Usuario.getById(id_usuario); // Usamos getById que trae todo
-    if (!currentUser) {
-        throw new Error('Usuario no encontrado.');
-    }
+    const currentUser = await Usuario.getById(id_usuario);
+    if (!currentUser) throw new Error('Usuario no encontrado.');
 
-    // 2. Construir la consulta y parámetros dinámicamente
     const fieldsToUpdate = {};
     const params = [];
 
@@ -201,49 +197,50 @@ Usuario.updateProfile = async (id_usuario, profileData) => {
     fieldsToUpdate.nombre = profileData.nombre;
     fieldsToUpdate.apellido_paterno = profileData.apellido_paterno;
     fieldsToUpdate.apellido_materno = profileData.apellido_materno;
-    fieldsToUpdate.telefono = profileData.telefono || null; // Permitir nulo
+    fieldsToUpdate.telefono = profileData.telefono || null;
 
-    // Campos que requieren verificación de unicidad
     // Verificar correo SOLO si ha cambiado
     if (profileData.correo && profileData.correo !== currentUser.correo) {
-        // Comprobar si el nuevo correo ya existe para OTRO usuario
         const [existingEmail] = await pool.query(
             'SELECT id_usuario FROM usuario WHERE correo = ? AND id_usuario != ?',
             [profileData.correo, id_usuario]
         );
-        if (existingEmail.length > 0) {
-            throw new Error('El correo electrónico ingresado ya está en uso por otra cuenta.');
-        }
+        if (existingEmail.length > 0) throw new Error('El correo electrónico ingresado ya está en uso.');
         fieldsToUpdate.correo = profileData.correo;
     }
 
     // Verificar usuario SOLO si ha cambiado
     if (profileData.usuario && profileData.usuario !== currentUser.usuario) {
-        // Comprobar si el nuevo usuario ya existe para OTRO usuario
         const [existingUsername] = await pool.query(
             'SELECT id_usuario FROM usuario WHERE usuario = ? AND id_usuario != ?',
             [profileData.usuario, id_usuario]
         );
-        if (existingUsername.length > 0) {
-            throw new Error('El nombre de usuario ingresado ya está en uso.');
-        }
+        if (existingUsername.length > 0) throw new Error('El nombre de usuario ingresado ya está en uso.');
         fieldsToUpdate.usuario = profileData.usuario;
     }
 
-    // Preparar SET clause y parámetros finales
     const setClauses = Object.keys(fieldsToUpdate).map(key => `${key} = ?`);
+    if (setClauses.length === 0) return 0; // No hay nada que actualizar
+
     params.push(...Object.values(fieldsToUpdate));
-    params.push(id_usuario); // Para el WHERE
+    params.push(id_usuario);
 
-    if (setClauses.length === 0) {
-        return 0; // No hay nada que actualizar
-    }
-
-    // 3. Ejecutar la actualización
     const sql = `UPDATE usuario SET ${setClauses.join(', ')} WHERE id_usuario = ?`;
     const [result] = await pool.query(sql, params);
-
     return result.affectedRows;
 };
+
+// --- ¡NUEVO MÉTODO PARA ACTUALIZAR CONTRASEÑA! ---
+/**
+ * Actualiza únicamente la contraseña (hasheada) de un usuario.
+ * @param {number} id_usuario - ID del usuario a actualizar.
+ * @param {string} hashedPassword - La NUEVA contraseña YA HASHEADA.
+ */
+Usuario.updatePassword = async (id_usuario, hashedPassword) => {
+    const sql = `UPDATE usuario SET contraseña = ? WHERE id_usuario = ?`;
+    const [result] = await pool.query(sql, [hashedPassword, id_usuario]);
+    return result.affectedRows; // Devuelve 1 si se actualizó, 0 si no
+};
+
 
 module.exports = Usuario;

@@ -1,0 +1,222 @@
+/* public/css/cuenta_pedidos.css */
+/* Estilos específicos adaptados de style_mis_pedidos.css */
+
+/* --- Estilos Tabla Mis Pedidos (Cliente) --- */
+.table-pedidos-cliente {
+    color: var(--bs-body-color-cuenta); /* Usar color del body del layout */
+    border: none;
+    margin-bottom: 0;
+    border-collapse: separate; /* Necesario para bordes redondeados por fila */
+    border-spacing: 0 8px; /* Espacio vertical entre filas */
+    width: 100%;
+}
+.table-pedidos-cliente thead th {
+    color: var(--futuristic-title-color); /* Color del título */
+    border: none !important;
+    font-size: 0.85rem; /* Más pequeño */
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    background-color: transparent !important;
+    padding: 8px 12px; /* Menos padding */
+    text-align: left; /* Alinear izquierda por defecto */
+}
+/* Alinear las columnas que lo necesitan */
+.table-pedidos-cliente thead th.text-end,
+.table-pedidos-cliente thead th.text-center {
+     text-align: right !important;
+}
+.table-pedidos-cliente thead th.text-center {
+    text-align: center !important;
+}
+
+
+.table-pedidos-cliente tbody tr {
+    background-color: var(--card-bg); /* Usar fondo de tarjeta del tema */
+    border-radius: 6px;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    outline: 1px solid var(--card-border); /* Usar borde de tarjeta */
+    text-align: left; /* Alinear izquierda por defecto */
+}
+.table-pedidos-cliente tbody tr:hover {
+    background-color: var(--sidebar-link-hover-bg); /* Reutilizar hover del sidebar */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+[data-bs-theme="dark"] .table-pedidos-cliente tbody tr:hover {
+     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.table-pedidos-cliente td, .table-pedidos-cliente th[scope="row"] {
+    vertical-align: middle;
+    padding: 12px 12px; /* Padding ajustado */
+    border: none !important;
+}
+.table-pedidos-cliente tbody th[scope="row"] { /* ID Pedido */
+    font-weight: bold;
+    color: var(--link-color); /* Usar color de enlace */
+}
+/* Alinear columnas específicas */
+.table-pedidos-cliente td.text-end,
+.table-pedidos-cliente td.text-center {
+    text-align: right !important;
+}
+.table-pedidos-cliente td.text-center {
+    text-align: center !important;
+}
+
+.table-pedidos-cliente .badge {
+    font-size: 0.85em; /* Ligeramente más pequeño */
+    padding: 0.4em 0.7em;
+    font-weight: 600;
+}
+/* Colores específicos de badges (Bootstrap 5.3) */
+.table-pedidos-cliente .badge.text-bg-warning { background-color: #ffc107 !important; color: #333 !important; }
+.table-pedidos-cliente .badge.text-bg-success { background-color: #198754 !important; }
+.table-pedidos-cliente .badge.text-bg-info { background-color: #0dcaf0 !important; color: #333 !important;}
+.table-pedidos-cliente .badge.text-bg-danger { background-color: #dc3545 !important; }
+[data-bs-theme="light"] .table-pedidos-cliente .badge.text-bg-warning,
+[data-bs-theme="light"] .table-pedidos-cliente .badge.text-bg-info {
+    color: #000 !important; /* Texto negro para mejor contraste en claro */
+}
+
+
+/* Botón "Ver" (Outline theme) */
+.table-pedidos-cliente .btn-outline-light {
+    color: var(--bs-secondary-color);
+    border-color: var(--bs-border-color-cuenta);
+    padding: 0.3rem 0.8rem;
+    font-size: 0.85rem;
+    transition: all 0.3s;
+}
+[data-bs-theme="dark"] .table-pedidos-cliente .btn-outline-light {
+    color: #ccc; border-color: #777;
+}
+
+.table-pedidos-cliente .btn-outline-light:hover {
+    color: var(--bs-body-bg-cuenta); /* Invertir color */
+    background-color: var(--bs-secondary-color);
+    border-color: var(--bs-secondary-color);
+}
+[data-bs-theme="dark"] .table-pedidos-cliente .btn-outline-light:hover {
+    color: #1a1a2e; background-color: #ccc; border-color: #ccc;
+}
+
+/* Botón Pagar (Warning) */
+.table-pedidos-cliente .btn-warning {
+    color: #333; /* Texto oscuro para botón amarillo */
+    font-weight: 500;
+}
+.table-pedidos-cliente .btn-warning:hover {
+    color: #000;
+    filter: brightness(1.1);
+}
+
+/* --- Estilos Stepper (Progreso del Pedido) --- */
+/* (Tomados de style_mis_pedidos.css y ajustados a variables de cuenta.css) */
+.stepper-wrapper {
+    display: flex; justify-content: space-between;
+    margin: 3rem 0 2rem 0; list-style-type: none; padding: 0; position: relative;
+}
+.stepper-item {
+    position: relative; display: flex; flex-direction: column; align-items: center;
+    flex: 1; color: var(--bs-secondary-color); font-weight: 500; text-align: center;
+}
+.stepper-item::before { /* Línea conexión */
+    position: absolute; content: ""; border-bottom: 3px solid var(--bs-border-color-cuenta);
+    width: 100%; top: 20px; left: -50%; z-index: 1;
+}
+.stepper-item:first-child::before { content: none; }
+
+.stepper-circle { /* Círculo */
+    position: relative; width: 40px; height: 40px; border-radius: 50%;
+    background-color: var(--bs-tertiary-bg); /* Fondo sutil */
+    border: 3px solid var(--bs-border-color-cuenta); z-index: 2; margin-bottom: 0.5rem;
+    display: flex; justify-content: center; align-items: center;
+    font-size: 1.25rem; font-weight: bold; line-height: 1; color: var(--bs-secondary-color);
+}
+[data-bs-theme="dark"] .stepper-circle {
+    background-color: var(--sidebar-link-hover-bg); /* Fondo más oscuro */
+}
+
+/* --- Estados del Stepper --- */
+/* 1. Completado (Verde) */
+.stepper-item.completed { color: var(--bs-success); }
+.stepper-item.completed::before { border-bottom-color: var(--bs-success); }
+.stepper-item.completed .stepper-circle {
+    background-color: var(--bs-success); border-color: var(--bs-success); color: white;
+}
+/* 2. Activo (Pulso del color correspondiente) */
+.stepper-item.active .stepper-circle {
+    background-color: var(--bs-body-bg-cuenta); /* Fondo del body */
+    animation: pulse-default 1.5s infinite; /* Pulso genérico */
+}
+.stepper-item.active::before { border-bottom-color: var(--bs-success); } /* Línea anterior siempre verde */
+
+/* 3. Modificadores de Color (Activo) */
+.stepper-item.active.step-pendiente { color: var(--bs-warning); } /* Amarillo */
+.stepper-item.active.step-pendiente .stepper-circle {
+    border-color: var(--bs-warning); color: var(--bs-warning); animation-name: pulse-warning;
+}
+/* La línea anterior a pendiente no existe */
+
+.stepper-item.active.step-pagado { color: var(--bs-success); } /* Verde */
+.stepper-item.active.step-pagado .stepper-circle {
+    border-color: var(--bs-success); color: var(--bs-success); animation-name: pulse-success;
+}
+.stepper-item.active.step-pagado::before { border-bottom-color: var(--bs-warning); } /* Anterior amarilla */
+
+.stepper-item.active.step-enviado { color: var(--bs-info); } /* Azul */
+.stepper-item.active.step-enviado .stepper-circle {
+    border-color: var(--bs-info); color: var(--bs-info); animation-name: pulse-info;
+}
+.stepper-item.active.step-enviado::before { border-bottom-color: var(--bs-success); } /* Anterior verde */
+
+/* 4. Modificadores de Color (Completado - para colorear pasos anteriores) */
+/* Colorear 'Pendiente' cuando el estado es 'Pagado' o 'Enviado' */
+.stepper-item.completed.step-pendiente { color: var(--bs-warning); }
+.stepper-item.completed.step-pendiente::before { border-bottom-color: var(--bs-warning); }
+.stepper-item.completed.step-pendiente .stepper-circle {
+    background-color: var(--bs-warning); border-color: var(--bs-warning); color: var(--bs-dark);
+}
+/* Colorear 'Pagado' cuando el estado es 'Enviado' */
+.stepper-item.completed.step-pagado { color: var(--bs-success); }
+.stepper-item.completed.step-pagado::before { border-bottom-color: var(--bs-success); }
+.stepper-item.completed.step-pagado .stepper-circle {
+    background-color: var(--bs-success); border-color: var(--bs-success); color: white;
+}
+/* Pulso en el último paso completado (Entregado) */
+.stepper-item.completed.step-entregado .stepper-circle {
+    animation: pulse-success 1.5s infinite;
+}
+
+/* Animaciones de Pulso */
+@keyframes pulse-default { /* Placeholder */ 0% { box-shadow: none; } }
+@keyframes pulse-warning { 0% { box-shadow: 0 0 0 0 rgba(255, 193, 7, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(255, 193, 7, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 193, 7, 0); } }
+@keyframes pulse-success { 0% { box-shadow: 0 0 0 0 rgba(25, 135, 84, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(25, 135, 84, 0); } 100% { box-shadow: 0 0 0 0 rgba(25, 135, 84, 0); } }
+@keyframes pulse-info { 0% { box-shadow: 0 0 0 0 rgba(13, 202, 240, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(13, 202, 240, 0); } 100% { box-shadow: 0 0 0 0 rgba(13, 202, 240, 0); } }
+
+
+/* Responsive para Tablas (Adaptado de theme.css) */
+@media (max-width: 768px) {
+    .table-pedidos-cliente thead { display: none; }
+    .table-pedidos-cliente tr { display: block; margin-bottom: 15px; }
+    .table-pedidos-cliente td {
+        display: flex; justify-content: space-between; padding: 10px 15px;
+        text-align: right !important; border-bottom: 1px dashed var(--bs-border-color-cuenta);
+    }
+     .table-pedidos-cliente td:last-child { border-bottom: none; }
+    .table-pedidos-cliente td::before {
+        content: attr(data-label); font-weight: bold; color: var(--futuristic-title-color);
+        margin-right: 10px; text-align: left;
+    }
+    .table-pedidos-cliente th[scope="row"] { display: none; } /* Ocultar ID repetido */
+     /* Ocultar label para botón */
+     .table-pedidos-cliente tr td:last-child::before { display: none; }
+     .table-pedidos-cliente tr td:last-child { justify-content: center; } /* Centrar botón */
+
+     /* Stepper en móvil */
+     .stepper-wrapper { margin: 2rem 0; }
+     .stepper-item { font-size: 0.8rem; }
+     .stepper-circle { width: 30px; height: 30px; font-size: 1rem; border-width: 2px; margin-bottom: 0.3rem;}
+     .stepper-item::before { top: 15px; border-width: 2px; }
+}
+

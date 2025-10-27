@@ -1,0 +1,252 @@
+/* public/css/cuenta.css */
+/* Estilos combinados y adaptados de style_base.css y otros necesarios */
+
+/* Importar Fuentes (si no están ya en theme.css) */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Orbitron:wght@700&display=swap');
+
+/* --- Variables de Tema (Tomadas de theme.css y adaptadas) --- */
+:root {
+    /* MODO CLARO POR DEFECTO */
+    --bs-body-bg-cuenta: #f8f9fa;
+    --bs-body-color-cuenta: #212529;
+    --bs-secondary-bg-cuenta: #ffffff;
+    --bs-border-color-cuenta: #dee2e6;
+    --sidebar-bg: #e9ecef;
+    --sidebar-text: #343a40;
+    --sidebar-link-hover-bg: #ced4da;
+    --sidebar-link-active-bg: #6a0dad; /* Primario Claro */
+    --sidebar-link-active-text: #ffffff;
+    --futuristic-title-color: #3e0b63;
+    --card-bg: #ffffff;
+    --card-border: #dee2e6;
+    --card-title-color: #3e0b63;
+    --link-color: #6a0dad;
+    --link-hover-color: #4b0d7d;
+}
+
+[data-bs-theme="dark"] {
+    --bs-body-bg-cuenta: #101418;
+    --bs-body-color-cuenta: #dee2e6;
+    --bs-secondary-bg-cuenta: #1a1a2e; /* Fondo sutilmente diferente */
+    --bs-border-color-cuenta: rgba(255, 255, 255, 0.15);
+    --sidebar-bg: #0c0f12; /* Más oscuro que el body */
+    --sidebar-text: #adb5bd;
+    --sidebar-link-hover-bg: #1a1a2e;
+    --sidebar-link-active-bg: #9c27b0; /* Primario Oscuro */
+    --sidebar-link-active-text: #ffffff;
+    --futuristic-title-color: #d6b5ff;
+    --card-bg: rgba(26, 26, 46, 0.7); /* Reusar card-theme */
+    --card-border: rgba(106, 13, 173, 0.5);
+    --card-title-color: #d6b5ff;
+    --link-color: #d6b5ff;
+    --link-hover-color: #ffffff;
+}
+
+body {
+    background-color: var(--bs-body-bg-cuenta);
+    color: var(--bs-body-color-cuenta);
+    font-family: 'Inter', sans-serif;
+}
+
+.container-fluid, .row, .col-auto, .col {
+    padding: 0; margin: 0; /* Asegurar que no haya paddings/margins inesperados */
+}
+
+/* --- Estilos del Sidebar Adaptados --- */
+.sidebar-cuenta {
+    background-color: var(--sidebar-bg);
+    color: var(--sidebar-text);
+    /* width y height ya están inline */
+}
+.sidebar-cuenta hr {
+    border-color: rgba(255, 255, 255, 0.1);
+}
+[data-bs-theme="light"] .sidebar-cuenta hr {
+     border-color: rgba(0, 0, 0, 0.1);
+}
+
+.sidebar-cuenta .nav-link {
+    color: var(--sidebar-text);
+    font-size: 1rem; /* Ligeramente más pequeño que el original */
+    padding: 0.75rem 1rem;
+    border-radius: .375rem;
+    transition: background-color 0.2s, color 0.2s;
+}
+.sidebar-cuenta .nav-link i {
+    width: 20px; /* Ancho fijo para iconos */
+    text-align: center;
+}
+.sidebar-cuenta .nav-link:hover {
+    background-color: var(--sidebar-link-hover-bg);
+    color: var(--bs-body-color-cuenta); /* Color principal del body */
+}
+.sidebar-cuenta .nav-link.active {
+    background-color: var(--sidebar-link-active-bg);
+    color: var(--sidebar-link-active-text);
+    font-weight: bold;
+}
+[data-bs-theme="light"] .sidebar-cuenta .nav-link.active {
+     color: #fff; /* Asegurar blanco en tema claro */
+}
+
+
+.sidebar-cuenta .dropdown-toggle {
+    transition: background-color 0.2s;
+}
+.sidebar-cuenta .dropdown-toggle:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+[data-bs-theme="light"] .sidebar-cuenta .dropdown-toggle:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.sidebar-cuenta .dropdown-menu {
+    /* Estilos por defecto de Bootstrap funcionan bien */
+}
+.sidebar-cuenta .user-avatar-sm { /* Tomado de style_base.css */
+    width: 32px; height: 32px; border-radius: 50%;
+    background-color: var(--sidebar-link-active-bg); /* Color activo */
+    border: 1px solid var(--bs-border-color-cuenta);
+    display: inline-flex; justify-content: center; align-items: center;
+    font-weight: bold; font-size: 0.8rem;
+    color: var(--sidebar-link-active-text); /* Color texto activo */
+}
+[data-bs-theme="light"] .sidebar-cuenta .user-avatar-sm {
+    color: #fff;
+}
+
+
+/* --- Estilos de la Columna de Contenido --- */
+.cuenta-content-col {
+    background-color: var(--bs-body-bg-cuenta);
+    min-height: 100vh;
+    padding: 1.5rem 2rem !important; /* Padding interno */
+}
+.cuenta-header {
+     border-color: var(--bs-border-color-cuenta);
+}
+
+
+/* --- Estilos Generales Reutilizados --- */
+.futuristic-title { /* Tomado de style_base.css */
+    font-family: 'Orbitron', sans-serif;
+    color: var(--futuristic-title-color);
+    /* text-shadow: 0 0 5px var(--sidebar-link-active-bg); */ /* Sombra opcional */
+}
+
+.card-theme { /* Adaptado de theme.css */
+    background-color: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 10px;
+    padding: 20px;
+    color: var(--bs-body-color-cuenta); /* Usar color del body */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+[data-bs-theme="dark"] .card-theme {
+     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+}
+.card-theme .card-title {
+    color: var(--card-title-color);
+    font-family: 'Orbitron', sans-serif;
+}
+
+
+.btn-theme { /* Adaptado de theme.css */
+    background-color: var(--sidebar-link-active-bg); /* Usar color primario del tema */
+    color: #fff;
+    padding: 10px 20px; border: none; border-radius: 8px; font-weight: bold;
+    transition: background-color 0.3s, transform 0.2s; cursor: pointer;
+    text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
+}
+.btn-theme:hover {
+    filter: brightness(1.1); /* Aclarar un poco */
+    transform: scale(1.03); color: #fff;
+}
+/* Inputs estilo oscuro (adaptado de theme.css) */
+.input-theme {
+    background-color: rgba(0, 0, 0, 0.3) !important;
+    border: 1px solid rgba(106, 13, 173, 0.5) !important;
+    color: #e0e0e0 !important;
+    border-radius: 6px !important;
+}
+.input-theme:focus {
+    background-color: rgba(0, 0, 0, 0.5) !important;
+    border-color: #d6b5ff !important;
+    color: #fff !important;
+    box-shadow: 0 0 0 0.25rem rgba(106, 13, 173, 0.25) !important;
+}
+[data-bs-theme="light"] .input-theme {
+     background-color: #fff !important;
+     border: 1px solid #ced4da !important;
+     color: #212529 !important;
+}
+[data-bs-theme="light"] .input-theme:focus {
+     background-color: #fff !important;
+     border-color: #8c52ff !important; /* Morado claro */
+     color: #212529 !important;
+     box-shadow: 0 0 0 0.25rem rgba(106, 13, 173, 0.25) !important;
+}
+
+/* Input readonly/disabled (tomado de theme.css) */
+input[readonly][disabled] {
+    background-color: rgba(0, 0, 0, 0.1) !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
+    color: #888 !important;
+    cursor: not-allowed;
+}
+[data-bs-theme="light"] input[readonly][disabled] {
+     background-color: #e9ecef !important;
+     border-color: #ced4da !important;
+     color: #6c757d !important;
+}
+
+
+/* Label específico para formularios de perfil/config */
+.profile-edit-label {
+    font-weight: 600;
+    color: var(--bs-secondary-color); /* Color secundario del tema */
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+[data-bs-theme="dark"] .profile-edit-label {
+    color: #bbb;
+}
+
+/* Mensajes Flash */
+.flash-alert {
+    background-color: var(--bs-secondary-bg-cuenta);
+    color: var(--bs-body-color-cuenta);
+    border-left: 5px solid; /* Borde lateral de color */
+    margin-bottom: 1.5rem;
+    border-radius: 6px; /* Añadir borde redondeado */
+}
+.flash-alert.alert-success { border-left-color: var(--bs-success); }
+.flash-alert.alert-danger { border-left-color: var(--bs-danger); }
+
+/* Ajustar color del botón de cierre */
+.flash-alert .btn-close-white { filter: invert(1) grayscale(100%) brightness(200%); }
+[data-bs-theme="light"] .flash-alert .btn-close-white { filter: none; }
+/* Lista de errores dentro del flash */
+.flash-alert ul { padding-left: 20px; margin-bottom: 0; }
+.flash-alert li { font-size: 0.9em; }
+
+/* Responsive general */
+@media (max-width: 768px) {
+    .cuenta-content-col {
+        padding: 1rem 1.5rem !important;
+    }
+    .sidebar-cuenta {
+        /* Podrías ocultar el sidebar en móvil o hacerlo colapsable */
+        /* Ejemplo simple: ocultarlo */
+        /* display: none; */
+        /* O reducir su ancho */
+        /* width: 80px !important; */
+    }
+    /* Asegurar que el contenido ocupe todo */
+    .col.py-3.cuenta-content-col {
+        width: 100%;
+        max-width: 100%;
+        flex: 1 1 100%;
+    }
+}
+
