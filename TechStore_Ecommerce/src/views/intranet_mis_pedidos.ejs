@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="es" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechStore - Mis Pedidos</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    
+    <link rel="stylesheet" href="css/style_base.css"> 
+    <link rel="stylesheet" href="css/style_mis_pedidos.css"> 
+</head>
+<body>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-auto px-0">
+                <%- include('partials/intranet_sidebar') %>
+            </div>
+
+            <div class="col py-3">
+                <header class="d-flex justify-content-between align-items-center pb-3 mb-4 border-bottom">
+                    <h1 class="futuristic-title fs-4">             </h1>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" role="switch" id="theme-toggle">
+                        <label class="form-check-label" for="theme-toggle">☀️ Modo Claro</label>
+                    </div>
+                </header>
+
+                <main>
+                    <h2 class="futuristic-title mb-4">Mis Pedidos Recientes 📦</h2>
+
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-search"></i></span>
+                                <input type="text" class="form-control" placeholder="Buscar por ID o Nombre de Producto...">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-select">
+                                <option selected>Todos los estados</option>
+                                <option value="1">En Tienda</option>
+                                <option value="2">En Camino</option>
+                                <option value="3">Entregado</option>
+                                <option value="4">Pendiente</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Fecha</th>
+                                    <th>Imagen</th>
+                                    <th>Nombre</th>
+                                    <th>Estado</th>
+                                    <th>Total</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="fw-bold" style="color: #d6b5ff;">#TS-12348</td>
+                                    <td>2025-10-24</td>
+                                    <td><img src="https://via.placeholder.com/60" alt="Producto" class="product-image-sm"></td>
+                                    <td>Monitor Gamer 27"</td>
+                                    <td><span class="badge bg-info">EN TIENDA</span></td>
+                                    <td>S/ 850.00</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modalEnTienda">
+                                            Ver Detalle
+                                        </button>
+                                    </td>
+                                </tr>
+                                
+                                <tr>
+                                    <td class="fw-bold" style="color: #d6b5ff;">#TS-12346</td>
+                                    <td>2025-10-22</td>
+                                    <td><img src="https://via.placeholder.com/60" alt="Producto" class="product-image-sm"></td>
+                                    <td>Teclado Keychron Q2</td>
+                                    <td><span class="badge bg-warning text-dark">EN CAMINO</span></td>
+                                    <td>S/ 150.50</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modalEnCamino">
+                                            Ver Detalle
+                                        </button>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td class="fw-bold" style="color: #d6b5ff;">#TS-12345</td>
+                                    <td>2025-10-20</td>
+                                    <td><img src="https://via.placeholder.com/60" alt="Producto" class="product-image-sm"></td>
+                                    <td>Procesador Ryzen 5 5600X</td>
+                                    <td><span class="badge bg-success">ENTREGADO</span></td>
+                                    <td>S/ 499.99</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modalEntregado">
+                                            Ver Detalle
+                                        </button>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td class="fw-bold" style="color: #d6b5ff;">#TS-12347</td>
+                                    <td>2025-10-23</td>
+                                    <td><img src="https://via.placeholder.com/60" alt="Producto" class="product-image-sm"></td>
+                                    <td>Mouse Logitech G502</td>
+                                    <td><span class="badge bg-danger">PENDIENTE</span></td>
+                                    <td>S/ 99.99</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modalPendiente">
+                                            Ver Detalle
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalEnTienda" tabindex="-1" aria-labelledby="modalEnTiendaLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header border-0">
+                    <h1 class="modal-title fs-5 futuristic-title text-info" id="modalEnTiendaLabel">
+                        <i class="bi bi-shop me-2"></i>Pedido en Tienda (#TS-12348)
+                    </h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    
+                    <p>Estamos preparando tu pedido en nuestro almacén.</p>
+                    
+                    <ul class="stepper-wrapper">
+                        <li class="stepper-item active step-tienda">
+                            <div class="stepper-circle"><i class="bi bi-shop"></i></div>
+                            En Tienda
+                        </li>
+                        <li class="stepper-item">
+                            <div class="stepper-circle"></div>
+                            En Camino
+                        </li>
+                        <li class="stepper-item">
+                            <div class="stepper-circle"></div>
+                            Entregado
+                        </li>
+                    </ul>
+
+                    <h5 class="mt-4">Resumen de Compra</h5>
+                    <div class="card bg-dark border-secondary">
+                        <div class="card-body d-flex align-items-center">
+                            <img src="https://via.placeholder.com/80" alt="Producto" class="product-image-sm me-3">
+                            <div>
+                                <h6 class="mb-0">Monitor Gamer 27"</h6>
+                                <p class="mb-0 text-white-50">Cantidad: 1</p>
+                            </div>
+                            <p class="mb-0 fs-5 ms-auto fw-bold" style="color: #e94560;">S/ 850.00</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalEnCamino" tabindex="-1" aria-labelledby="modalEnCaminoLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header border-0">
+                    <h1 class="modal-title fs-5 futuristic-title text-warning" id="modalEnCaminoLabel">
+                        <i class="bi bi-truck me-2"></i>Pedido en Camino (#TS-12346)
+                    </h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    
+                    <p>¡Tu pedido está en ruta! Fecha estimada de entrega: 25 de Octubre, 2025.</p>
+
+                    <ul class="stepper-wrapper">
+                        <li class="stepper-item completed step-camino">
+                            <div class="stepper-circle"><i class="bi bi-shop"></i></div>
+                            En Tienda
+                        </li>
+                        <li class="stepper-item active step-camino">
+                            <div class="stepper-circle"><i class="bi bi-truck"></i></div>
+                            En Camino
+                        </li>
+                        <li class="stepper-item">
+                            <div class="stepper-circle"></div>
+                            Entregado
+                        </li>
+                    </ul>
+                    
+                    <h5 class="mt-4">Resumen de Compra</h5>
+                    <div class="card bg-dark border-secondary">
+                        <div class="card-body d-flex align-items-center">
+                            <img src="https://via.placeholder.com/80" alt="Producto" class="product-image-sm me-3">
+                            <div>
+                                <h6 class="mb-0">Teclado Keychron Q2</h6>
+                                <p class="mb-0 text-white-50">Cantidad: 1</p>
+                            </div>
+                            <p class="mb-0 fs-5 ms-auto fw-bold" style="color: #e94560;">S/ 150.50</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal fade" id="modalEntregado" tabindex="-1" aria-labelledby="modalEntregadoLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header border-0">
+                    <h1 class="modal-title fs-5 futuristic-title text-success" id="modalEntregadoLabel">
+                        <i class="bi bi-check-circle-fill me-2"></i>Pedido Entregado (#TS-12345)
+                    </h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    
+                    <ul class="stepper-wrapper">
+                        <li class="stepper-item completed">
+                            <div class="stepper-circle"><i class="bi bi-shop"></i></div> 
+                            En Tienda
+                        </li>
+                        <li class="stepper-item completed">
+                            <div class="stepper-circle"><i class="bi bi-truck"></i></div>
+                            En Camino
+                        </li>
+                        <li class="stepper-item completed step-entregado"> 
+<div class="stepper-circle"><i class="bi bi-check-lg"></i></div> 
+                            Entregado
+                        </li>
+                    </ul>
+                    <p class="text-center text-success small mt-2">Completado el 22 de Octubre, 2025</p>
+
+                    <h5 class="mt-4">Resumen de Compra</h5>
+                    <div class="card bg-dark border-secondary">
+                        <div class="card-body d-flex align-items-center">
+                            <img src="https://via.placeholder.com/80" alt="Producto" class="product-image-sm me-3">
+                            <div>
+                                <h6 class="mb-0">Procesador Ryzen 5 5600X</h6>
+                                <p class="mb-0 text-white-50">Cantidad: 1</p>
+                            </div>
+                            <p class="mb-0 fs-5 ms-auto fw-bold" style="color: #e94560;">S/ 499.99</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary">Volver a Comprar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalPendiente" tabindex="-1" aria-labelledby="modalPendienteLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header border-0">
+                    <h1 class="modal-title fs-5 futuristic-title text-danger" id="modalPendienteLabel">
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i>Pedido Pendiente (#TS-12347)
+                    </h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-danger" role="alert">
+                        <h4 class="alert-heading">Problema con el Pago</h4>
+                        <p>No pudimos procesar tu pago. Por favor, actualiza tu método de pago para continuar con la compra.</p>
+                        <hr>
+                        <p class="mb-0">Motivo: Tarjeta Rechazada (Fondos Insuficientes).</p>
+                    </div>
+
+                    <h5 class="mt-4">Resumen de Compra</h5>
+                    <div class="card bg-dark border-secondary">
+                        <div class="card-body d-flex align-items-center">
+                            <img src="https://via.placeholder.com/80" alt="Producto" class="product-image-sm me-3">
+                            <div>
+                                <h6 class="mb-0">Mouse Logitech G502</h6>
+                                <p class="mb-0 text-white-50">Cantidad: 1</p>
+                            </div>
+                            <p class="mb-0 fs-5 ms-auto fw-bold" style="color: #e94560;">S/ 99.99</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar Pedido</button>
+                    <a href="tarjetas.html" class="btn btn-danger">Actualizar Método de Pago</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script src="js/app_sidebar_bootstrap.js"></script>
+
+</body>
+</html>

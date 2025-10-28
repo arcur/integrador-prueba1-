@@ -48,7 +48,7 @@ app.set('views', path.join(__dirname, 'src', 'views'));
 // Aquí le decimos a Express que la carpeta 'public' contiene CSS, JS, e imágenes
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/intranet', express.static(path.join(__dirname, 'TechStore-IntranetUsu')));
+
 // 6. Rutas
 
 // 6. Rutas
@@ -61,6 +61,8 @@ const carritoRouter = require('./src/routes/carrito.routes.js');
 const pedidoRouter = require('./src/routes/pedido.routes.js');
 const adminRouter = require('./src/routes/admin.routes.js');
 const productoRouter = require('./src/routes/producto.routes.js');
+
+const intranetRouter = require('./src/routes/intranet.routes.js');
 // Rutas principales
 app.use('/', mainRouter);
 
@@ -80,6 +82,7 @@ app.use('/pedido', pedidoRouter);
 // Rutas de Producto Individual
 app.use('/producto', productoRouter); // <-- AÑADE ESTA LÍNEA
 
+app.use('/intranet', intranetRouter);
 
 // ... (resto de server.js) ...
 // --- RUTAS DE ADMINISTRACIÓN ---
