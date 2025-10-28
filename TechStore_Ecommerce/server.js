@@ -48,6 +48,7 @@ app.set('views', path.join(__dirname, 'src', 'views'));
 // Aquí le decimos a Express que la carpeta 'public' contiene CSS, JS, e imágenes
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use('/intranet', express.static(path.join(__dirname, 'TechStore-IntranetUsu')));
 // 6. Rutas
 
 // 6. Rutas
