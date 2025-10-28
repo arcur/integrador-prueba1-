@@ -1,5 +1,5 @@
 // src/routes/main.routes.js
-// (ACTUALIZADO - Busca imagen de producto por categoría)
+// (ACTUALIZADO - Busca imagen de producto por categoría y añade rutas estáticas)
 
 const express = require('express');
 const router = express.Router();
@@ -66,5 +66,16 @@ router.get('/', async (req, res) => {
         });
     }
 });
+
+// NUEVAS RUTAS AGREGADAS PARA PÁGINAS ESTÁTICAS
+// 👈 ESTAS LÍNEAS SON LA SOLUCIÓN
+router.get('/nosotros', (req, res) => {
+    res.render('nosotros', { title: 'Sobre Nosotros - TechStore' });
+});
+
+router.get('/contacto', (req, res) => {
+    res.render('contacto', { title: 'Contacto - TechStore' });
+});
+// 👆 SOLUCIÓN
 
 module.exports = router;
