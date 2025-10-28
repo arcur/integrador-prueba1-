@@ -3,7 +3,9 @@
 // 1. Importamos los Modelos que SÍ tenemos
 const Pedido = require('../models/pedido.model');
 const Usuario = require('../models/usuario.model');
-// Faltan los modelos de Favoritos y Tarjetas, los dejaremos pendientes
+const Favorito = require('../models/favorito.model');
+const Tarjeta = require('../models/tarjeta.model');
+
 
 const intranetController = {};
 
@@ -41,12 +43,11 @@ intranetController.mostrarDashboard = async (req, res) => {
 
 // (GET /intranet/mis-pedidos)
 intranetController.mostrarMisPedidos = async (req, res) => {
-    // TODO: Necesitamos crear la función 'findByUsuario' en pedido.model.js
-    // Por ahora, enviamos un array vacío.
-    // const misPedidos = await Pedido.findByUsuario(req.session.user.id_usuario); 
-    
+    // ¡Usamos la nueva función!
+    const misPedidos = await Pedido.findByUsuarioId(req.session.user.id_usuario); 
+
     renderIntranetView(req, res, 'intranet_mis_pedidos', 'Mis Pedidos', 'pedidos', {
-        pedidos: [] // Reemplazaremos esto en el Paso 5
+        pedidos: misPedidos // <-- ¡Ahora pasamos los datos reales!
     });
 };
 
@@ -59,21 +60,21 @@ intranetController.mostrarConfiguracion = async (req, res) => {
 
 // (GET /intranet/mis-favoritos)
 intranetController.mostrarMisFavoritos = async (req, res) => {
-    // TODO: Necesitamos crear un modelo y función para Favoritos
-    // const misFavoritos = await Favorito.findByUsuario(req.session.user.id_usuario);
-    
+    // ¡Usamos la nueva función!
+    const misFavoritos = await Favorito.findByUsuarioId(req.session.user.id_usuario);
+
     renderIntranetView(req, res, 'intranet_mis_favoritos', 'Mis Favoritos', 'favoritos', {
-        favoritos: [] 
+        favoritos: misFavoritos // <-- ¡Pasamos los datos reales!
     });
 };
 
 // (GET /intranet/mis-tarjetas)
 intranetController.mostrarMisTarjetas = async (req, res) => {
-    // TODO: Necesitamos crear un modelo y función para Tarjetas
-    // const misTarjetas = await Tarjeta.findByUsuario(req.session.user.id_usuario);
-    
+    // ¡Usamos la nueva función!
+    const misTarjetas = await Tarjeta.findByUsuarioId(req.session.user.id_usuario);
+
     renderIntranetView(req, res, 'intranet_mis_tarjetas', 'Mis Tarjetas', 'tarjetas', {
-        tarjetas: [] 
+        tarjetas: misTarjetas // <-- ¡Pasamos los datos reales!
     });
 };
 

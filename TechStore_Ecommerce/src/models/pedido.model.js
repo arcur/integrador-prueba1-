@@ -237,6 +237,24 @@ Pedido.updateStatus = async (id_pedido, nuevo_estado) => {
             connection.release();
         }
     }
+        
 };
-
+/**
+ * ¡NUEVO! Obtiene TODOS los pedidos de un usuario específico para la intranet.
+ * @param {number} id_usuario - ID del usuario a consultar.
+ */
+Pedido.findByUsuarioId = async (id_usuario) => {
+    const sql = `
+        SELECT 
+            p.id_pedido,
+            p.fecha,
+            p.estado,
+            p.total
+        FROM pedido p
+        WHERE p.id_usuario = ?
+        ORDER BY p.fecha DESC
+    `;
+    const [rows] = await pool.query(sql, [id_usuario]);
+    return rows;
+};
 module.exports = Pedido;
