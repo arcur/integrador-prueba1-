@@ -35,5 +35,14 @@ router.get('/mis_favoritos', intranetController.mostrarMisFavoritos);
 // Ruta para (GET /intranet/mis-tarjetas) -> Muestra intranet_mis_tarjetas.ejs
 router.get('/mis_tarjetas', intranetController.mostrarMisTarjetas);
 
+// ... (rutas GET existentes) ...
+
+// ¡NUEVO! Rutas POST para actualizar datos
+router.post('/configuracion/actualizar-datos', intranetController.actualizarDatos);
+router.post('/configuracion/cambiar-password', intranetController.cambiarPassword);
+
+
+router.get('/mis_pedidos/:id', intranetController.mostrarDetallePedido); // <-- Esta es la ruta que debe coincidir
+
 // 5. EXPORTAMOS EL ROUTER
 module.exports = router;

@@ -1,95 +1,116 @@
 <%- include('partials/header') %>
 
-<% if (locals.error) { %>
-    <div class="alert alert-danger" role="alert" style="margin-bottom: 20px; background-color: rgba(220, 53, 69, 0.8); border: none; color: white;">
-        <i class="bi bi-exclamation-triangle-fill"></i> <%= error %>
-    </div>
-<% } %>
-<% if (locals.success) { %>
-    <div class="alert alert-success" role="alert" style="margin-bottom: 20px; background-color: rgba(25, 135, 84, 0.8); border: none; color: white;">
-        <i class="bi bi-check-circle-fill"></i> <%= success %>
-    </div>
-<% } %>
-
-<div class="detalle-producto-layout card-theme">
-
-    <div class="detalle-imagen">
-        <img src="<%= producto.imagen ? producto.imagen : '/img/placeholder-prod.webp' %>"
-             alt="<%= producto.nombre_producto %>"
-             onerror="this.onerror=null; this.src='/img/placeholder-prod.webp';">
+    <% if (locals.error) { %>
+        <div class="alert alert-danger" role="alert"
+            style="margin-bottom: 20px; background-color: rgba(220, 53, 69, 0.8); border: none; color: white;">
+            <i class="bi bi-exclamation-triangle-fill"></i>
+            <%= error %>
         </div>
-
-    <div class="detalle-info">
-        <h1><%= producto.nombre_producto %></h1>
-
-        <% if (locals.categorias) { %>
-           <% const cat = categorias.find(c => c.id_categoria === producto.id_categoria); %>
-           <% if (cat) { %>
-             <a href="/catalogo?categoria=<%= cat.id_categoria %>" class="badge-categoria mb-3"><%= cat.nombre_categoria %></a>
-           <% } %>
         <% } %>
+            <% if (locals.success) { %>
+                <div class="alert alert-success" role="alert"
+                    style="margin-bottom: 20px; background-color: rgba(25, 135, 84, 0.8); border: none; color: white;">
+                    <i class="bi bi-check-circle-fill"></i>
+                    <%= success %>
+                </div>
+                <% } %>
+
+                    <div class="detalle-producto-layout card-theme">
+
+                        <div class="detalle-imagen">
+                            <img src="<%= producto.imagen ? producto.imagen : '/img/placeholder-prod.webp' %>"
+                                alt="<%= producto.nombre_producto %>"
+                                onerror="this.onerror=null; this.src='/img/placeholder-prod.webp';">
+                        </div>
+
+                        <div class="detalle-info">
+                            <h1>
+                                <%= producto.nombre_producto %>
+                            </h1>
+
+                            <% if (locals.categorias) { %>
+                                <% const cat=categorias.find(c=> c.id_categoria === producto.id_categoria); %>
+                                    <% if (cat) { %>
+                                        <a href="/catalogo?categoria=<%= cat.id_categoria %>"
+                                            class="badge-categoria mb-3">
+                                            <%= cat.nombre_categoria %>
+                                        </a>
+                                        <% } %>
+                                            <% } %>
 
 
-        <p class="precio-detalle">S/ <%= producto.precio.toFixed(2) %></p>
+                                                <p class="precio-detalle">S/ <%= producto.precio.toFixed(2) %>
+                                                </p>
 
-        <p class="stock-detalle mb-4">
-            Disponibilidad:
-            <% if (producto.stock > 0) { %>
-                <span class="text-success fw-bold">
-                    <i class="bi bi-check-circle-fill"></i> En Stock (<%= producto.stock %> unidades)
-                </span>
-            <% } else { %>
-                <span class="text-danger fw-bold">
-                    <i class="bi bi-x-circle-fill"></i> Agotado
-                </span>
-            <% } %>
-        </p>
+                                                <p class="stock-detalle mb-4">
+                                                    Disponibilidad:
+                                                    <% if (producto.stock> 0) { %>
+                                                        <span class="text-success fw-bold">
+                                                            <i class="bi bi-check-circle-fill"></i> En Stock (<%=
+                                                                producto.stock %> unidades)
+                                                        </span>
+                                                        <% } else { %>
+                                                            <span class="text-danger fw-bold">
+                                                                <i class="bi bi-x-circle-fill"></i> Agotado
+                                                            </span>
+                                                            <% } %>
+                                                </p>
 
-        <% if (producto.stock > 0) { %>
-            <a href="/carrito/agregar/<%= producto.id_producto %>" class="btn-theme btn-lg mb-4">
-                <i class="bi bi-cart-plus-fill"></i> Añadir al Carrito
-            </a>
-        <% } else { %>
-             <button class="btn-theme btn-lg mb-4" disabled>
-                <i class="bi bi-cart-x-fill"></i> Agotado
-            </button>
-        <% } %>
+                                                <% if (producto.stock> 0) { %>
+                                                    <button type="button" class="btn-theme btn-lg mb-4 btn-add-to-cart"
+                                                        data-product-id="<%= producto.id_producto %>"
+                                                        data-product-name="<%= producto.nombre_producto %>">
+                                                        <i class="bi bi-cart-plus-fill"></i> Añadir al Carrito
+                                                    </button>
+                                                    <% } else { %>
+                                                        <button class="btn-theme btn-lg mb-4" disabled>
+                                                            <i class="bi bi-cart-x-fill"></i> Agotado
+                                                        </button>
+                                                        <% } %>
 
 
-        <hr style="border-color: rgba(106, 13, 173, 0.3);">
+                                                            <hr style="border-color: rgba(106, 13, 173, 0.3);">
 
-        <h4 class="mt-4">Descripción</h4>
-        <div class="descripcion-completa">
-             <% if (producto.descripcion_producto) { %>
-                 <%- producto.descripcion_producto.replace(/\n/g, '<br>') %> <% } else { %>
-                 <p class="text-muted">Descripción no disponible.</p>
-             <% } %>
-        </div>
+                                                            <h4 class="mt-4">Descripción</h4>
+                                                            <div class="descripcion-completa">
+                                                                <% if (producto.descripcion_producto) { %>
+                                                                    <%- producto.descripcion_producto.replace(/\n/g, '<br>'
+                                                                        ) %>
+                                                                        <% } else { %>
+                                                                            <p class="text-muted">Descripción no
+                                                                                disponible.</p>
+                                                                            <% } %>
+                                                            </div>
 
-    </div>
-</div>
+                        </div>
+                    </div>
 
-<% if (relacionados && relacionados.length > 0) { %>
-<section class="relacionados mt-5">
-    <h2>También te podría gustar</h2>
-    <div class="productos-grid"> <% relacionados.forEach(rel => { %>
-            <div class="producto-card card-theme">
-                 <a href="/producto/<%= rel.id_producto %>" class="related-link">
-                    <img src="<%= rel.imagen ? rel.imagen : '/img/placeholder-prod.webp' %>"
-                         alt="<%= rel.nombre_producto %>"
-                         onerror="this.onerror=null; this.src='/img/placeholder-prod.webp';" />
-                    <h3><%= rel.nombre_producto %></h3>
-                 </a>
-                 <div class="producto-info mt-auto">
-                     <p class="precio">S/ <%= rel.precio.toFixed(2) %></p>
-                 </div>
-                 <a href="/carrito/agregar/<%= rel.id_producto %>" class="btn-theme btn-card mt-2">
-                     <i class="bi bi-cart-plus"></i> Añadir
-                 </a>
-            </div>
-        <% }) %>
-    </div>
-</section>
-<% } %>
+                    <% if (relacionados && relacionados.length> 0) { %>
+                        <section class="relacionados mt-5">
+                            <h2>También te podría gustar</h2>
+                            <div class="productos-grid">
+                                <% relacionados.forEach(rel=> { %>
+                                    <div class="producto-card card-theme">
+                                        <a href="/producto/<%= rel.id_producto %>" class="related-link">
+                                            <img src="<%= rel.imagen ? rel.imagen : '/img/placeholder-prod.webp' %>"
+                                                alt="<%= rel.nombre_producto %>"
+                                                onerror="this.onerror=null; this.src='/img/placeholder-prod.webp';" />
+                                            <h3>
+                                                <%= rel.nombre_producto %>
+                                            </h3>
+                                        </a>
+                                        <div class="producto-info mt-auto">
+                                            <p class="precio">S/ <%= rel.precio.toFixed(2) %>
+                                            </p>
+                                        </div>
+                                        <a href="/carrito/agregar/<%= rel.id_producto %>"
+                                            class="btn-theme btn-card mt-2">
+                                            <i class="bi bi-cart-plus"></i> Añadir
+                                        </a>
+                                    </div>
+                                    <% }) %>
+                            </div>
+                        </section>
+                        <% } %>
 
-<%- include('partials/footer') %>
+                            <%- include('partials/footer') %>

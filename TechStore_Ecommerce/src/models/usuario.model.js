@@ -158,4 +158,32 @@ Usuario.getAllStates = async () => {
     return rows;
 };
 
+
+/**
+ * ¡NUEVO! Modelo para actualizar datos del perfil de un cliente.
+ */
+Usuario.updateProfileData = async (id_usuario, data) => {
+    const sql = `
+        UPDATE usuario 
+        SET nombre = ?, apellido_paterno = ?, apellido_materno = ?, telefono = ?
+        WHERE id_usuario = ?
+    `;
+    const [result] = await pool.query(sql, [
+        data.nombre, data.apellido_paterno, data.apellido_materno, data.telefono, id_usuario
+    ]);
+    return result.affectedRows;
+};
+
+/**
+ * ¡NUEVO! Modelo para actualizar solo la contraseña.
+ */
+Usuario.updatePassword = async (id_usuario, nuevaContraseña) => {
+    const salt = await bcrypt.genSalt(10);
+    const hash = await bcrypt.hash(nuevaContraseña, salt);
+    
+    const sql = `UPDATE usuario SET contraseña = ? WHERE id_usuario = ?`;
+    const [result] = await pool.query(sql, [hash, id_usuario]);
+    return result.affectedRows;
+};
+
 module.exports = Usuario;
