@@ -8,8 +8,8 @@ const Usuario = require('../models/usuario.model.js');
 const Reporte = require('../models/reporte.model.js');
 const Proveedor = require('../models/proveedor.model.js'); // Importamos Proveedor
 const bcrypt = require('bcryptjs');
-const Papa = require('papaparse');
 const { format } = require('date-fns');
+const Excel = require('exceljs'); // <-- *** 1. IMPORTAR EXCELJS ***
 
 const adminController = {};
 
@@ -485,42 +485,167 @@ adminController.mostrarPaginaReportes = (req, res) => {
         error: req.query.error || null
     });
 };
+
+// --- *** 2. REEMPLAZAR COMPLETAMENTE ESTA FUNCIÓN *** ---
 adminController.generarReporte = async (req, res) => {
     const { tipoReporte, fechaInicio, fechaFin } = req.body;
+    
     try {
+        const workbook = new Excel.Workbook();
+        workbook.creator = 'TechStore Admin';
+        workbook.lastModifiedBy = 'TechStore Admin';
+        workbook.created = new Date();
+        
         let data;
         let filename = `reporte_${tipoReporte}`;
         const timestamp = format(new Date(), 'yyyyMMdd_HHmmss');
 
+        // --- INICIO: Lógica para Reporte de Inventario ---
         if (tipoReporte === 'inventario') {
-            data = await Reporte.getInventarioCompleto();
-            filename = `reporte_inventario_${timestamp}.csv`;
+            data = await Reporte.getInventarioCompleto(); //
+            filename = `Reporte_Inventario_${timestamp}.xlsx`;
+
+            if (!data || data.length === 0) {
+                return res.redirect('/admin/reportes?error=No se encontraron datos de inventario.');
+            }
+
+            const sheet = workbook.addWorksheet('Inventario');
+
+            // --- Título y Metadatos ---
+            sheet.addRow(['Reporte de Inventario - TechStore']);
+            sheet.addRow([`Fecha de Generación: ${format(new Date(), 'dd/MM/yyyy HH:mm')}`]);
+            sheet.addRow([]); // Fila vacía
+            sheet.mergeCells('A1:E1'); // Unir celdas para el título
+            sheet.getCell('A1').font = { size: 16, bold: true, color: { argb: 'FF6A0DAD' } };
+            sheet.getCell('A1').alignment = { horizontal: 'center' };
+
+            // --- Encabezados (Headers) ---
+            const headers = Object.keys(data[0]);
+            const headerRow = sheet.addRow(headers);
+            
+            // Estilo de Encabezados
+            headerRow.eachCell((cell) => {
+                cell.font = { bold: true, color: { argb: 'FFFFFFFF' } };
+                cell.fill = {
+                    type: 'pattern',
+                    pattern: 'solid',
+                    fgColor: { argb: 'FF6A0DAD' } // Fondo morado
+                };
+                cell.border = {
+                    bottom: { style: 'thin', color: { argb: 'FF000000' } }
+                };
+            });
+
+            // --- Añadir Datos ---
+            data.forEach(item => {
+                sheet.addRow(Object.values(item));
+            });
+
+            // --- Formato de Columnas ---
+            // Columna D (PrecioVenta)
+            sheet.getColumn('D').numFmt = '"S/" #,##0.00';
+            // Columna E (StockActual)
+            sheet.getColumn('E').numFmt = '#,##0';
+
+            // Ajustar ancho de columnas
+            sheet.columns.forEach(column => {
+                let maxLength = 0;
+                column.eachCell({ includeEmpty: true }, cell => {
+                    let columnLength = cell.value ? cell.value.toString().length : 10;
+                    if (columnLength > maxLength) {
+                        maxLength = columnLength;
+                    }
+                });
+                column.width = maxLength < 10 ? 12 : maxLength + 4;
+            });
+
+        // --- FIN: Lógica para Reporte de Inventario ---
+
+        // --- INICIO: Lógica para Reporte de Ventas ---
         } else if (tipoReporte === 'ventas') {
             if (!fechaInicio || !fechaFin) {
-                return res.redirect('/admin/reportes?error=Debe seleccionar fecha de inicio y fin para el reporte de ventas.');
+                return res.redirect('/admin/reportes?error=Debe seleccionar fecha de inicio y fin.');
             }
-            data = await Reporte.getVentasPorFechas(fechaInicio, fechaFin);
-            filename = `reporte_ventas_${fechaInicio}_a_${fechaFin}_${timestamp}.csv`;
+            data = await Reporte.getVentasPorFechas(fechaInicio, fechaFin); //
+            filename = `Reporte_Ventas_${fechaInicio}_a_${fechaFin}_${timestamp}.xlsx`;
+
+            if (!data || data.length === 0) {
+                return res.redirect('/admin/reportes?error=No se encontraron ventas en ese rango de fechas.');
+            }
+
+            const sheet = workbook.addWorksheet('Ventas');
+
+            // --- Título y Metadatos ---
+            sheet.addRow(['Reporte de Ventas - TechStore']);
+            sheet.addRow([`Período: ${fechaInicio} al ${fechaFin}`]);
+            sheet.addRow([`Fecha de Generación: ${format(new Date(), 'dd/MM/yyyy HH:mm')}`]);
+            sheet.addRow([]); // Fila vacía
+            sheet.mergeCells('A1:F1'); // 6 columnas
+            sheet.getCell('A1').font = { size: 16, bold: true, color: { argb: 'FF6A0DAD' } };
+            sheet.getCell('A1').alignment = { horizontal: 'center' };
+
+            // --- Encabezados (Headers) ---
+            const headers = Object.keys(data[0]);
+            const headerRow = sheet.addRow(headers);
+            
+            // Estilo de Encabezados
+            headerRow.eachCell((cell) => {
+                cell.font = { bold: true, color: { argb: 'FFFFFFFF' } };
+                cell.fill = {
+                    type: 'pattern',
+                    pattern: 'solid',
+                    fgColor: { argb: 'FF6A0DAD' }
+                };
+                cell.border = {
+                    bottom: { style: 'thin', color: { argb: 'FF000000' } }
+                };
+            });
+
+            // --- Añadir Datos ---
+            data.forEach(item => {
+                sheet.addRow(Object.values(item));
+            });
+
+            // --- Formato de Columnas ---
+            // Columna B (Fecha)
+            sheet.getColumn('B').numFmt = 'dd/mm/yyyy hh:mm AM/PM';
+            // Columna E (Total_Venta)
+            sheet.getColumn('E').numFmt = '"S/" #,##0.00';
+
+            // Ajustar ancho de columnas
+            sheet.columns.forEach(column => {
+                let maxLength = 0;
+                column.eachCell({ includeEmpty: true }, cell => {
+                    let columnLength = cell.value ? cell.value.toString().length : 10;
+                    if (columnLength > maxLength) {
+                        maxLength = columnLength;
+                    }
+                });
+                column.width = maxLength < 10 ? 12 : maxLength + 4;
+            });
+            sheet.getColumn('C').width = 30; // Columna de Cliente más ancha
+
+        // --- FIN: Lógica para Reporte de Ventas ---
+
         } else {
             return res.redirect('/admin/reportes?error=Tipo de reporte no válido.');
         }
 
-        if (!data || data.length === 0) {
-            return res.redirect('/admin/reportes?error=No se encontraron datos para generar el reporte seleccionado.');
-        }
+        // --- Enviar el archivo Excel al navegador ---
+        res.setHeader(
+            'Content-Type',
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        );
+        res.setHeader(
+            'Content-Disposition',
+            `attachment; filename="${filename}"`
+        );
 
-        const csv = Papa.unparse(data);
-
-        res.setHeader('Content-Type', 'text/csv; charset=utf-8'); // Añadir charset=utf-8
-        res.setHeader('Content-Disposition', `attachment; filename="${filename}"`); // Usar comillas por si hay espacios
-        
-        // BOM (Byte Order Mark) para Excel en español
-        const bom = '\ufeff'; 
-        res.status(200).send(bom + csv);
-
+        await workbook.xlsx.write(res);
+        res.end();
 
     } catch (error) {
-        console.error('Error al generar reporte:', error);
+        console.error('Error al generar reporte Excel:', error);
         res.redirect('/admin/reportes?error=Ocurrió un error al generar el reporte.');
     }
 };
