@@ -95,25 +95,59 @@ adminController.actualizarEstadoPedido = async (req, res) => {
 };
 
 // --- GESTIÓN DE PRODUCTOS ---
+// --- GESTIÓN DE PRODUCTOS ---
 adminController.mostrarGestionProductos = async (req, res) => {
     try {
-        const productos = await Producto.getAllForAdmin();
-        // --- ¡AÑADIR ESTE LOG PARA DIAGNÓSTICO! ---
-        console.log('Valor de "productos" recibido del modelo:', productos);
-        // --- FIN DEL LOG ---
-        const stockBajo = productos.filter(p => p.stock > 0 && p.stock <= 10);
+        // 1. Obtener TODOS los productos (sin filtrar, para los conteos)
+        const todosLosProductos = await Producto.getAllForAdmin();
+
+        // 2. Calcular los conteos para las alertas
+        const productosSinStock = todosLosProductos.filter(p => p.stock == 0).length;
+        const productosBajoStock = todosLosProductos.filter(p => p.stock > 0 && p.stock <= 10).length;
+
+        // 3. Obtener los filtros del query string (para la tabla)
+        const { filtro_stock, stock_min, stock_max } = req.query;
+
+        // 4. Filtrar la lista de productos que se va a MOSTRAR
+        let productosMostrados = todosLosProductos;
+
+        if (filtro_stock === 'sin_stock') {
+            productosMostrados = todosLosProductos.filter(p => p.stock == 0);
+        } else if (filtro_stock === 'bajo_stock') {
+            productosMostrados = todosLosProductos.filter(p => p.stock > 0 && p.stock <= 10);
+        } else if (filtro_stock === 'sobre_stock') {
+            // Asumimos 'sobrestock' > 50 unidades (puedes cambiar este valor)
+            productosMostrados = todosLosProductos.filter(p => p.stock > 50);
+        } else if (filtro_stock === 'rango' && stock_min && stock_max) {
+            productosMostrados = todosLosProductos.filter(p => 
+                p.stock >= parseInt(stock_min) && p.stock <= parseInt(stock_max)
+            );
+        }
+
+        // 5. Renderizar la vista
         res.render('admin/gestion_productos', {
             title: 'Gestión de Productos',
-            productos: productos,
-            stockBajo: stockBajo,
+            productos: productosMostrados, // <-- Lista filtrada
+            
+            // Pasamos los nuevos conteos para las alertas
+            conteoSinStock: productosSinStock,
+            conteoBajoStock: productosBajoStock,
+
+            // Pasamos los filtros actuales para rellenar el formulario
+            filtrosActuales: req.query, 
+            
             success: req.query.success,
-            error: req.query.error
+            error: req.query.error,
+
+            // La alerta de 'stockBajo' original ya no la usamos
+            stockBajo: [] // Pasamos un array vacío por si acaso
         });
     } catch (error) {
         console.error('Error al mostrar gestión de productos:', error);
         res.status(500).send('Error interno del servidor');
     }
 };
+
 adminController.mostrarFormularioProducto = async (req, res) => {
     const { id } = req.params;
     const isEditing = !!id;
