@@ -134,10 +134,11 @@ authController.procesarLogin = async (req, res) => {
         }
 
         // --- Usuario autenticado correctamente ---
-        req.session.user = {
+      req.session.user = {
             id_usuario: user.id_usuario,
             nombre: user.nombre,
-            rol: user.rol
+            rol: user.rol,
+            correo: user.correo 
         };
 
         // --- Lógica del Carrito Persistente ---

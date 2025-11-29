@@ -34,7 +34,7 @@ Usuario.create = async (newUser) => {
 Usuario.findByUsername = async (username) => {
     const sql = `
         SELECT 
-            u.id_usuario, u.nombre, u.usuario, u.contraseña,
+            u.id_usuario, u.nombre, u.usuario, u.contraseña, u.correo, 
             r.nombre_rol AS rol, e.nombre_estado AS estado
         FROM usuario u
         JOIN rol r ON u.id_rol = r.id_rol

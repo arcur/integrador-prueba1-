@@ -31,4 +31,31 @@ Tarjeta.findByUsuarioId = async (id_usuario) => {
     }
 };
 
+Tarjeta.create = async (id_usuario, datos) => {
+    const sql = `
+        INSERT INTO tarjeta (
+            id_usuario, nombre_titular, ultimos_cuatro_digitos, 
+            fecha_expiracion, tipo_tarjeta, es_predeterminada
+        ) VALUES (?, ?, ?, ?, ?, ?)
+    `;
+    const [result] = await pool.query(sql, [
+        id_usuario,
+        datos.nombre_titular,
+        datos.ultimos_cuatro_digitos,
+        datos.fecha_expiracion,
+        datos.tipo_tarjeta,
+        datos.es_predeterminada || false
+    ]);
+    return result.insertId;
+};
+
+/**
+ * ¡NUEVO! Elimina una tarjeta (solo si pertenece al usuario).
+ */
+Tarjeta.delete = async (id_tarjeta, id_usuario) => {
+    const sql = 'DELETE FROM tarjeta WHERE id_tarjeta = ? AND id_usuario = ?';
+    const [result] = await pool.query(sql, [id_tarjeta, id_usuario]);
+    return result.affectedRows;
+};
+
 module.exports = Tarjeta;

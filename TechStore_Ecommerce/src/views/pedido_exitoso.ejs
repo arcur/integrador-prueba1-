@@ -1,20 +1,44 @@
 <%- include('partials/header') %>
 
-<div class="pedido-exitoso-container text-center card-theme" style="padding: 50px 30px;">
-    <i class="bi bi-check-circle-fill icon-success"></i>
-    <h1 class="display-5 fw-bold mt-3" style="color: #4dff94;">¡Pedido Confirmado!</h1>
-    <p class="fs-4 text-muted">Gracias por tu compra, <%= user.nombre %>.</p>
-    <p class="lead" style="color: #ccc;">
-        Hemos recibido tu pedido y lo estamos procesando.
-        <br> Tu número de orden es: <strong style="color: #d6b5ff;">#<%= id_pedido %></strong>
-    </p>
-    <p style="color: #bbb;">
-        Recibirás un correo de confirmación pronto (función no implementada).
-    </p>
-    <div class="d-grid gap-3 d-sm-flex justify-content-sm-center mt-5"> <a href="/catalogo" class="btn-theme btn-lg px-4"> <i class="bi bi-shop"></i> Seguir Comprando
-        </a>
-        <a href="#" class="btn btn-outline-light btn-lg px-4"> <i class="bi bi-person-lines-fill"></i> Ver mis Pedidos
-        </a>
+<link rel="stylesheet" href="/css/success.css">
+
+<div class="success-wrapper">
+    <div class="success-card">
+        
+        <div class="icon-container">
+            <i class="bi bi-check-lg check-icon"></i>
+        </div>
+
+        <h1>¡Pago Exitoso!</h1>
+        <p class="text-white-50 fs-5 mb-0">Tu pedido ha sido confirmado.</p>
+
+        <div class="order-box">
+            <div class="row align-items-center">
+                <div class="col-6 border-end border-secondary">
+                    <div class="order-label">Nro. Orden</div>
+                    <div class="order-value">#<%= id_pedido %></div>
+                </div>
+                <div class="col-6 text-center">
+                    <div class="order-label">Fecha</div>
+                    <div class="text-white fw-bold"><%= new Date().toLocaleDateString('es-PE') %></div>
+                </div>
+            </div>
+        </div>
+
+        <p class="email-note">
+            Hemos enviado un correo de confirmación a <span class="email-highlight"><%= user.correo %></span> con tu boleta/factura adjunta y los detalles de envío.
+        </p>
+
+        <div class="btn-group-vertical w-100">
+            <a href="/intranet/mis_pedidos" class="btn-primary-glow">
+                <i class="bi bi-box-seam me-2"></i> Ver Estado de mi Pedido
+            </a>
+            
+            <a href="/catalogo" class="btn-secondary-outline">
+                <i class="bi bi-arrow-left me-2"></i> Seguir Comprando
+            </a>
+        </div>
+
     </div>
 </div>
 

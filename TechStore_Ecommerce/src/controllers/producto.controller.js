@@ -1,7 +1,7 @@
 // src/controllers/producto.controller.js
 
 const Producto = require('../models/producto.model');
-
+const Favorito = require('../models/favorito.model'); // <-- AÑADIR
 const productoController = {};
 
 /**
@@ -21,10 +21,20 @@ productoController.mostrarDetalle = async (req, res) => {
         // Obtener productos relacionados (si la categoría existe)
         const relacionados = await Producto.getRelatedProducts(producto.id_categoria, productId);
 
+
+        // --- LÓGICA DE FAVORITO ---
+        let isFavorite = false;
+        if (req.session.user) {
+            isFavorite = await Favorito.exists(req.session.user.id_usuario, productId);
+        }
+        // --------------------------
+
+
         res.render('producto_detalle', {
             title: `${producto.nombre_producto} - TechStore`,
             producto: producto,
             relacionados: relacionados,
+            isFavorite: isFavorite, // <-- PASAMOS LA VARIABLE A LA VISTA
             error: req.query.error || null, // Para mensajes (ej: error al añadir al carrito)
             success: req.query.success || null
         });

@@ -131,3 +131,46 @@ document.addEventListener('DOMContentLoaded', function() {
     // (Opcional: Código para Toasts si lo implementas)
 
 }); // Fin del DOMContentLoaded
+
+// --- LÓGICA FAVORITOS (Toggle) ---
+    document.querySelectorAll('.btn-favorite').forEach(btn => {
+        btn.addEventListener('click', async function() {
+            const productId = this.dataset.productId;
+            const icon = this.querySelector('i');
+
+            // Efecto visual inmediato (feedback)
+            this.disabled = true;
+
+            try {
+                const response = await fetch('/favoritos/api/toggle', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ id_producto: productId })
+                });
+
+                if (response.status === 401) {
+                    window.location.href = '/login?error=' + encodeURIComponent('Inicia sesión para guardar favoritos.');
+                    return;
+                }
+
+                const data = await response.json();
+
+                if (data.success) {
+                    // Cambiar icono según estado
+                    if (data.isFavorite) {
+                        icon.classList.remove('bi-heart');
+                        icon.classList.add('bi-heart-fill');
+                        this.title = "Quitar de favoritos";
+                    } else {
+                        icon.classList.remove('bi-heart-fill');
+                        icon.classList.add('bi-heart');
+                        this.title = "Añadir a favoritos";
+                    }
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            } finally {
+                this.disabled = false;
+            }
+        });
+    });

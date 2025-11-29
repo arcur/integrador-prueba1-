@@ -15,4 +15,6 @@ router.get('/checkout', isAuth, pedidoController.mostrarCheckout);
 // Procesar el pedido (la acción de 'Confirmar')
 router.post('/procesar', isAuth, pedidoController.procesarPedido);
 
+router.get('/api/ruc/:numero', isAuth, pedidoController.consultarRUC);
+
 module.exports = router;

@@ -28,6 +28,12 @@
                                 <%= producto.nombre_producto %>
                             </h1>
 
+                            <button class="btn btn-outline-danger rounded-circle p-2 btn-favorite"
+                                style="width: 50px; height: 50px;" data-product-id="<%= producto.id_producto %>"
+                                title="<%= isFavorite ? 'Quitar de favoritos' : 'Añadir a favoritos' %>">
+                                <i class="bi <%= isFavorite ? 'bi-heart-fill' : 'bi-heart' %> fs-4"></i>
+                            </button>
+
                             <% if (locals.categorias) { %>
                                 <% const cat=categorias.find(c=> c.id_categoria === producto.id_categoria); %>
                                     <% if (cat) { %>

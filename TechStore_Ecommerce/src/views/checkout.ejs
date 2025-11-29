@@ -1,69 +1,295 @@
 <%- include('partials/header') %>
+<link rel="stylesheet" href="/css/checkout.css">
 
-<h1>
-    <i class="bi bi-shield-check-fill"></i> Confirmar Pedido
-</h1>
-<hr style="border-color: rgba(106, 13, 173, 0.5); margin-bottom: 30px;">
+<div class="checkout-wrapper py-5">
+    <div class="container" style="max-width: 1200px;">
+        
+        <h2 class="text-white mb-4 fw-bold">Finalizar Compra</h2>
 
-<div class="checkout-layout">
+        <% if (locals.error) { %>
+            <div class="alert alert-danger border-0 shadow-sm d-flex align-items-center mb-4">
+                <i class="bi bi-exclamation-octagon-fill fs-4 me-3"></i> <%= error %>
+            </div>
+        <% } %>
 
-    <section class="checkout-resumen card-theme">
-        <h4>Resumen de tu Carrito</h4>
-        <ul class="list-group list-group-flush resumen-lista mt-3">
-
-            <% carrito.items.forEach(item => { %>
-                <li class="list-group-item d-flex justify-content-between lh-sm">
-                    <div>
-                        <h6 class="my-0"><%= item.nombre_producto %></h6>
-                        <small class="text-muted">Cantidad: <%= item.cantidad %></small>
+        <form action="/pedido/procesar" method="POST" id="checkoutForm">
+            <div class="row g-5">
+                
+                <div class="col-lg-8">
+                    
+                    <div class="checkout-accordion-item active" id="step1">
+                        <div class="accordion-header" onclick="toggleSection('step1')">
+                            <div class="step-title">
+                                <span class="step-number">1</span> Dirección de Envío
+                            </div>
+                            <i class="bi bi-chevron-down accordion-icon"></i>
+                        </div>
+                        <div class="accordion-body">
+                            <div class="body-content">
+                                <% if (direcciones && direcciones.length > 0) { %>
+                                    <div class="row g-3">
+                                        <% direcciones.forEach((dir, index) => { %>
+                                            <div class="col-md-6">
+                                                <label class="selectable-card">
+                                                    <input type="radio" name="id_direccion" value="<%= dir.id_direccion %>" <%= (dir.es_predeterminada || index===0) ? 'checked' : '' %>>
+                                                    <div class="card-inner">
+                                                        <i class="bi bi-check-circle-fill check-mark"></i>
+                                                        <strong class="text-info d-block mb-1"><%= dir.ciudad %></strong>
+                                                        <p class="small text-white-50 mb-0"><%= dir.direccion %></p>
+                                                    </div>
+                                                </label>
+                                            </div>
+                                        <% }) %>
+                                    </div>
+                                    <div class="mt-3 text-end">
+                                        <a href="/intranet/configuracion" class="text-decoration-none text-muted small hover-white">
+                                            <i class="bi bi-plus-lg"></i> Agregar nueva dirección
+                                        </a>
+                                    </div>
+                                    <div class="mt-4 border-top border-secondary pt-3">
+                                        <button type="button" class="btn btn-primary btn-sm px-4 rounded-pill" onclick="toggleSection('step2')">
+                                            Continuar a Pago <i class="bi bi-arrow-down"></i>
+                                        </button>
+                                    </div>
+                                <% } else { %>
+                                    <div class="text-center py-3">
+                                        <p class="text-white-50">No tienes direcciones registradas.</p>
+                                        <a href="/intranet/configuracion" class="btn btn-outline-light btn-sm">Agregar Dirección</a>
+                                    </div>
+                                <% } %>
+                            </div>
+                        </div>
                     </div>
-                    <span class="text-muted">S/ <%= (item.precio * item.cantidad).toFixed(2) %></span>
-                </li>
-            <% }) %>
 
-            <li class="list-group-item d-flex justify-content-between total-row">
-                <strong class="fs-5">Total</strong>
-                <strong class="fs-5">S/ <%= carrito.total.toFixed(2) %></strong>
-            </li>
-        </ul>
-        <a href="/carrito" class="btn btn-sm btn-outline-secondary mt-3">
-            <i class="bi bi-pencil-fill"></i> Modificar Carrito
-        </a>
-    </section>
+                    <div class="checkout-accordion-item" id="step2">
+                        <div class="accordion-header" onclick="toggleSection('step2')">
+                            <div class="step-title">
+                                <span class="step-number">2</span> Método de Pago
+                            </div>
+                            <i class="bi bi-chevron-down accordion-icon"></i>
+                        </div>
+                        <div class="accordion-body">
+                            <div class="body-content">
+                                <% if (tarjetas && tarjetas.length > 0) { %>
+                                    <div class="d-flex flex-column gap-3">
+                                        <% tarjetas.forEach((card, index) => { %>
+                                            <label class="selectable-card">
+                                                <input type="radio" name="id_tarjeta" value="<%= card.id_tarjeta %>" <%= (index===0) ? 'checked' : '' %>>
+                                                <div class="card-inner d-flex align-items-center">
+                                                    <div class="me-3 fs-3 text-white-50"><i class="bi bi-credit-card-2-front"></i></div>
+                                                    <div class="flex-grow-1">
+                                                        <div class="fw-bold text-white"><%= card.tipo_tarjeta %> **** <%= card.ultimos_cuatro_digitos %></div>
+                                                        <div class="small text-muted">Vence: <%= card.fecha_expiracion %></div>
+                                                    </div>
+                                                    <i class="bi bi-check-circle-fill check-mark position-relative top-0 right-0 me-3"></i>
+                                                    
+                                                    <div class="cvv-reveal ms-3 ps-3 border-start border-secondary">
+                                                        <label class="small text-white-50 d-block">CVV</label>
+                                                        <input type="password" class="form-control form-control-sm input-dark text-center" 
+                                                               style="width: 60px;" placeholder="123" maxlength="3"
+                                                               oninput="this.value = this.value.replace(/[^0-9]/g, ''); document.getElementById('cvv_real').value = this.value">
+                                                    </div>
+                                                </div>
+                                            </label>
+                                        <% }) %>
+                                    </div>
+                                    <input type="hidden" name="cvv" id="cvv_real"> <div class="mt-4 border-top border-secondary pt-3">
+                                        <button type="button" class="btn btn-primary btn-sm px-4 rounded-pill" onclick="toggleSection('step3')">
+                                            Continuar a Confirmación <i class="bi bi-arrow-down"></i>
+                                        </button>
+                                    </div>
+                                <% } else { %>
+                                    <div class="text-center py-3">
+                                        <p class="text-white-50">No tienes tarjetas guardadas.</p>
+                                        <a href="/intranet/mis_tarjetas" class="btn btn-outline-light btn-sm">Agregar Tarjeta</a>
+                                    </div>
+                                <% } %>
+                            </div>
+                        </div>
+                    </div>
 
-    <section class="checkout-datos card-theme">
-        <h4>Datos de Entrega y Pago</h4>
+                    <div class="checkout-accordion-item" id="step3">
+                        <div class="accordion-header" onclick="toggleSection('step3')">
+                            <div class="step-title">
+                                <span class="step-number">3</span> Datos de Facturación
+                            </div>
+                            <i class="bi bi-chevron-down accordion-icon"></i>
+                        </div>
+                        <div class="accordion-body">
+                            <div class="body-content">
+                                <div class="d-flex gap-3 mb-4">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="tipo_comprobante" id="optBoleta" value="Boleta" checked onchange="toggleFactura(false)">
+                                        <label class="form-check-label text-white" for="optBoleta">Boleta</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="tipo_comprobante" id="optFactura" value="Factura" onchange="toggleFactura(true)">
+                                        <label class="form-check-label text-white" for="optFactura">Factura</label>
+                                    </div>
+                                </div>
 
-        <div class="datos-cliente mb-4">
-            <h5><i class="bi bi-person-fill"></i> Cliente</h5>
-            <p class="mb-1"><strong>Nombre:</strong> <%= user.nombre %></p>
-            <% if (locals.userData) { %> <p class="mb-1"><strong>Correo:</strong> <%= userData.correo %></p>
-                 <p class="mb-1"><strong>DNI:</strong> <%= userData.numero_dni %></p>
-            <% } %>
-        </div>
-         <hr style="border-color: rgba(255, 255, 255, 0.2);">
+                                <div id="infoBoleta" class="p-3 bg-white bg-opacity-10 rounded text-center">
+                                    <small class="text-white-50">Boleta a nombre de:</small>
+                                    <div class="fw-bold text-white"><%= user.nombre %></div>
+                                </div>
 
-        <div class="direccion-envio my-4">
-            <h5><i class="bi bi-truck"></i> Dirección de Envío</h5>
-            <p class="text-muted small mb-2">(Función de dirección de envío aún no implementada)</p>
-            <input type="text" class="form-control input-theme" placeholder="Ej: Av. La Molina 123, Lima" disabled>
-             </div>
-         <hr style="border-color: rgba(255, 255, 255, 0.2);">
+                                <div id="infoFactura" style="display: none;">
+                                    <div class="input-group mb-2">
+                                        <input type="text" class="form-control input-dark" id="inputRUC" name="ruc" placeholder="RUC (11 dígitos)" maxlength="11">
+                                        <button class="btn btn-secondary" type="button" id="btnValidarRUC"><i class="bi bi-search"></i></button>
+                                    </div>
+                                    <small id="apiMessage" class="d-block mb-2 text-warning"></small>
+                                    <input type="text" class="form-control input-dark mb-2" id="inputRazonSocial" name="razon_social" placeholder="Razón Social" readonly>
+                                    <input type="text" class="form-control input-dark" id="inputDireccionFiscal" name="direccion_fiscal" placeholder="Dirección Fiscal" readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-        <div class="metodo-pago my-4">
-            <h5><i class="bi bi-credit-card-fill"></i> Método de Pago</h5>
-            <p class="text-muted small mb-2">(Selección de pago aún no implementada)</p>
-            <select class="form-select select-theme" disabled>
-                <option>Pago contra entrega (Temporal)</option>
-                </select>
-             </div>
+                </div>
 
-        <form action="/pedido/procesar" method="POST" class="d-grid"> <button type="submit" class="btn-theme btn-lg">
-                <i class="bi bi-bag-check-fill"></i>
-                Confirmar y Finalizar Pedido
-            </button>
+                <div class="col-lg-4">
+                    <div class="summary-container">
+                        <div class="summary-header">
+                            <h5 class="mb-0 text-white">Resumen del Pedido</h5>
+                        </div>
+                        <div class="p-4">
+                            <div style="max-height: 250px; overflow-y: auto; margin-bottom: 20px;">
+                                <% carrito.items.forEach(item => { %>
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <div class="d-flex align-items-center">
+                                            <div class="position-relative me-3">
+                                                <img src="<%= item.imagen ? item.imagen : '/img/placeholder-prod.webp' %>" 
+                                                     style="width: 40px; height: 40px; object-fit: contain; border-radius: 6px; background: #fff;">
+                                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary border border-dark" style="font-size: 0.6rem;">
+                                                    <%= item.cantidad %>
+                                                </span>
+                                            </div>
+                                            <small class="text-white-50 text-truncate" style="max-width: 120px;"><%= item.nombre_producto %></small>
+                                        </div>
+                                        <small class="fw-bold text-white">S/ <%= (item.precio * item.cantidad).toFixed(2) %></small>
+                                    </div>
+                                <% }) %>
+                            </div>
+
+                            <hr class="border-secondary my-3">
+                            
+                            <div class="d-flex justify-content-between mb-2">
+                                <span class="text-white-50">Subtotal</span>
+                                <span class="text-white">S/ <%= carrito.total.toFixed(2) %></span>
+                            </div>
+                            <div class="d-flex justify-content-between mb-4">
+                                <span class="text-white-50">Envío</span>
+                                <span class="text-success fw-bold">Gratis</span>
+                            </div>
+                            
+                            <div class="d-flex justify-content-between align-items-end mb-4">
+                                <span class="fs-5 text-white">Total</span>
+                                <span class="fs-2 fw-bold text-primary">S/ <%= carrito.total.toFixed(2) %></span>
+                            </div>
+
+                            <button type="submit" form="checkoutForm" class="btn-finish">
+                                Finalizar Compra <i class="bi bi-arrow-right-short fs-4 align-middle"></i>
+                            </button>
+                            
+                            <p class="text-center mt-3 mb-0" style="font-size: 0.8rem; color: #666;">
+                                <i class="bi bi-lock-fill"></i> Tus datos están protegidos.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
         </form>
-    </section>
+    </div>
 </div>
+
+<script>
+    // CONTROL DEL ACORDEÓN
+    function toggleSection(id) {
+        // Cerrar todos
+        document.querySelectorAll('.checkout-accordion-item').forEach(el => {
+            el.classList.remove('active');
+        });
+        // Abrir el seleccionado
+        document.getElementById(id).classList.add('active');
+    }
+
+    // (LÓGICA RUC IGUAL QUE ANTES)
+    function toggleFactura(show) {
+        const f = document.getElementById('infoFactura');
+        const b = document.getElementById('infoBoleta');
+        f.style.display = show ? 'block' : 'none';
+        b.style.display = show ? 'none' : 'block';
+        document.getElementById('inputRUC').required = show;
+    }
+
+  document.getElementById('btnValidarRUC').addEventListener('click', async function() {
+        const ruc = document.getElementById('inputRUC').value;
+        const btn = this;
+        const msg = document.getElementById('apiMessage');
+        const inputRazon = document.getElementById('inputRazonSocial');
+        const inputDireccion = document.getElementById('inputDireccionFiscal');
+
+        // Resetear estado
+        msg.textContent = '';
+        inputRazon.value = '';
+        inputDireccion.value = '';
+        
+        if(ruc.length !== 11) { 
+            msg.textContent = '⚠️ El RUC debe tener 11 dígitos exactos.'; 
+            return; 
+        }
+
+        // Estado de carga
+        btn.disabled = true; 
+        btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span>';
+
+        try {
+            // LLAMAMOS A NUESTRA PROPIA RUTA (BACKEND)
+            const response = await fetch(`/pedido/api/ruc/${ruc}`);
+            
+            if (!response.ok) throw new Error('Error en la búsqueda');
+            
+            const data = await response.json();
+            
+            // Llenar campos con datos reales
+            inputRazon.value = data.razonSocial; // La API v2 suele devolver 'razonSocial'
+            inputDireccion.value = data.direccion;
+            
+            // Bloquear campos para que no se editen por error
+            inputRazon.readOnly = true; 
+            inputDireccion.readOnly = true;
+            
+            // Feedback visual de éxito
+            btn.innerHTML = '<i class="bi bi-check-lg"></i>';
+            btn.classList.replace('btn-primary', 'btn-success');
+
+        } catch (error) {
+            console.error(error);
+            // Si falla, permitir modo manual
+            msg.innerHTML = '<i class="bi bi-pencil"></i> No se encontraron datos. <strong>Ingrésalos manualmente.</strong>';
+            
+            inputRazon.readOnly = false;
+            inputDireccion.readOnly = false;
+            inputRazon.focus();
+            
+            // Cambiar estilo para indicar que es editable
+            inputRazon.classList.remove('bg-dark-subtle');
+            inputRazon.classList.add('bg-dark', 'border-secondary');
+            
+            inputDireccion.classList.remove('bg-dark-subtle');
+            inputDireccion.classList.add('bg-dark', 'border-secondary');
+            
+            btn.innerHTML = '<i class="bi bi-search"></i>';
+            btn.classList.replace('btn-success', 'btn-primary');
+        } finally {
+            btn.disabled = false;
+        }
+    });
+
+
+
+</script>
 
 <%- include('partials/footer') %>

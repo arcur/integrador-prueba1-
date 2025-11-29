@@ -6,6 +6,7 @@ const express = require('express');
 const path = require('path');
 const session = require('express-session');
 const flash = require('connect-flash'); // <-- *** 1. ADD THIS IMPORT ***
+const favoritoRouter = require('./src/routes/favorito.routes.js');
 
 // (Importaciones de tus Routers...)
 
@@ -81,8 +82,9 @@ app.use('/pedido', pedidoRouter);
 
 // Rutas de Producto Individual
 app.use('/producto', productoRouter); // <-- AÑADE ESTA LÍNEA
-
+app.use('/favoritos', favoritoRouter); // <-- AÑADIR ESTA LÍNEA (prefijo /favoritos)
 app.use('/intranet', intranetRouter);
+
 
 // ... (resto de server.js) ...
 // --- RUTAS DE ADMINISTRACIÓN ---
