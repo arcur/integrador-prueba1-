@@ -1,45 +1,51 @@
 <%- include('partials/header') %>
 
-<link rel="stylesheet" href="/css/success.css">
+    <link rel="stylesheet" href="/css/success.css">
 
-<div class="success-wrapper">
-    <div class="success-card">
-        
-        <div class="icon-container">
-            <i class="bi bi-check-lg check-icon"></i>
-        </div>
+    <div class="success-wrapper">
+        <div class="success-card">
 
-        <h1>¡Pago Exitoso!</h1>
-        <p class="text-white-50 fs-5 mb-0">Tu pedido ha sido confirmado.</p>
+            <div class="icon-container">
+                <i class="bi bi-check-lg check-icon"></i>
+            </div>
 
-        <div class="order-box">
-            <div class="row align-items-center">
-                <div class="col-6 border-end border-secondary">
-                    <div class="order-label">Nro. Orden</div>
-                    <div class="order-value">#<%= id_pedido %></div>
-                </div>
-                <div class="col-6 text-center">
-                    <div class="order-label">Fecha</div>
-                    <div class="text-white fw-bold"><%= new Date().toLocaleDateString('es-PE') %></div>
+            <h1>¡Pago Exitoso!</h1>
+            <p class="text-white-50 fs-5 mb-0">Tu pedido ha sido confirmado.</p>
+
+            <div class="order-box">
+                <div class="row align-items-center">
+                    <div class="col-6 border-end border-secondary">
+                        <div class="order-label">Nro. Orden</div>
+                        <div class="order-value">#<%= id_pedido %>
+                        </div>
+                    </div>
+                    <div class="col-6 text-center">
+                        <div class="order-label">Fecha</div>
+                        <div class="text-white fw-bold">
+                            <%= new Date().toLocaleString('es-PE', { timeZone: 'America/Lima' , year: 'numeric' ,
+                                month: '2-digit' , day: '2-digit' , hour: '2-digit' , minute: '2-digit' }) %>
+                        </div>
+                    </div>
                 </div>
             </div>
+
+            <p class="email-note">
+                Hemos enviado un correo de confirmación a <span class="email-highlight">
+                    <%= user.correo %>
+                </span> con tu boleta/factura adjunta y los detalles de envío.
+            </p>
+
+            <div class="btn-group-vertical w-100">
+                <a href="/intranet/mis_pedidos" class="btn-primary-glow">
+                    <i class="bi bi-box-seam me-2"></i> Ver Estado de mi Pedido
+                </a>
+
+                <a href="/catalogo" class="btn-secondary-outline">
+                    <i class="bi bi-arrow-left me-2"></i> Seguir Comprando
+                </a>
+            </div>
+
         </div>
-
-        <p class="email-note">
-            Hemos enviado un correo de confirmación a <span class="email-highlight"><%= user.correo %></span> con tu boleta/factura adjunta y los detalles de envío.
-        </p>
-
-        <div class="btn-group-vertical w-100">
-            <a href="/intranet/mis_pedidos" class="btn-primary-glow">
-                <i class="bi bi-box-seam me-2"></i> Ver Estado de mi Pedido
-            </a>
-            
-            <a href="/catalogo" class="btn-secondary-outline">
-                <i class="bi bi-arrow-left me-2"></i> Seguir Comprando
-            </a>
-        </div>
-
     </div>
-</div>
 
-<%- include('partials/footer') %>
+    <%- include('partials/footer') %>
