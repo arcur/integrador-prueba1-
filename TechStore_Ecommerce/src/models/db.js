@@ -14,7 +14,10 @@ const pool = mysql.createPool({
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0,
-    decimalNumbers: true
+    decimalNumbers: true,
+    ssl: {
+        rejectUnauthorized: false // Esto permite conectar aunque el certificado sea autofirmado
+    }
 });
 
 // Mensaje de éxito al conectar (opcional, pero útil)
