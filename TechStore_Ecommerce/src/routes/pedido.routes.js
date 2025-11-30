@@ -16,5 +16,5 @@ router.get('/checkout', isAuth, pedidoController.mostrarCheckout);
 router.post('/procesar', isAuth, pedidoController.procesarPedido);
 
 router.get('/api/ruc/:numero', isAuth, pedidoController.consultarRUC);
-
+router.post('/api/validar-cupon', isAuth, pedidoController.validarCupon); // <-- NUEVA RUTA
 module.exports = router;

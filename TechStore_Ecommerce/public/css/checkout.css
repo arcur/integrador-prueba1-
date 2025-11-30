@@ -215,3 +215,178 @@ body {
 .input-dark:focus {
     background: rgba(0,0,0,0.5); border-color: #6a0dad; color: white; box-shadow: none;
 }
+
+/* =========================================
+   RESUMEN FLOTANTE Y CUPONES (CORREGIDO)
+   ========================================= */
+.summary-container {
+    position: sticky;
+    top: 100px;
+    background: rgba(23, 23, 36, 0.95); /* Más opaco para mejor lectura */
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    width: 100%; /* Asegura ancho completo */
+}
+
+.summary-header {
+    background: linear-gradient(90deg, rgba(106, 13, 173, 0.25), transparent);
+    padding: 20px 25px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.summary-header h5 {
+    color: #fff;
+    font-weight: 700;
+    margin: 0;
+    font-size: 1.1rem;
+    letter-spacing: 0.5px;
+}
+
+/* Lista de Productos */
+.summary-products-list {
+    max-height: 350px;
+    overflow-y: auto;
+    padding: 0 25px; /* Margen lateral interno */
+    margin-top: 20px;
+}
+
+/* Item individual de producto */
+.summary-item {
+    display: flex; /* Flexbox para separar izq/der */
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.summary-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.item-left {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Espacio entre imagen y texto */
+    flex: 1; /* Toma el espacio disponible */
+    min-width: 0; /* Permite truncar texto */
+    padding-right: 10px;
+}
+
+.item-img-box {
+    position: relative;
+    flex-shrink: 0; /* No encoger imagen */
+}
+
+.item-img {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+    background: #fff;
+    border-radius: 8px;
+    padding: 2px;
+}
+
+.item-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: #6a0dad;
+    color: white;
+    font-size: 0.7rem;
+    padding: 2px 6px;
+    border-radius: 10px;
+    border: 1px solid #1a1a2e;
+}
+
+.item-info h6 {
+    color: #fff;
+    margin: 0;
+    font-size: 0.9rem;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; /* Puntos suspensivos si es muy largo */
+}
+
+.item-price {
+    color: #4dff94; /* Precio en verde neón */
+    font-weight: bold;
+    font-size: 0.95rem;
+    white-space: nowrap;
+}
+
+/* Sección de Cupón */
+.coupon-section {
+    padding: 0 25px 20px 25px; /* Margenes laterales */
+}
+
+.input-group-coupon {
+    display: flex;
+    width: 100%; /* Ocupar todo el ancho */
+}
+
+.input-group-coupon input {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    color: white !important;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    flex: 1; /* Crecer para ocupar espacio */
+}
+
+.input-group-coupon button {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+/* Totales y Footer */
+.summary-footer {
+    background: rgba(0, 0, 0, 0.2);
+    padding: 25px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    color: #ccc;
+    font-size: 0.95rem;
+}
+
+.summary-row.total {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    color: #fff;
+    font-size: 1.3rem;
+    font-weight: 700;
+    align-items: flex-end;
+}
+
+.btn-finish {
+    width: 100%;
+    margin-top: 20px;
+    padding: 16px;
+    font-size: 1.1rem;
+    /* (Mantener estilos de gradiente anteriores) */
+    background: linear-gradient(135deg, #8A2BE2, #6a0dad);
+    border: none;
+    border-radius: 12px;
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: 0.3s;
+}
+.btn-finish:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(106, 13, 173, 0.5);
+}

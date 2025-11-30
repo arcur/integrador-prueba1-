@@ -9,9 +9,10 @@ const Pedido = {};
  * Modelo para crear un nuevo pedido (LÓGICA PEPS).
  * (Sin cambios)
  */
-Pedido.create = async (id_usuario, cart, extraData = {}) => { // Aceptamos extraData
-    let connection; 
-    const detallesParaInsertar = [];
+Pedido.create = async (id_usuario, cart, extraData = {}) => {
+  // Aceptamos extraData
+  let connection;
+  const detallesParaInsertar = [];
 
   try {
     connection = await pool.getConnection();
@@ -38,21 +39,26 @@ Pedido.create = async (id_usuario, cart, extraData = {}) => { // Aceptamos extra
     }
 
     // 2. Insertar Pedido (Cabecera)
-   const sqlPedido = `
+
+    const sqlPedido = `
             INSERT INTO pedido (
                 id_usuario, estado, total, 
-                tipo_comprobante, ruc, razon_social, direccion_fiscal
-            ) VALUES (?, 'Pagado', ?, ?, ?, ?, ?) 
+                tipo_comprobante, ruc, razon_social, direccion_fiscal,
+                id_descuento, monto_descuento  -- NUEVOS CAMPOS
+            ) VALUES (?, 'Pagado', ?, ?, ?, ?, ?, ?, ?) 
         `;
+
     const [pedidoResult] = await connection.query(sqlPedido, [
-            id_usuario, 
-            cart.total,
-            extraData.tipo_comprobante || 'Boleta',
-            extraData.ruc,
-            extraData.razon_social,
-            extraData.direccion_fiscal
-        ]);
-        const id_pedido = pedidoResult.insertId;
+      id_usuario,
+      extraData.total_final, // Usamos el total YA DESCONTADO
+      extraData.tipo_comprobante || "Boleta",
+      extraData.ruc,
+      extraData.razon_social,
+      extraData.direccion_fiscal,
+      extraData.id_descuento || null, // NUEVO
+      extraData.monto_descuento || 0.0, // NUEVO
+    ]);
+    const id_pedido = pedidoResult.insertId;
 
     // 3. Lógica PEPS
     for (const item of cart.items) {

@@ -13,61 +13,81 @@ const transporter = nodemailer.createTransport({
 function generarHTMLPedido(pedido) {
     const filasProductos = pedido.items.map(item => `
         <tr style="border-bottom: 1px solid #eee;">
-            <td style="padding: 10px; color: #333;">${item.nombre_producto}</td>
-            <td style="padding: 10px; text-align: center; color: #333;">${item.cantidad}</td>
-            <td style="padding: 10px; text-align: right; color: #333;">S/ ${parseFloat(item.precio).toFixed(2)}</td>
-            <td style="padding: 10px; text-align: right; font-weight: bold; color: #333;">S/ ${(item.cantidad * item.precio).toFixed(2)}</td>
+            <td style="padding: 12px; color: #333;">${item.nombre_producto}</td>
+            <td style="padding: 12px; text-align: center; color: #333;">${item.cantidad}</td>
+            <td style="padding: 12px; text-align: right; color: #333;">S/ ${parseFloat(item.precio).toFixed(2)}</td>
+            <td style="padding: 12px; text-align: right; font-weight: bold; color: #333;">S/ ${(item.cantidad * item.precio).toFixed(2)}</td>
         </tr>
     `).join('');
 
+    // Lógica para mostrar descuento solo si existe
+    let filaDescuento = '';
+    if (parseFloat(pedido.descuento) > 0) {
+        filaDescuento = `
+        <tr>
+            <td colspan="3" style="padding: 8px 12px; text-align: right; color: #28a745;">Descuento Aplicado:</td>
+            <td style="padding: 8px 12px; text-align: right; color: #28a745;">- S/ ${pedido.descuento}</td>
+        </tr>`;
+    }
+
     return `
-    <div style="font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px;">
-        <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+    <div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #f0f2f5; padding: 40px 0;">
+        <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.05);">
             
-            <div style="background-color: #6a0dad; padding: 20px; text-align: center; color: #ffffff;">
-                <h1 style="margin: 0; font-size: 24px;">¡Gracias por tu compra!</h1>
-                <p style="margin: 5px 0 0; opacity: 0.9;">Orden #${pedido.id_pedido}</p>
+            <div style="background: linear-gradient(135deg, #6a0dad, #8A2BE2); padding: 30px; text-align: center; color: #ffffff;">
+                <h1 style="margin: 0; font-size: 26px; font-weight: 700;">¡Gracias por tu compra!</h1>
+                <p style="margin: 10px 0 0; opacity: 0.9; font-size: 16px;">Orden #${pedido.id_pedido}</p>
             </div>
 
             <div style="padding: 30px;">
-                <p style="color: #555; font-size: 16px;">Hola <strong>${pedido.nombre}</strong>,</p>
-                <p style="color: #555;">Hemos recibido tu pedido correctamente. Estamos preparándolo para el envío.</p>
+                <p style="color: #555; font-size: 16px; line-height: 1.5;">Hola <strong>${pedido.nombre}</strong>,</p>
+                <p style="color: #555; line-height: 1.5;">Tu pedido ha sido confirmado. Aquí tienes el detalle:</p>
                 
-                <h3 style="color: #6a0dad; border-bottom: 2px solid #6a0dad; padding-bottom: 5px; margin-top: 30px;">Resumen del Pedido</h3>
-                
-                <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
+                <table style="width: 100%; border-collapse: collapse; margin-top: 25px; font-size: 14px;">
                     <thead>
                         <tr style="background-color: #f8f9fa; text-align: left;">
-                            <th style="padding: 10px; color: #666;">Producto</th>
-                            <th style="padding: 10px; text-align: center; color: #666;">Cant.</th>
-                            <th style="padding: 10px; text-align: right; color: #666;">Precio</th>
-                            <th style="padding: 10px; text-align: right; color: #666;">Total</th>
+                            <th style="padding: 12px; color: #666; font-weight: 600;">Producto</th>
+                            <th style="padding: 12px; text-align: center; color: #666; font-weight: 600;">Cant.</th>
+                            <th style="padding: 12px; text-align: right; color: #666; font-weight: 600;">P. Unit</th>
+                            <th style="padding: 12px; text-align: right; color: #666; font-weight: 600;">Total</th>
                         </tr>
                     </thead>
                     <tbody>
                         ${filasProductos}
                     </tbody>
-                    <tfoot>
+                    <tfoot style="background-color: #fcfcfc;">
                         <tr>
-                            <td colspan="3" style="padding: 15px 10px; text-align: right; color: #666;">Envío:</td>
-                            <td style="padding: 15px 10px; text-align: right; color: #333;">Gratis</td>
+                            <td colspan="3" style="padding: 15px 12px 5px; text-align: right; color: #666;">Op. Gravada (Valor Venta):</td>
+                            <td style="padding: 15px 12px 5px; text-align: right; color: #333;">S/ ${pedido.valor_venta}</td>
                         </tr>
-                        <tr style="background-color: #f4f4f4;">
-                            <td colspan="3" style="padding: 15px 10px; text-align: right; font-weight: bold; color: #333; font-size: 18px;">Total Pagado:</td>
-                            <td style="padding: 15px 10px; text-align: right; font-weight: bold; color: #28a745; font-size: 18px;">S/ ${pedido.total}</td>
+                        <tr>
+                            <td colspan="3" style="padding: 5px 12px; text-align: right; color: #666;">IGV (18%):</td>
+                            <td style="padding: 5px 12px; text-align: right; color: #333;">S/ ${pedido.igv}</td>
+                        </tr>
+                        ${filaDescuento}
+                        <tr>
+                            <td colspan="3" style="padding: 5px 12px 15px; text-align: right; color: #666;">Envío:</td>
+                            <td style="padding: 5px 12px 15px; text-align: right; color: #333;">Gratis</td>
+                        </tr>
+                        
+                        <tr style="background-color: #eef2ff; border-top: 2px solid #6a0dad;">
+                            <td colspan="3" style="padding: 15px 12px; text-align: right; font-weight: bold; color: #6a0dad; font-size: 18px;">TOTAL A PAGAR:</td>
+                            <td style="padding: 15px 12px; text-align: right; font-weight: bold; color: #6a0dad; font-size: 18px;">S/ ${pedido.total}</td>
                         </tr>
                     </tfoot>
                 </table>
 
-                <div style="margin-top: 30px; background-color: #eef2ff; padding: 15px; border-radius: 5px;">
-                    <p style="margin: 0; color: #6a0dad; font-size: 14px;"><strong>Tipo de Comprobante:</strong> ${pedido.tipo_comprobante}</p>
-                    <p style="margin: 5px 0 0; color: #666; font-size: 13px;">Adjunto encontrarás el documento PDF.</p>
+                <div style="margin-top: 30px; border-left: 4px solid #6a0dad; padding-left: 15px;">
+                    <p style="margin: 0; color: #333; font-weight: bold;">Datos de Facturación</p>
+                    <p style="margin: 5px 0 0; color: #666; font-size: 13px;">
+                        Tipo: ${pedido.tipo_comprobante}<br>
+                        ${pedido.receiptType === 'Factura' ? `RUC: ${pedido.shipping.ruc}<br>Razón Social: ${pedido.shipping.company}` : `Cliente: ${pedido.nombre}`}
+                    </p>
                 </div>
             </div>
-
-            <div style="background-color: #333; padding: 20px; text-align: center; color: #999; font-size: 12px;">
-                <p style="margin: 0;">&copy; 2025 TechStore S.A.C. Todos los derechos reservados.</p>
-                <p style="margin: 5px 0;">Av. La Innovación 101, Lima, Perú</p>
+            
+            <div style="background-color: #333; padding: 20px; text-align: center; color: #888; font-size: 12px;">
+                <p style="margin: 0;">&copy; 2025 TechStore S.A.C.</p>
             </div>
         </div>
     </div>

@@ -1,0 +1,102 @@
+<%- include('partials/admin_header') %>
+
+<% if (locals.success) { %><div class="alert alert-success"><%= success %></div><% } %>
+<% if (locals.error) { %><div class="alert alert-danger"><%= error %></div><% } %>
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h3>Gestión de Cupones</h3>
+    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCrearCup">
+        <i class="bi bi-ticket-perforated-fill"></i> Crear Cupón
+    </button>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-body table-responsive">
+        <table class="table table-hover align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>Código</th>
+                    <th>Tipo</th>
+                    <th>% Desc.</th>
+                    <th>Vigencia</th>
+                    <th>Stock</th>
+                    <th>Mín. Compra</th>
+                    <th>Acción</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% cupones.forEach(c => { %>
+                    <tr>
+                        <td class="fw-bold text-primary"><%= c.codigo %></td>
+                        <td><%= c.tipo_descuento %></td>
+                        <td class="fw-bold"><%= c.porcentaje_descuento %>%</td>
+                        <td>
+                            <small class="d-block">Desde: <%= new Date(c.fecha_inicio).toLocaleDateString() %></small>
+                            <small class="d-block text-danger">Hasta: <%= new Date(c.fecha_vencimiento).toLocaleDateString() %></small>
+                        </td>
+                        <td><span class="badge bg-secondary"><%= c.cantidad_disponible %></span></td>
+                        <td>S/ <%= c.monto_minimo %></td>
+                        <td>
+                            <a href="/admin/cupones/eliminar/<%= c.id_descuento %>" class="btn btn-danger btn-sm" onclick="return confirm('¿Eliminar cupón?')">
+                                <i class="bi bi-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade" id="modalCrearCup" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form action="/admin/cupones/nuevo" method="POST">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title">Nuevo Cupón de Descuento</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Código (Ej: VERANO2025)</label>
+                            <input type="text" name="codigo" class="form-control text-uppercase fw-bold" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Etiqueta/Tipo (Ej: Campaña Escolar)</label>
+                            <input type="text" name="tipo_descuento" class="form-control" required>
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <label class="form-label">Porcentaje Descuento (%)</label>
+                            <input type="number" name="porcentaje_descuento" class="form-control" min="1" max="100" step="0.1" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Cantidad (Stock)</label>
+                            <input type="number" name="cantidad_disponible" class="form-control" value="100" min="1">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Compra Mínima (S/)</label>
+                            <input type="number" name="monto_minimo" class="form-control" value="0" min="0">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Fecha Inicio</label>
+                            <input type="date" name="fecha_inicio" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Fecha Vencimiento</label>
+                            <input type="date" name="fecha_vencimiento" class="form-control" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-success">Crear Cupón</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<%- include('partials/admin_footer') %>

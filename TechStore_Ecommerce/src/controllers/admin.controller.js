@@ -10,6 +10,9 @@ const Proveedor = require('../models/proveedor.model.js'); // Importamos Proveed
 const bcrypt = require('bcryptjs');
 const { format } = require('date-fns');
 const Excel = require('exceljs'); // <-- *** 1. IMPORTAR EXCELJS ***
+// ... importaciones existentes ...
+const Categoria = require('../models/categoria.model'); // <-- AÑADIR
+const Descuento = require('../models/descuento.model'); // <-- AÑADIR
 
 const adminController = {};
 
@@ -650,5 +653,83 @@ adminController.generarReporte = async (req, res) => {
     }
 };
 
+// --- GESTIÓN DE CATEGORÍAS ---
+adminController.mostrarGestionCategorias = async (req, res) => {
+    try {
+        const categorias = await Categoria.getAll();
+        res.render('admin/gestion_categorias', {
+            title: 'Gestión de Categorías',
+            categorias: categorias,
+            success: req.query.success,
+            error: req.query.error
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Error servidor');
+    }
+};
+
+adminController.crearCategoria = async (req, res) => {
+    try {
+        await Categoria.create(req.body);
+        res.redirect('/admin/categorias?success=Categoría creada.');
+    } catch (error) {
+        res.redirect('/admin/categorias?error=Error al crear categoría.');
+    }
+};
+
+adminController.editarCategoria = async (req, res) => {
+    try {
+        await Categoria.update(req.params.id, req.body);
+        res.redirect('/admin/categorias?success=Categoría actualizada.');
+    } catch (error) {
+        res.redirect('/admin/categorias?error=Error al actualizar.');
+    }
+};
+
+adminController.eliminarCategoria = async (req, res) => {
+    try {
+        await Categoria.delete(req.params.id);
+        res.redirect('/admin/categorias?success=Categoría eliminada.');
+    } catch (error) {
+        // Probablemente tiene productos asociados
+        res.redirect('/admin/categorias?error=No se puede eliminar: tiene productos asociados.');
+    }
+};
+
+// --- GESTIÓN DE CUPONES (DESCUENTOS) ---
+adminController.mostrarGestionCupones = async (req, res) => {
+    try {
+        const cupones = await Descuento.getAll();
+        res.render('admin/gestion_cupones', {
+            title: 'Gestión de Cupones',
+            cupones: cupones,
+            success: req.query.success,
+            error: req.query.error
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Error servidor');
+    }
+};
+
+adminController.crearCupon = async (req, res) => {
+    try {
+        await Descuento.create(req.body);
+        res.redirect('/admin/cupones?success=Cupón creado exitosamente.');
+    } catch (error) {
+        console.error(error);
+        res.redirect('/admin/cupones?error=Error al crear cupón (¿Código duplicado?).');
+    }
+};
+
+adminController.eliminarCupon = async (req, res) => {
+    try {
+        await Descuento.delete(req.params.id);
+        res.redirect('/admin/cupones?success=Cupón eliminado.');
+    } catch (error) {
+        res.redirect('/admin/cupones?error=Error al eliminar.');
+    }
+};
 
 module.exports = adminController;

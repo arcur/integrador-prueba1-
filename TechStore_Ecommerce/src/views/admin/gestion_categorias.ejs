@@ -1,0 +1,85 @@
+<%- include('partials/admin_header') %>
+
+<% if (locals.success) { %><div class="alert alert-success"><%= success %></div><% } %>
+<% if (locals.error) { %><div class="alert alert-danger"><%= error %></div><% } %>
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h3>Categorías de Productos</h3>
+    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCrear">
+        <i class="bi bi-plus-lg"></i> Nueva Categoría
+    </button>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <table class="table table-hover align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Descripción</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% categorias.forEach(cat => { %>
+                    <tr>
+                        <td><%= cat.id_categoria %></td>
+                        <td class="fw-bold"><%= cat.nombre_categoria %></td>
+                        <td><%= cat.descripcion_categoria %></td>
+                        <td>
+                            <button class="btn btn-warning btn-sm" 
+                                    onclick="cargarEditar('<%= cat.id_categoria %>', '<%= cat.nombre_categoria %>', '<%= cat.descripcion_categoria %>')">
+                                <i class="bi bi-pencil"></i>
+                            </button>
+                            <a href="/admin/categorias/eliminar/<%= cat.id_categoria %>" class="btn btn-danger btn-sm" onclick="return confirm('¿Eliminar?')">
+                                <i class="bi bi-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade" id="modalCrear" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form action="/admin/categorias/nuevo" method="POST">
+                <div class="modal-header"><h5 class="modal-title">Nueva Categoría</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+                <div class="modal-body">
+                    <div class="mb-3"><label>Nombre</label><input type="text" name="nombre_categoria" class="form-control" required></div>
+                    <div class="mb-3"><label>Descripción</label><textarea name="descripcion_categoria" class="form-control" required></textarea></div>
+                </div>
+                <div class="modal-footer"><button type="submit" class="btn btn-primary">Guardar</button></div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalEditar" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="formEditar" method="POST">
+                <div class="modal-header"><h5 class="modal-title">Editar Categoría</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+                <div class="modal-body">
+                    <div class="mb-3"><label>Nombre</label><input type="text" id="editNombre" name="nombre_categoria" class="form-control" required></div>
+                    <div class="mb-3"><label>Descripción</label><textarea id="editDesc" name="descripcion_categoria" class="form-control" required></textarea></div>
+                </div>
+                <div class="modal-footer"><button type="submit" class="btn btn-warning">Actualizar</button></div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+function cargarEditar(id, nombre, desc) {
+    document.getElementById('formEditar').action = '/admin/categorias/editar/' + id;
+    document.getElementById('editNombre').value = nombre;
+    document.getElementById('editDesc').value = desc;
+    new bootstrap.Modal(document.getElementById('modalEditar')).show();
+}
+</script>
+
+<%- include('partials/admin_footer') %>
