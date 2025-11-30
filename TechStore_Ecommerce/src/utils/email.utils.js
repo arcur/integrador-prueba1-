@@ -2,13 +2,21 @@ const nodemailer = require('nodemailer');
 
 // Asegúrate de que .env tenga EMAIL_USER y EMAIL_PASS
 const transporter = nodemailer.createTransport({
-   host: "smtp.gmail.com",
-    port: 465,  // <--- CAMBIO IMPORTANTE: Usamos el puerto seguro SSL
-    secure: true, // <--- True para puerto 465, false para otros
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true, // IMPORTANTE: true para puerto 465
     auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS
-    }
+    },
+    // --- AGREGA ESTO PARA QUE NO DE ERROR EN RENDER ---
+    tls: {
+        rejectUnauthorized: false // Evita errores de certificados en la nube
+    },
+    connectionTimeout: 10000, // Esperar 10 segundos a conectar
+    greetingTimeout: 10000,   // Esperar 10 segundos al saludo de Gmail
+    socketTimeout: 10000      // Esperar 10 segundos si se cuelga
+    // --------------------------------------------------
 });
 
 // Función para generar el HTML bonito
