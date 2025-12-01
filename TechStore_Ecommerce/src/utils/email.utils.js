@@ -106,7 +106,7 @@ async function enviarCorreoConfirmacion(destinatario, datosPedido, pdfBuffer) {
     const htmlContent = generarHTMLPedido(datosPedido); // Usamos la función generadora
 
     const mailOptions = {
-        from: '"TechStore Ventas" <no-reply@techstore.com>', // Nombre personalizado
+      from: `"TechStore Ventas" <${process.env.EMAIL_USER}>`,
         to: destinatario,
         subject: `✅ Pedido Confirmado #${datosPedido.id_pedido} - TechStore`, // Icono en asunto
         html: htmlContent, // HTML enriquecido
@@ -123,7 +123,7 @@ async function enviarCorreoConfirmacion(destinatario, datosPedido, pdfBuffer) {
         await transporter.sendMail(mailOptions);
         console.log(`📧 Correo enviado a: ${destinatario}`);
     } catch (error) {
-        console.error('❌ Error al enviar correo:', error);
+       console.error("❌ Error al enviar correo:", error.response || error);
     }
 }
 
