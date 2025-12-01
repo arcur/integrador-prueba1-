@@ -64,16 +64,21 @@
                                                                         <span class="badge text-bg-info">
                                                                             <%= pedido.estado %>
                                                                         </span>
-                                                                        <% } else if (pedido.estado==='Entregado' ) { %>
-                                                                            <span class="badge text-bg-primary"><i
-                                                                                    class="bi bi-check-all"></i>
+                                                                        <% } else if (pedido.estado==='Enviado' ) { %>
+                                                                            <span class="badge text-bg-info">
                                                                                 <%= pedido.estado %>
                                                                             </span>
-                                                                            <% } else { %>
-                                                                                <span class="badge text-bg-danger">
+                                                                            <% } else if (pedido.estado==='Entregado' )
+                                                                                { %>
+                                                                                <span class="badge text-bg-primary"><i
+                                                                                        class="bi bi-check-all"></i>
                                                                                     <%= pedido.estado %>
                                                                                 </span>
-                                                                                <% } %>
+                                                                                <% } else { %>
+                                                                                    <span class="badge text-bg-danger">
+                                                                                        <%= pedido.estado %>
+                                                                                    </span>
+                                                                                    <% } %>
                                                         </td>
 
                                                         <td>
