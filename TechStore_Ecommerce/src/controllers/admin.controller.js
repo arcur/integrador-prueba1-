@@ -108,7 +108,17 @@ adminController.mostrarDetallePedido = async (req, res) => {
 adminController.actualizarEstadoPedido = async (req, res) => {
   const { id } = req.params;
   const { nuevo_estado } = req.body;
-  const estadosValidos = ["Pagado", "Enviado", "Cancelado", "Pendiente"];
+  const estadosValidos = ["Pagado", "Enviado", "Cancelado", "Pendiente",                                                                          
+    
+    
+    
+    
+    "Entregado"];
+
+
+
+
+    
   if (!estadosValidos.includes(nuevo_estado)) {
     return res.redirect("/admin/pedidos?error=Estado no válido.");
   }
