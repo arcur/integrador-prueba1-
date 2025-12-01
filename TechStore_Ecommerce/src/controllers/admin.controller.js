@@ -32,7 +32,13 @@ adminController.mostrarDashboard = async (req, res) => {
             fecha.setDate(fecha.getDate() - i);
             const diaString = fecha.toISOString().split('T')[0];
             labelsGrafico.push(`${fecha.getDate()}/${fecha.getMonth() + 1}`);
-            const ventaDia = ventasDiarias.find(v => v.dia.toISOString().split('T')[0] === diaString);
+          // --- CORRECCIÓN AQUÍ ---
+            // Convertimos v.dia a objeto Date porque ahora viene como texto desde la BD
+            const ventaDia = ventasDiarias.find(v => {
+                const fechaVenta = new Date(v.dia); 
+                return fechaVenta.toISOString().split('T')[0] === diaString;
+            });
+            // -
             dataGrafico.push(ventaDia ? ventaDia.total_dia : 0);
         }
 
