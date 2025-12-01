@@ -1,21 +1,24 @@
 const nodemailer = require('nodemailer');
 
 const transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 587,              // <--- USAR ESTE PUERTO
-    secure: false,          // <--- IMPORTANTE: false para puerto 587
+    host: "smtp-relay.brevo.com",
+    port: 587,
+    secure: false,
+
     auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS
+        user: process.env.BREVO_USER,
+        pass: process.env.BREVO_PASS
     },
+
     tls: {
-        rejectUnauthorized: false // Evita errores de certificado
+        rejectUnauthorized: false
     },
-    // Tiempos de espera extendidos para evitar el timeout
-    connectionTimeout: 20000, 
+
+    connectionTimeout: 20000,
     greetingTimeout: 20000,
     socketTimeout: 20000
 });
+
 
 // Función para generar el HTML bonito
 function generarHTMLPedido(pedido) {
