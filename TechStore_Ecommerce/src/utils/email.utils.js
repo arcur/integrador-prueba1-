@@ -6,8 +6,8 @@ const transporter = nodemailer.createTransport({
     secure: false,
 
     auth: {
-        user: process.env.BREVO_USER,
-        pass: process.env.BREVO_PASS
+        user: process.env.BREVO_USER,// Tu usuario de Brevo (Sendinblue)
+        pass: process.env.BREVO_PASS// Tu contraseña de Brevo (Sendinblue)
     },
 
     tls: {
