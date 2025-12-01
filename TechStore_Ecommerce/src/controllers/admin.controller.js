@@ -13,6 +13,7 @@ const Excel = require("exceljs"); // <-- *** 1. IMPORTAR EXCELJS ***
 // ... importaciones existentes ...
 const Categoria = require("../models/categoria.model"); // <-- AÑADIR
 const Descuento = require("../models/descuento.model"); // <-- AÑADIR
+const { enviarCorreoEstado } = require('../utils/email.utils');
 
 const adminController = {};
 
@@ -105,20 +106,49 @@ adminController.mostrarDetallePedido = async (req, res) => {
     res.status(500).send("Error interno del servidor");
   }
 };
+
 adminController.actualizarEstadoPedido = async (req, res) => {
-  const { id } = req.params;
-  const { nuevo_estado } = req.body;
-  const estadosValidos = ["Pagado", "Enviado", "Cancelado", "Pendiente"];
-  if (!estadosValidos.includes(nuevo_estado)) {
-    return res.redirect("/admin/pedidos?error=Estado no válido.");
-  }
-  try {
-    await Pedido.updateStatus(id, nuevo_estado);
-    res.redirect("/admin/pedidos?success=Estado del pedido actualizado.");
-  } catch (error) {
-    console.error("Error al actualizar estado de pedido:", error);
-    res.redirect("/admin/pedidos?error=Error al actualizar el estado.");
-  }
+    const { id } = req.params;
+    const { nuevo_estado } = req.body;
+    
+    // 1. AÑADIMOS 'Entregado' A LA LISTA DE ESTADOS VÁLIDOS
+    const estadosValidos = ['Pagado', 'Enviado', 'Entregado', 'Cancelado', 'Pendiente'];
+    
+    if (!estadosValidos.includes(nuevo_estado)) {
+        return res.redirect('/admin/pedidos?error=Estado no válido.');
+    }
+
+    try {
+        // 2. Actualizamos el estado en la BD
+        await Pedido.updateStatus(id, nuevo_estado);
+
+        // 3. Obtenemos datos del pedido y cliente para enviar el correo
+        // (Usamos getDetalleById que ya hace el JOIN con usuarios)
+        const dataPedido = await Pedido.getDetalleById(id);
+        
+        if (dataPedido && dataPedido.pedido) {
+            // Preparamos objeto con lo necesario para el email
+            const infoParaEmail = {
+                id_pedido: id,
+                nombre: dataPedido.pedido.nombre, // Nombre del cliente
+                correo: dataPedido.pedido.correo, // Correo del cliente
+                // Intentamos sacar la dirección si está disponible en el objeto
+                direccion_entrega: dataPedido.pedido.direccion || 'Tu dirección registrada' 
+            };
+
+            // 4. Enviamos el correo (La función decide qué HTML usar según el estado)
+            if (nuevo_estado === 'Enviado' || nuevo_estado === 'Entregado') {
+                // No usamos await para no hacer esperar al admin, que se envíe en segundo plano
+                enviarCorreoEstado(infoParaEmail, nuevo_estado).catch(console.error);
+            }
+        }
+
+        res.redirect('/admin/pedidos?success=Estado actualizado y cliente notificado.');
+
+    } catch (error) {
+        console.error('Error al actualizar estado de pedido:', error);
+        res.redirect('/admin/pedidos?error=Error al actualizar el estado.');
+    }
 };
 
 // --- GESTIÓN DE PRODUCTOS ---
