@@ -1,84 +1,115 @@
 <%- include('partials/admin_header') %>
 
-<% if (locals.success) { %>
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <i class="bi bi-check-circle-fill"></i> <%= success %>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-<% } %>
-<% if (locals.error) { %>
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <i class="bi bi-exclamation-triangle-fill"></i> <%= error %>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-<% } %>
-
-<div class="card shadow-sm">
-    <div class="card-body">
-        <div class="table-responsive">
-            <table class="table table-striped table-hover align-middle">
-                <thead class="table-dark">
-                    <tr>
-                        <th scope="col"># Pedido</th>
-                        <th scope="col">Cliente</th>
-                        <th scope="col">Fecha</th>
-                        <th scope="col">Total</th>
-                        <th scope="col">Estado Actual</th>
-                        <th scope="col" style="width: 250px;">Cambiar Estado</th>
-                        <th scope="col">Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <% if (pedidos.length === 0) { %>
-                        <tr>
-                            <td colspan="7" class="text-center">No hay pedidos registrados.</td>
-                        </tr>
-                    <% } %>
-
-                    <% pedidos.forEach(pedido => { %>
-                        <tr>
-                            <th scope="row">#<%= pedido.id_pedido %></th>
-                            <td><%= pedido.cliente_nombre %> <%= pedido.cliente_apellido %></td>
-                            <td><%= new Date(pedido.fecha).toLocaleString('es-PE') %></td>
-                            <td class="fw-bold">S/ <%= pedido.total.toFixed(2) %></td>
-                            
-                            <td>
-                                <% if (pedido.estado === 'Pendiente') { %>
-                                    <span class="badge text-bg-warning"><%= pedido.estado %></span>
-                                <% } else if (pedido.estado === 'Pagado') { %>
-                                    <span class="badge text-bg-success"><%= pedido.estado %></span>
-                                <% } else if (pedido.estado === 'Enviado') { %>
-                                    <span class="badge text-bg-info"><%= pedido.estado %></span>
-                                <% } else { %>
-                                    <span class="badge text-bg-danger"><%= pedido.estado %></span>
-                                <% } %>
-                            </td>
-
-                            <td>
-                                <form action="/admin/pedidos/actualizar-estado/<%= pedido.id_pedido %>" method="POST" class="d-flex">
-                                    <select name="nuevo_estado" class="form-select form-select-sm me-2">
-                                        <option value="Pendiente" <%= (pedido.estado === 'Pendiente') ? 'selected' : '' %>>Pendiente</option>
-                                        <option value="Pagado" <%= (pedido.estado === 'Pagado') ? 'selected' : '' %>>Pagado</option>
-                                        <option value="Enviado" <%= (pedido.estado === 'Enviado') ? 'selected' : '' %>>Enviado</option>
-                                        <option value="Cancelado" <%= (pedido.estado === 'Cancelado') ? 'selected' : '' %>>Cancelado</option>
-                                    </select>
-                                    <button type="submit" class="btn btn-primary btn-sm">
-                                        <i class="bi bi-check-lg"></i>
-                                    </button>
-                                </form>
-                            </td>
-
-                            <td>
-                                <a href="/admin/pedidos/detalle/<%= pedido.id_pedido %>" class="btn btn-secondary btn-sm" title="Ver Detalle">
-                                    <i class="bi bi-eye-fill"></i>
-                                </a>
-                            </td>
-                        </tr>
-                    <% }) %>
-                </tbody>
-            </table>
+    <% if (locals.success) { %>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="bi bi-check-circle-fill"></i>
+            <%= success %>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-    </div>
-</div>
+        <% } %>
+            <% if (locals.error) { %>
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i class="bi bi-exclamation-triangle-fill"></i>
+                    <%= error %>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                <% } %>
 
-<%- include('partials/admin_footer') %>
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-hover align-middle">
+                                    <thead class="table-dark">
+                                        <tr>
+                                            <th scope="col"># Pedido</th>
+                                            <th scope="col">Cliente</th>
+                                            <th scope="col">Fecha</th>
+                                            <th scope="col">Total</th>
+                                            <th scope="col">Estado Actual</th>
+                                            <th scope="col" style="width: 250px;">Cambiar Estado</th>
+                                            <th scope="col">Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% if (pedidos.length===0) { %>
+                                            <tr>
+                                                <td colspan="7" class="text-center">No hay pedidos registrados.</td>
+                                            </tr>
+                                            <% } %>
+
+                                                <% pedidos.forEach(pedido=> { %>
+                                                    <tr>
+                                                        <th scope="row">#<%= pedido.id_pedido %>
+                                                        </th>
+                                                        <td>
+                                                            <%= pedido.cliente_nombre %>
+                                                                <%= pedido.cliente_apellido %>
+                                                        </td>
+                                                        <td>
+                                                            <%= new Date(pedido.fecha).toLocaleString('es-PE') %>
+                                                        </td>
+                                                        <td class="fw-bold">S/ <%= pedido.total.toFixed(2) %>
+                                                        </td>
+
+                                                        <td>
+                                                            <% if (pedido.estado==='Pendiente' ) { %>
+                                                                <span class="badge text-bg-warning">
+                                                                    <%= pedido.estado %>
+                                                                </span>
+                                                                <% } else if (pedido.estado==='Pagado' ) { %>
+                                                                    <span class="badge text-bg-success">
+                                                                        <%= pedido.estado %>
+                                                                    </span>
+                                                                    <% } else if (pedido.estado==='Enviado' ) { %>
+                                                                        <span class="badge text-bg-info">
+                                                                            <%= pedido.estado %>
+                                                                        </span>
+                                                                        <% } else { %>
+                                                                            <span class="badge text-bg-danger">
+                                                                                <%= pedido.estado %>
+                                                                            </span>
+                                                                            <% } %>
+                                                        </td>
+
+                                                        <td>
+                                                            <form
+                                                                action="/admin/pedidos/actualizar-estado/<%= pedido.id_pedido %>"
+                                                                method="POST" class="d-flex">
+                                                                <select name="nuevo_estado"
+                                                                    class="form-select form-select-sm me-2">
+                                                                    <option value="Pendiente"
+                                                                        <%=(pedido.estado==='Pendiente' ) ? 'selected'
+                                                                        : '' %>>Pendiente</option>
+                                                                    <option value="Pagado" <%=(pedido.estado==='Pagado'
+                                                                        ) ? 'selected' : '' %>>Pagado</option>
+                                                                    <option value="Enviado"
+                                                                        <%=(pedido.estado==='Enviado' ) ? 'selected'
+                                                                        : '' %>>Enviado</option>
+                                                                    <option value="Cancelado"
+                                                                        <%=(pedido.estado==='Cancelado' ) ? 'selected'
+                                                                        : '' %>>Cancelado</option>
+                                                                    <option value="Entregado"
+                                                                        <%=(pedido.estado==='Entregado' ) ? 'selected'
+                                                                        : '' %>>Entregado</option>
+                                                                </select>
+                                                                <button type="submit" class="btn btn-primary btn-sm">
+                                                                    <i class="bi bi-check-lg"></i>
+                                                                </button>
+                                                            </form>
+                                                        </td>
+
+                                                        <td>
+                                                            <a href="/admin/pedidos/detalle/<%= pedido.id_pedido %>"
+                                                                class="btn btn-secondary btn-sm" title="Ver Detalle">
+                                                                <i class="bi bi-eye-fill"></i>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                    <% }) %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <%- include('partials/admin_footer') %>
