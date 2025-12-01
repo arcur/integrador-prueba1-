@@ -1,5 +1,6 @@
 const nodemailer = require('nodemailer');
 
+/*
 const transporter = nodemailer.createTransport({
     host: "smtp-relay.brevo.com",
     port: 587,
@@ -17,7 +18,32 @@ const transporter = nodemailer.createTransport({
     connectionTimeout: 20000,
     greetingTimeout: 20000,
     socketTimeout: 20000
-});
+});*/
+
+const Brevo = require('@getbrevo/brevo');
+
+const apiInstance = new Brevo.TransactionalEmailsApi();
+apiInstance.setApiKey(
+  Brevo.TransactionalEmailsApiApiKeys.apiKey,
+  process.env.BREVO_API_KEY
+);
+
+async function sendMailBrevo(to, subject, htmlContent) {
+  try {
+    await apiInstance.sendTransacEmail({
+      sender: { email: "tu-correo@dominio.com", name: "TechStore" },
+      to: [{ email: to }],
+      subject,
+      htmlContent,
+    });
+
+    console.log("Correo enviado correctamente");
+  } catch (error) {
+    console.error("Error al enviar correo:", error);
+  }
+}
+
+module.exports = sendMailBrevo;
 
 
 // Función para generar el HTML bonito
