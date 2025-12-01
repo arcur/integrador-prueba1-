@@ -22,6 +22,11 @@ const pool = mysql.createPool({
     }
 });
 
+
+pool.on('connection', async (connection) => {
+    await connection.query("SET time_zone = 'America/Lima'");
+});
+
 // Mensaje de éxito al conectar (opcional, pero útil)
 pool.getConnection()
     .then(connection => {
