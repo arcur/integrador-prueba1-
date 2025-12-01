@@ -16,16 +16,13 @@ const pool = mysql.createPool({
     connectionLimit: 1000,
     queueLimit: 0,
     decimalNumbers: true,
-    timezone: 'America/Lima',
+    timezone: '-05:00',
     ssl: {
         rejectUnauthorized: false // Esto permite conectar aunque el certificado sea autofirmado
     }
 });
 
 
-pool.on('connection', async (connection) => {
-    await connection.query("SET time_zone = 'America/Lima'");
-});
 
 // Mensaje de éxito al conectar (opcional, pero útil)
 pool.getConnection()
