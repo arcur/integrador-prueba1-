@@ -20,30 +20,30 @@ const transporter = nodemailer.createTransport({
     socketTimeout: 20000
 });*/
 
-const Brevo = require('@getbrevo/brevo');
+import SibApiV3Sdk from 'sib-api-v3-sdk';
 
-const apiInstance = new Brevo.TransactionalEmailsApi();
-apiInstance.setApiKey(
-  Brevo.TransactionalEmailsApiApiKeys.apiKey,
-  process.env.BREVO_API_KEY
-);
+const client = SibApiV3Sdk.ApiClient.instance;
+client.authentications['api-key'].apiKey = process.env.BREVO_API_KEY;
 
-async function sendMailBrevo(to, subject, htmlContent) {
-  try {
-    await apiInstance.sendTransacEmail({
-      sender: { email: "tu-correo@dominio.com", name: "TechStore" },
-      to: [{ email: to }],
-      subject,
-      htmlContent,
-    });
+const apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
 
-    console.log("Correo enviado correctamente");
-  } catch (error) {
-    console.error("Error al enviar correo:", error);
-  }
-}
+export const sendEmail = async (to, subject, htmlContent) => {
+    try {
+        const sendSmtpEmail = {
+            to: [{ email: to }],
+            sender: { name: "TechStore", email: "no-reply@techstore.com" },
+            subject,
+            htmlContent,
+        };
 
-module.exports = sendMailBrevo;
+        const response = await apiInstance.sendTransacEmail(sendSmtpEmail);
+        console.log("📨 Email enviado correctamente:", response);
+        return true;
+    } catch (error) {
+        console.error("❌ Error al enviar email:", error);
+        return false;
+    }
+};
 
 
 // Función para generar el HTML bonito
