@@ -16,7 +16,7 @@ const pool = mysql.createPool({
     connectionLimit: 1000,
     queueLimit: 0,
     decimalNumbers: true,
-    timezone: '-05:00',
+    timezone: 'America/Lima',
     ssl: {
         rejectUnauthorized: false // Esto permite conectar aunque el certificado sea autofirmado
     }
