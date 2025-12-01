@@ -42,6 +42,17 @@
                             <span class="badge text-bg-success fs-6"><%= pedido.estado %></span>
                         <% } else if (pedido.estado === 'Enviado') { %>
                             <span class="badge text-bg-info fs-6"><%= pedido.estado %></span>
+
+
+
+                            
+
+ <% } else if (pedido.estado === 'Entregado') { %>
+                            <span class="badge text-bg-success fs-6"><%= pedido.estado %></span>
+
+
+
+
                         <% } else { %>
                             <span class="badge text-bg-danger fs-6"><%= pedido.estado %></span>
                         <% } %>
