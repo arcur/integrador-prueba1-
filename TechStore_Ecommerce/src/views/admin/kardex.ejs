@@ -1,0 +1,68 @@
+<%- include('partials/admin_header') %>
+
+<% if (locals.error) { %>
+    <div class="alert alert-danger shadow-sm">
+        <i class="bi bi-exclamation-triangle-fill me-2"></i> <%= error %>
+    </div>
+<% } %>
+
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card shadow-lg border-0">
+            <div class="card-header bg-primary text-white p-4">
+                <h3 class="mb-0"><i class="bi bi-file-earmark-spreadsheet-fill me-2"></i> Reporte Oficial de Kardex</h3>
+                <p class="mb-0 opacity-75">Control de Inventario Valorizado y Rentabilidad</p>
+            </div>
+            <div class="card-body p-4">
+                <form action="/admin/kardex/generar" method="POST">
+                    
+                    <div class="mb-4">
+                        <label for="id_producto" class="form-label fw-bold">1. Seleccionar Producto</label>
+                        <select class="form-select select-theme form-select-lg" id="id_producto" name="id_producto" required>
+                            <option value="" selected disabled>-- Busca un producto --</option>
+                            <% productos.forEach(prod => { %>
+                                <option value="<%= prod.id_producto %>">
+                                    <%= prod.nombre_producto %> (Stock Actual: <%= prod.stock %>)
+                                </option>
+                            <% }) %>
+                        </select>
+                        <div class="form-text">Se generará el historial completo de movimientos para este ítem.</div>
+                    </div>
+
+                    <div class="row g-3 mb-4">
+                        <label class="form-label fw-bold mb-0">2. Rango de Fechas</label>
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-calendar-event"></i></span>
+                                <input type="date" class="form-control" name="fechaInicio" required>
+                            </div>
+                            <div class="form-text">Desde</div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-calendar-check"></i></span>
+                                <input type="date" class="form-control" name="fechaFin" value="<%= new Date().toISOString().split('T')[0] %>" required>
+                            </div>
+                            <div class="form-text">Hasta</div>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-info d-flex align-items-center" role="alert">
+                        <i class="bi bi-info-circle-fill fs-4 me-3"></i>
+                        <div>
+                            <strong>Nota:</strong> El reporte incluye análisis de costos <strong>PEPS</strong>, cálculo de márgenes de ganancia y valoración de inventario final en formato Excel profesional.
+                        </div>
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-success btn-lg shadow-sm">
+                            <i class="bi bi-download me-2"></i> Descargar Reporte Excel
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('partials/admin_footer') %>

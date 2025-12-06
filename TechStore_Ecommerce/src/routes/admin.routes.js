@@ -19,6 +19,8 @@ router.use((req, res, next) => {
   const path = req.path;
   if (path.startsWith("/reportes")) {
     res.locals.currentPage = "reportes";
+  } else if (path.startsWith("/kardex")) { // <-- AGREGAR ESTO
+    res.locals.currentPage = "kardex";
   } else if (path.startsWith("/pedidos")) {
     res.locals.currentPage = "pedidos";
   } else if (path.startsWith("/productos") || path.includes("/lotes")) {
@@ -128,6 +130,11 @@ router.get('/categorias/eliminar/:id', adminController.eliminarCategoria);
 router.get('/cupones', adminController.mostrarGestionCupones);
 router.post('/cupones/nuevo', adminController.crearCupon);
 router.get('/cupones/eliminar/:id', adminController.eliminarCupon);
+
+
+// --- KARDEX VALORIZADO ---
+router.get('/kardex', adminController.mostrarKardex);
+router.post('/kardex/generar', adminController.generarReporteKardex);
 
 module.exports = router;
 

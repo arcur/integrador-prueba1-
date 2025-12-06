@@ -104,6 +104,12 @@
                                 <i class="bi bi-file-earmark-spreadsheet-fill"></i> Reportes
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link <%= (locals.currentPage === 'kardex') ? 'active' : '' %>"
+                                href="/admin/kardex">
+                                <i class="bi bi-table"></i> Kardex Oficial
+                            </a>
+                        </li>
                     </ul>
 
                     <% if (user.rol==='MainAdmin' ) { %>

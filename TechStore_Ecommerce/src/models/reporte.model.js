@@ -111,4 +111,56 @@ Reporte.getVentasPorFechas = async (fechaInicio, fechaFin) => {
 };
 
 
+/**
+ * Obtiene los movimientos (Entradas y Salidas) para el Kardex Valorizado.
+ * Ordenado cronológicamente para cálculo de saldos.
+ */
+Reporte.getMovimientosKardex = async (id_producto, fechaInicio, fechaFin) => {
+    // Aseguramos formato de fechas
+    const start = `${fechaInicio} 00:00:00`;
+    const end = `${fechaFin} 23:59:59`;
+
+    const sql = `
+        SELECT * FROM (
+            -- 1. ENTRADAS (Compras a proveedores o Devoluciones de pedidos)
+            SELECT 
+                lp.fecha_ingreso as fecha,
+                CASE 
+                    WHEN lp.id_proveedor IS NULL THEN 'DEVOLUCION' 
+                    ELSE 'COMPRA' 
+                END as tipo_movimiento,
+                CONCAT('LOTE-', lp.id_lote) as documento,
+                lp.cantidad_recibida as cantidad,
+                lp.precio_compra as costo_unitario,
+                0 as precio_venta, -- Las compras no tienen precio de venta
+                'ENTRADA' as flujo
+            FROM lote_producto lp
+            WHERE lp.id_producto = ? 
+            AND lp.fecha_ingreso BETWEEN ? AND ?
+
+            UNION ALL
+
+            -- 2. SALIDAS (Ventas confirmadas)
+            SELECT 
+                p.fecha,
+                'VENTA' as tipo_movimiento,
+                CONCAT('PEDIDO-', p.id_pedido) as documento,
+                dp.cantidad,
+                dp.costo_unitario, -- Este es el costo calculado por PEPS
+                dp.precio_unitario as precio_venta,
+                'SALIDA' as flujo
+            FROM detalle_pedido dp
+            JOIN pedido p ON dp.id_pedido = p.id_pedido
+            WHERE dp.id_producto = ?
+            AND p.estado IN ('Pagado', 'Enviado', 'Entregado') -- Solo ventas reales
+            AND p.fecha BETWEEN ? AND ?
+        ) as movimientos
+        ORDER BY fecha ASC
+    `;
+
+    const [rows] = await pool.query(sql, [id_producto, start, end, id_producto, start, end]);
+    return rows;
+};
+
+
 module.exports = Reporte;

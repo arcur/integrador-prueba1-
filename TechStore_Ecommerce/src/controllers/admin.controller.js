@@ -904,4 +904,192 @@ adminController.eliminarCupon = async (req, res) => {
   }
 };
 
+
+
+// --- KARDEX Y REPORTES AVANZADOS ---
+
+// 1. Mostrar la vista del formulario
+adminController.mostrarKardex = async (req, res) => {
+    try {
+        const productos = await Producto.getAllForAdmin(); // Reutilizamos para llenar el select
+        res.render('admin/kardex', {
+            title: 'Kardex Valorizado',
+            productos: productos,
+            error: req.query.error
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Error al cargar la vista de Kardex');
+    }
+};
+
+// 2. Generar el Excel Profesional
+adminController.generarReporteKardex = async (req, res) => {
+    const { id_producto, fechaInicio, fechaFin } = req.body;
+
+    try {
+        // Obtener datos
+        const producto = await Producto.getById(id_producto);
+        const movimientos = await Reporte.getMovimientosKardex(id_producto, fechaInicio, fechaFin);
+
+        if (!movimientos || movimientos.length === 0) {
+            return res.redirect('/admin/kardex?error=No hay movimientos en ese rango de fechas.');
+        }
+
+        // Crear Libro Excel
+        const workbook = new Excel.Workbook();
+        const sheet = workbook.addWorksheet('Kardex Valorizado', {
+            views: [{ showGridLines: false }] // Vista limpia sin líneas de fondo
+        });
+
+        // --- ESTILOS ---
+        const styleHeader = {
+            font: { bold: true, color: { argb: 'FFFFFFFF' }, size: 12 },
+            fill: { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF2C3E50' } }, // Azul oscuro
+            alignment: { horizontal: 'center', vertical: 'middle' },
+            border: { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } }
+        };
+        
+        const styleSubHeader = { ...styleHeader, fill: { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF6A0DAD' } } }; // Morado TechStore
+
+        // --- ENCABEZADO DEL REPORTE ---
+        sheet.mergeCells('B2:K2');
+        const titleCell = sheet.getCell('B2');
+        titleCell.value = `KARDEX VALORIZADO - ${producto.nombre_producto.toUpperCase()}`;
+        titleCell.font = { size: 16, bold: true };
+        titleCell.alignment = { horizontal: 'center' };
+
+        sheet.getCell('B3').value = `Periodo: ${fechaInicio} al ${fechaFin}`;
+        sheet.getCell('B4').value = `Generado el: ${new Date().toLocaleString()}`;
+
+        // --- CABECERAS DE LA TABLA ---
+        sheet.getRow(6).values = ['', 'FECHA', 'TIPO', 'DOCUMENTO', 'ENTRADAS', '', '', 'SALIDAS', '', '', 'SALDOS', '', '', 'ANÁLISIS FINANCIERO', ''];
+        sheet.getRow(7).values = ['', '', '', '', 'CANT', 'COSTO UNIT', 'TOTAL', 'CANT', 'COSTO UNIT', 'TOTAL', 'CANT', 'COSTO UNIT', 'TOTAL', 'PRECIO VENTA', 'GANANCIA', 'MARGEN %'];
+
+        // Fusionar celdas de cabecera superior
+        sheet.mergeCells('B6:B7'); // Fecha
+        sheet.mergeCells('C6:C7'); // Tipo
+        sheet.mergeCells('D6:D7'); // Documento
+        sheet.mergeCells('E6:G6'); // Entradas
+        sheet.mergeCells('H6:J6'); // Salidas
+        sheet.mergeCells('K6:M6'); // Saldos
+        sheet.mergeCells('N6:P6'); // Análisis
+
+        // Aplicar estilos a cabeceras
+        ['B6', 'C6', 'D6', 'E6', 'H6', 'K6', 'N6'].forEach(cell => sheet.getCell(cell).style = styleHeader);
+        // Fila 7 (Subtítulos)
+        for (let i = 5; i <= 16; i++) { // Columnas E a P
+            const cell = sheet.getRow(7).getCell(i);
+            cell.style = styleSubHeader;
+        }
+
+        // --- PROCESAR MOVIMIENTOS ---
+        let saldoCantidad = 0;
+        let saldoValorizado = 0;
+        let currentRow = 8;
+
+        movimientos.forEach(mov => {
+            const row = sheet.getRow(currentRow);
+            
+            // Datos básicos
+            row.getCell(2).value = new Date(mov.fecha); // B: Fecha
+            row.getCell(3).value = mov.tipo_movimiento; // C: Tipo
+            row.getCell(4).value = mov.documento;       // D: Doc
+
+            let entradaCant = 0, entradaCosto = 0, entradaTotal = 0;
+            let salidaCant = 0, salidaCosto = 0, salidaTotal = 0;
+            let precioVenta = 0, ganancia = 0, margen = 0;
+
+            if (mov.flujo === 'ENTRADA') {
+                entradaCant = mov.cantidad;
+                entradaCosto = parseFloat(mov.costo_unitario);
+                entradaTotal = entradaCant * entradaCosto;
+
+                // Escribir Entrada
+                row.getCell(5).value = entradaCant;
+                row.getCell(6).value = entradaCosto;
+                row.getCell(7).value = entradaTotal;
+
+                // Actualizar Saldo (Suma)
+                saldoCantidad += entradaCant;
+                saldoValorizado += entradaTotal;
+
+            } else { // SALIDA (Venta)
+                salidaCant = mov.cantidad;
+                salidaCosto = parseFloat(mov.costo_unitario); // Costo PEPS guardado en la venta
+                salidaTotal = salidaCant * salidaCosto;
+                precioVenta = parseFloat(mov.precio_venta);
+
+                // Cálculos de Rentabilidad
+                const ventaTotal = salidaCant * precioVenta;
+                ganancia = ventaTotal - salidaTotal;
+                margen = ventaTotal > 0 ? (ganancia / ventaTotal) : 0;
+
+                // Escribir Salida
+                row.getCell(8).value = salidaCant;
+                row.getCell(9).value = salidaCosto;
+                row.getCell(10).value = salidaTotal;
+
+                // Escribir Análisis
+                row.getCell(14).value = precioVenta;
+                row.getCell(15).value = ganancia;
+                row.getCell(16).value = margen;
+
+                // Estilo condicional para ganancia
+                row.getCell(15).font = { color: { argb: ganancia >= 0 ? 'FF008000' : 'FFFF0000' } }; // Verde o Rojo
+
+                // Actualizar Saldo (Resta)
+                saldoCantidad -= salidaCant;
+                saldoValorizado -= salidaTotal;
+            }
+
+            // Escribir Saldos (Columna K, L, M)
+            // Costo Unitario Promedio Ponderado del momento (referencial)
+            const costoPromedio = saldoCantidad > 0 ? (saldoValorizado / saldoCantidad) : 0;
+
+            row.getCell(11).value = saldoCantidad;
+            row.getCell(12).value = costoPromedio;
+            row.getCell(13).value = saldoValorizado;
+
+            // Formatos de celda
+            row.getCell(6).numFmt = '"S/" #,##0.00'; // Costo Unit Entrada
+            row.getCell(7).numFmt = '"S/" #,##0.00'; // Total Entrada
+            row.getCell(9).numFmt = '"S/" #,##0.00'; // Costo Unit Salida
+            row.getCell(10).numFmt = '"S/" #,##0.00'; // Total Salida
+            row.getCell(12).numFmt = '"S/" #,##0.00'; // Costo Unit Saldo
+            row.getCell(13).numFmt = '"S/" #,##0.00'; // Total Saldo
+            row.getCell(14).numFmt = '"S/" #,##0.00'; // Precio Venta
+            row.getCell(15).numFmt = '"S/" #,##0.00'; // Ganancia
+            row.getCell(16).numFmt = '0.00%';        // Margen
+
+            // Bordes suaves para cada celda
+            for(let c=2; c<=16; c++) {
+                row.getCell(c).border = { bottom: { style: 'dotted', color: { argb: 'FFCCCCCC' } } };
+            }
+
+            currentRow++;
+        });
+
+        // --- AJUSTAR ANCHO DE COLUMNAS ---
+        sheet.getColumn('B').width = 15; // Fecha
+        sheet.getColumn('C').width = 15; // Tipo
+        sheet.getColumn('D').width = 20; // Doc
+        [5, 8, 11].forEach(c => sheet.getColumn(c).width = 10); // Cantidades
+        [6, 7, 9, 10, 12, 13, 14, 15].forEach(c => sheet.getColumn(c).width = 15); // Montes
+        sheet.getColumn(16).width = 12; // Margen
+
+        // --- RESPUESTA AL NAVEGADOR ---
+        res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        res.setHeader('Content-Disposition', `attachment; filename=Kardex_${producto.nombre_producto}_${Date.now()}.xlsx`);
+
+        await workbook.xlsx.write(res);
+        res.end();
+
+    } catch (error) {
+        console.error('Error generando Kardex:', error);
+        res.redirect('/admin/kardex?error=Ocurrió un error inesperado.');
+    }
+};
+
+
 module.exports = adminController;
